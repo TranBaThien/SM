@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="format-detection" content="email=no">
+	<title>GEB0110</title>
+	<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+	<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+	<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+     <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <style>
+		.turn-back-bottom,
+		.btn-custom-border {
+			cursor: pointer; 
+		}
+    </style>
+
+    
+    <script>
+	    const BASE_URL = '[[${#request.getContextPath()}]]';
+	    const IS_EXIST_ERROR = '[[${not #lists.isEmpty(errorMessage)}]]';
+	  	//Get message success
+	    const MESSAGE = '[[${messageSuccess}]]';
+	    const APARTMENT_ID = '[[${mansionInfo.apartmentId}]]';
+	    const IS_NOT_MAP_UPDATE_DATETIME = '[[${errorNotMapUpdateDatetime}]]';
+    </script>
+    
+</head>
+
+<body>
+	<!-- header -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header -->
+
+	<main>
+		<!-- title -->
+		<div class="main-header">
+			<div class="title-1">経過記録登録</div>
+		</div>
+		<!-- end title -->
+		<form th:action="@{/GEB0110/save}" th:object="${mansionInfo}" th:name="formMansion" id="form" class="advice-register" method="post" enctype="multipart/form-data">
+		<!-- contents -->
+		<div id="contents">
+
+			<!-- turn back -->
+			<div class="turn-back">
+				<span class="column-1"><a th:href="@{/GBA0110}">メニューへ戻る</a></span>
+				<div class="btn-custom-border" th:data="*{apartmentId}" th:onclick="turnBack(this.getAttribute('data'))">戻る</div>
+			</div>
+			<!-- end turn back -->
+
+			<!-- text are title -->
+			<div class="text-are-title">
+				<span>マンションの経過記録を登録します。<br>
+					経過記録情報を入力し、「登録」ボタンをクリックしてください。</span>
+			</div>
+			<!-- end text are title -->
+ 			<!-- alert error in case import CSV -->
+            <div class="alert-error error-margin"  id="sizediv" style="display:none;">
+            </div>
+            <!-- end alert error in case import CSV -->
+			<!-- alert error -->
+			<div class="alert-error" th:if="${not #lists.isEmpty(errorMessage)}">
+				<div th:each="err : ${errorMessage}">
+					<span th:utext="${err}"></span>
+					<br/>
+				</div>
+			</div>
+			<!-- end alert error -->
+
+			<!-- table 1 -->
+			<th:block th:insert="~{fragments/mansion-template :: mansion-info}"></th:block>
+			<!-- end table 1 -->
+
+			<!-- table 2 -->
+			<div class="table">
+				<table class="table-base-information">
+					<thead>
+						<tr>
+							<th class="table-common-title" colspan="2">経過記録情報</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th class="table-common-col-2 madatory">
+								対応日時<span class="form-note">必須</span>
+							</th>
+							<td class="text-date">
+								<div>
+									<input type="text" th:field="*{calCorrespondDate}" th:classappend="*{lstCorrespondTypeCode} == '06' ? 'disable-item'" tabindex="1" maxlength="16" class="text-input-date" id="corespondDateTime" 
+										data-validation-engine="validate[required,custom[datetime], custom[halfwidthAlphanumeric], maxSize[16]]" >
+									<img class="ui-datepicker-trigger correspondDate" th:classappend="*{lstCorrespondTypeCode} == '06' ? 'disable-item'" th:src="@{/images/icon-calendar.svg}" alt="Choose" title="Choose">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">
+								対応種別<span class="form-note">必須</span>
+							</th>
+							<td>
+								<div class="select-container-800" style="width:100%;">
+									<select class="select-search" onChange="changeResponseTypeCode(this)" tabindex="2" th:field="*{lstCorrespondTypeCode}" th:classappend="*{lstCorrespondTypeCode} == '06' ? 'disable-item'" th:data-validation-engine="*{lstCorrespondTypeCode} != '06'? 'validate[required]'">
+											<option value=""></option>
+											<option th:each="item, iterStat : *{lstResponseTypeCode}" th:value="${item.value}" th:disabled="*{progressRecordNo != null} and *{progressRecordNo != ''} and ${item.value == '06'}" th:text="${item.label}"></option>
+									</select>
+									<div style="display:none;" th:each="item, iterStat : *{lstResponseTypeCode}">
+										<input type="hidden" th:field="*{lstResponseTypeCode[__${iterStat.index}__].value}" />
+										<input type="hidden" th:field="*{lstResponseTypeCode[__${iterStat.index}__].label}" />
+									</div>
+										
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2">
+								<div class="form-lable">
+									通知書種別
+								</div>
+							</th>
+							<td>
+								<div class="select-container">
+									<select class="select-search lstNoticeTypeCode" tabindex="3"  th:classappend="*{lstCorrespondTypeCode} != '05' ? 'disable-item'" th:field="*{lstNoticeTypeCode}">
+											<option value=""></option>
+											<option th:each="item, iterStat : *{listNoticeTypeCodes}" th:value="${item.value}" th:text="${item.label}"></option>
+									</select>
+									<div style="display:none;" th:each="item, iterStat : *{listNoticeTypeCodes}">
+										<input type="hidden" th:field="*{listNoticeTypeCodes[__${iterStat.index}__].value}" />
+										<input type="hidden" th:field="*{listNoticeTypeCodes[__${iterStat.index}__].label}" />
+									</div>
+										
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">
+								経過記録概要<span class="form-note">必須</span>
+							</th>
+							<td>
+							<input type="text" tabindex="4" maxlength="30" th:field="*{txtProgressRecordOverview}" class="text-input-1" 
+								data-validation-engine="validate[required,custom2[prohibitionCharacter], maxSize[30]]" />
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2">
+								<div class="form-lable">
+									経過記録詳細
+								</div>
+							</th>
+							<td class="text-are">
+								<textarea tabindex="5" th:field="*{txaProgressRecordDetail}" data-validation-engine="validate[custom2[prohibitionCharacter], maxSize[300]]" maxlength="300" id="txaProgressRecordDetail" rows="5"
+									cols="100">
+								</textarea>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2">
+								<div class="form-lable">
+									都支援対象
+								</div>
+							</th>
+							<td>
+								<!-- Display list support code -->
+								<div class="checkbox-div">
+									<div th:each="item, iterStat : *{lstSupportCode}" th:if="${iterStat.index < 2}" th:tabindex="${6 + iterStat.index}" th:class="'disable-item supportCode radio-and-label r-width-' + ${iterStat.index + 1}">
+										<input th:field="*{rdoSupportCode}" th:class="radio-items" th:id="'radio-' + ${iterStat.index + 7}" type="radio" th:value="${item.value}">
+										<label th:for="'radio-' + ${iterStat.index + 7}" th:text="${item.label}"></label>
+										<!-- Backup value when error -->
+										<input type="hidden" th:field="*{lstSupportCode[__${iterStat.index}__].value}" />
+										<input type="hidden" th:field="*{lstSupportCode[__${iterStat.index}__].label}" />
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr th:if="*{progressRecordNo != '' and not #lists.isEmpty(fileInfos)}">
+							<th rowspan="25" class="table-common-col-2">
+								<div class="form-lable">
+									添付ファイル
+								</div>
+							</th>
+						</tr>
+						<tr th:if="*{progressRecordNo != '' and not #lists.isEmpty(fileInfos)}">
+							<td class="border-bottom-hidden">
+								添付ファイルを削除する場合は、選択して登録ボタンをクリックしてください。
+							</td>
+						</tr>
+						<tr th:if="*{progressRecordNo != '' and not #lists.isEmpty(fileInfos)}" th:each="item, iterStat : *{fileInfos}">
+							<td class="border-top-hidden">
+								<input class="checkbox-item checkbox-2" th:id="'cb' + ${iterStat.index}" type="checkbox" th:name="selectedFiles" th:value="${item.progressRecordAttachNo}">
+								<label th:for="'cb' + ${iterStat.index}">
+									<a th:data="${item.progressRecordAttachNo}" th:onclick="return downloadFile(this.getAttribute('data'))"><u th:text="${item.fileName}"></u></a>
+								</label>
+							</td>
+							<!-- save list when reload page -->
+							<input type="hidden" th:field="*{fileInfos[__${iterStat.index}__].progressRecordAttachNo}" />
+							<input type="hidden" th:field="*{fileInfos[__${iterStat.index}__].fileName}" />
+							<input type="hidden" th:field="*{fileInfos[__${iterStat.index}__].file}" />
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+			<!-- end table 2 -->
+
+			<!-- table 3 -->
+			<div class="table">
+				<table class="table-1">
+					<thead>
+						<tr>
+							<th colspan="2">ファイルアップロード</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th rowspan="2">アップロードファイル</th>
+							<td>
+								<span class="span-lineheight17">
+									画像ファイル（.png .jpg .gif .bmp）とテキストファイル（.txt　.csv）をアップロードできます。<br>
+									ファイルサイズは<span th:text="*{fileMaxSize + 'byte'}"></span>以下です。<br>
+									最大<span th:text="*{fileMaxCount}"></span>ファイルアップロードできます。1度にアップロードできるファイルは3ファイルです。
+								</span>
+								<div class="flex-row" >
+									<input class="textbox-50" type="text" tabindex="8" th:field="*{filFileFromName1}" readonly="readonly" id="text-upload-1">
+									<input type="file" id="real-file-1" onchange="changeFile('real-file-1')" th:field="*{filFileFrom1}" accept=".png,.jpg,.gif,.bmp,.txt,.csv" hidden="hidden">
+									<div class="btn-custom-border btn-td-right" tabindex="9" onclick="uploadFileImg('text-upload-1','real-file-1')">参照</div>
+									<div class="btn-custom-border btn-td-right" tabindex="10" onclick="clearText('text-upload-1','real-file-1')">クリア</div>
+								</div>
+
+								<div  class="flex-row">
+									<input class="textbox-50" type="text" id="text-upload-2" tabindex="11" readonly="readonly" th:field="*{filFileFromName2}">
+									<input type="file" id="real-file-2" onchange="changeFile('real-file-2')" hidden="hidden" accept=".png,.jpg,.gif,.bmp,.txt,.csv" th:field="*{filFileFrom2}">
+									<div class="btn-custom-border btn-td-right" tabindex="12" onclick="uploadFileImg('text-upload-2','real-file-2')">参照</div>
+									<div class="btn-custom-border btn-td-right" tabindex="13" onclick="clearText('text-upload-2','real-file-2')">クリア</div>
+								</div>
+								<div  class="flex-row">
+									<input class="textbox-50" type="text" tabindex="14" id="text-upload-3" readonly="readonly" th:field="*{filFileFromName3}">
+									<input type="file" id="real-file-3" hidden="hidden" onchange="changeFile('real-file-3')"  accept=".png,.jpg,.gif,.bmp,.txt,.csv" th:field="*{filFileFrom3}">
+									<div class="btn-custom-border btn-td-right" tabindex="15" onclick="uploadFileImg('text-upload-3','real-file-3')">参照</div>
+									<div class="btn-custom-border btn-td-right" tabindex="16" onclick="clearText('text-upload-3','real-file-3')">クリア</div>
+								</div>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+			<!-- end table 3 -->
+
+			<!-- check box -->
+			<div class="text-box" tabindex="17">
+				<input type="checkbox" class="checkbox-item chkConfirm" th:name="chkConfirm"  id="cd1" th:value="1">
+				<label for="cd1" >入力内容を確認しました</label>
+			</div>
+			<!-- end check box -->
+
+			<!-- btn middle -->
+			<div class="btn-middle">
+				<input type="button" class="btn btn-black btn-register" tabindex="18" value="登録"></input>
+			</div>
+			<!-- end btn middle -->
+
+			<!-- turn back bottom -->
+			<div class="turn-back-bottom">
+				<input type="button" class="btn-custom-border" tabindex="19" th:data="*{apartmentId}" th:onclick="turnBack(this.getAttribute('data'))" value="戻る"></input>
+			</div>
+			<!-- end turn back bottom -->
+		</div>
+		<input type="hidden" th:field="*{progressRecordNo}"/> 
+		<input type="hidden" th:field="*{updateDatetime}"/>
+		<input type="hidden" id="fileMaxSize" th:field="*{fileMaxSize}"/>
+		<input type="hidden" th:field="*{fileMaxCount}"/>
+		<!-- end contents -->
+		</form>
+	</main>
+	<div id="alertMessage" style="display:none;">
+		<p id="message"></p>
+	</div>
+	<form th:action="@{/GEA0110/show}" id="submitBackbutton" method="POST">
+		<input type="hidden" name="apartmentId"/> 
+	</form>
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+	<!-- js -->
+ 	<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+ 	<script th:src="@{/js/const.js}"></script>
+ 	<script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"></script>
+   	<script th:src="@{/js/GEB0110.js}"></script>
+ 	<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

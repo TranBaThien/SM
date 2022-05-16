@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>AAA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+<script th:src="@{/js/jquery.validationEngine.js}"
+	type="text/javascript" charset="utf-8">
+	
+</script>
+<script th:src="@{/js/jquery.validationEngine-ja.js}"
+	type="text/javascript" charset="utf-8">
+	
+</script>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/const.js}"></script>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/css/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/const.js}"></script>
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/jquery-ui/jquery-ui.js}"></script>
+<script th:src="@{/js/shortcut-key.js}"></script>
+<script th:src="@{/lib/jquery-ui/external/jquery/jquery.js}"></script>
+<script th:src="@{/lib/jquery-ui/jquery-ui.js}"></script>
+<script th:src="@{/js/jquery.validationEngine.js}"
+	type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/jquery.validationEngine-ja.js}"
+	type="text/javascript" charset="utf-8"> </script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		/*  	$(".formUpdate").validationEngine({
+		 // 以下のパラメータは任意
+		 promptPosition: "bottomLeft",//エラー文の表示位置
+		 showArrowOnRadioAndCheckbox: true,//エラー箇所の図示
+		 focusFirstField: true,//エラー時に一番文頭の入力フィールドにフォーカスさせるかどうか
+		 scroll: false,
+		 });  */
+
+		$(".uploadMansion").validationEngine({
+			// 以下のパラメータは任意
+			promptPosition : "bottomLeft",//エラー文の表示位置
+			showArrowOnRadioAndCheckbox : true,//エラー箇所の図示
+			focusFirstField : true,//エラー時に一番文頭の入力フィールドにフォーカスさせるかどうか
+			scroll : false,
+			onValidationComplete : function(form, status) {
+				if (status) {
+					$("#div3").dialog({
+						modal : true, //モーダル表示
+						title : "テストダイアログ",//タイトル
+						buttons : { //ボタン
+							"OK" : function() {
+								$(this).dialog("close");
+								form[0].submit();
+							},
+							"キャンセル" : function() {
+								$(this).dialog("close");
+								event.preventdefault();
+							}
+						},
+					});
+				}
+			}
+		});
+
+	});
+</script>
+</head>
+
+<body>
+	<!-- header-->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header-->
+
+	<main> <!-- title -->
+	<div class="main-header">
+		<div class="title-1">マンション情報アップロード</div>
+	</div>
+	<!-- end title --> <!-- contents -->
+	<div id="contents">
+
+		<!-- turn back -->
+		<div class="turn-back">
+			<span class="column-1"><a href="GBA0110.html">メニューへ戻る</a></span>
+			<button class="btn-custom-border"
+				onclick="location.href='./GBA0110.html'">戻る</button>
+		</div>
+		<!-- end turn back -->
+
+		<!-- text are title -->
+		<div class="text-are-title">
+			<span>「参照」ボタンをクリックしてアップロードするファイルを指定し、「アップロード」ボタンをクリックしてください。</span>
+		</div>
+		<!-- end text are title -->
+
+		<!-- alert error -->
+		<div class="alert-error" th:if="${message}">
+			<span id="lblErrorMsg" th:text="${message}"></span>
+		</div>
+		<!-- end alert error -->
+
+		<form id="uploadMansion" class="uploadMansion" name="uploadMansion"
+			th:action="@{/AAA0110/uploadMansion}" th:method="post"
+			enctype="multipart/form-data">
+
+			<!-- table 1 -->
+			<div class="table">
+				<table class="table-import">
+					<thead>
+						<tr>
+							<th class="table-3-th1" colspan="2">アップロードファイル指定</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>アップロードファイル</th>
+							<td>
+								<div class="btn-import">
+									<input class="textbox-80" type="text" id="text-upload">
+									<input type="file" name="file" id="real-file" hidden="hidden">
+									<div class="btn-custom-border"
+										onclick="uploadFile('text-upload','real-file')">参照</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- end table 1 -->
+
+			<!-- btn mid -->
+			<div class="btn-middle">
+				<button type="submit" class="btn btn-black" id="file">アップロード</button>
+			</div>
+			<!-- end btn mid -->
+
+		</form>
+
+		<div class="btn-margintop-100">
+			<button class="btn-custom-border"
+				onclick="location.href='./GBA0110.html'">戻る</button>
+		</div>
+		<!-- end turn back bottom -->
+	</div>
+	<!-- end contents --> </main>
+	<div id="div3" style="display: none;">
+		<p>upload file?</p>
+	</div>
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+	<!-- js -->
+	<script th:src="@{./js/jquery-ui/jquery-ui.js}"></script>
+	<script th:src="@{./js/main.js}"></script>
+	<script th:src="@{./js/AAA0110.js}"></script>
+	<!-- end js -->
+
+</body>
+
+</html>

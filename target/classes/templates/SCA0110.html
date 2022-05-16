@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <title>SCA0110</title>
+    <link th:href="@{/lib/normalize.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        const baseUrl = [[${#request.getContextPath()}]];
+        const SCA0110_MESSAGE_SUCCESS = [[${messageSuccess}]];
+	</script>
+<body>
+    <th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+    <main>
+        <div class="main-header">
+            <div class="title-1">パスワード再発行</div>
+        </div>
+        <form th:action="@{/SCA0110/save}" th:object="${reissuePassword}" th:name="reissuePasswordForm" id="form" class="reissue-password" method="post">
+	        <div id="contents">
+	            <div class="turn-back-bottom ">
+					<button type="button" class="btn-logout back-previous-screen btn-custom-border" tabindex="6">戻る</button>
+				</div>
+				<div class="text-are-title">
+					<span style="line-height: 2;">
+						1度でもログインしたことがある方は、ログインIDとメールアドレスを入力してください。<br />
+						パズルを完成させた後、再発行ボタンをクリックしてください。<br />
+						入力したメールアドレスに、ワンタイムパスワードが送信されますので、<br />
+						<span th:text="*{lblTime}"></span>分以内にログインしてください。<br />
+						ログインしたことがない方は、管理者にお問合せください。
+					</span>
+				</div>
+				<div class="alert-error" th:if="${errorMessageList}">
+	                <span>
+	                    <th:block th:each="item : ${errorMessageList}">
+	                    	<p th:utext="${item}">
+	                    </th:block>
+	                </span>
+	            </div>
+				<div class="login-box-container">
+					<table class="table-text-1">
+						<tbody>
+							<tr>
+								<th class="table-common-col-3 madatory">
+									ログインID<span class="form-note">必須</span>
+								</th>
+								<td>
+									<input type="text" th:field="*{txtLoginId}" id="txtLoginId" class="text-input-1" tabindex="1">
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-3 madatory">
+									メールアドレス<span class="form-note">必須</span>
+								</th>
+								<td>
+									<input type="text" th:field="*{txtMail}" id="txtMail" class="text-input-1" tabindex="2">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="container-captcha">
+					<span class="captcha-text">
+						<img class="image-captcha" alt="captcha-image" th:src="@{/SCA0110/captcha.jpg}">
+						<input type="text" class="text-input-1" th:field="*{catpchaText}" tabindex="3">
+						<img class="reset-captcha" th:src="@{/images/icon-reset.png}" tabindex="4">
+					</span>
+				</div>
+				<div class="btn-middle">
+					<button type="button" class="btn btn-black btn-submit" tabindex="5">再発行</button>
+				</div>
+				<div class="turn-back-bottom ">
+					<button type="button" class="btn-logout back-previous-screen btn-custom-border" tabindex="7">戻る</button>
+				</div>
+	        </div>
+	        <input type="hidden" th:field="*{previousUrl}"/>
+	        <input type="hidden" th:field="*{lblTime}"/>  
+        </form>
+    </main>
+    <div id="dialog-confirm" style="display: none;">
+    </div>
+    <div id="dialog-success" style="display: none;">
+    </div>
+    <th:block th:include="/fragments/main-footer" />
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+    <script th:src="@{/js/const.js}"></script>
+    <script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/js/SCA0110.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/movescreen.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<code id="CD001">
+		<property value="0" label="未削除" />
+		<property value="1" label="削除" />
+	</code>
+	<code id="CD002">
+		<property value="1" label="ある" />
+		<property value="2" label="ない" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD003">
+		<property value="1" label="新規" />
+		<property value="2" label="更新" />
+	</code>
+	<code id="CD004">
+		<property value="1" label="変更" />
+		<property value="2" label="建物の滅失その他の事由" />
+	</code>
+	<code id="CD005">
+		<property value="1" label="棟別管理組合が中心となり、管理を行っている" />
+		<property value="2" label="団地管理組合が中心となり、管理を行っている" />
+		<property value="8" label="その他" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD006">
+		<property value="1" label="所有権" />
+		<property value="2" label="借地権" />
+		<property value="3" label="定期借地権" />
+		<property value="8" label="その他" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD007">
+		<property value="1" label="なし" />
+		<property value="2" label="店舗" />
+		<property value="3" label="事務所" />
+		<property value="8" label="その他" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD008">
+		<property value="1" label="全部委託" />
+		<property value="2" label="一部委託" />
+		<property value="3" label="自主管理" />
+		<property value="8" label="その他" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD009">
+		<property value="1" label="いる" />
+		<property value="2" label="いない" />
+	</code>
+	<code id="CD010">
+		<property value="1" label="0％" />
+		<property value="2" label="～5％" />
+		<property value="3" label="～10％" />
+		<property value="4" label="～15％" />
+		<property value="5" label="～20％" />
+		<property value="6" label="～20％超" />
+		<property value="8" label="不明" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD011">
+		<property value="1" label="実施済" />
+		<property value="2" label="未実施" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD012">
+		<property value="1" label="耐震性あり" />
+		<property value="2" label="耐震性なし" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD013">
+		<property value="1" label="管理組合理事長" />
+		<property value="2" label="区分所有者等" />
+		<property value="3" label="マンション管理業者" />
+		<property value="9" label="その他" />
+	</code>
+	<code id="CD014">
+		<property value="1" label="団地管理組合である" />
+		<property value="2" label="団地管理組合ではない" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD015">
+		<property value="1" label="親" />
+		<property value="2" label="子" />
+		<property value="3" label="兄弟姉妹" />
+		<property value="4" label="その他親戚" />
+		<property value="5" label="勤務先関係" />
+		<property value="6" label="知人" />
+		<property value="9" label="その他" />
+	</code>
+	<code id="CD016">
+		<property value="1" label="未審査" />
+		<property value="2" label="承認" />
+		<property value="3" label="却下" />
+	</code>
+	<code id="CD017">
+		<property value="1" label="メールで通知する" />
+		<property value="2" label="郵送で通知する" />
+	</code>
+	<code id="CD018">
+		<property value="1" label="管理組合理事長" />
+		<property value="2" label="区分所有者個人" />
+		<property value="3" label="各区分所有者" />
+		<property value="4" label="その他" />
+	</code>
+	<code id="CD019">
+		<property value="01" label="電話" />
+		<property value="02" label="メール" />
+		<property value="03" label="訪問" />
+		<property value="04" label="来庁" />
+		<property value="05" label="通知書郵送" />
+		<property value="06" label="都支援対象変更" />
+		<property value="07" label="管理不全の兆候があるマンションの調査" />
+		<property value="08" label="未届マンション(連絡窓口あり)の調査" />
+		<property value="09" label="未届マンション(連絡窓口なし)の調査" />
+		<property value="10" label="管理不全の兆候があるマンションへの指導" />
+		<property value="11" label="未届マンション(連絡窓口あり)の指導" />
+		<property value="12" label="未届マンション(連絡窓口なし)の指導" />
+		<property value="13" label="管理不全の兆候があるマンションへの勧告" />
+		<property value="14" label="未届マンション(連絡窓口あり)の勧告" />
+		<property value="15" label="未届マンション(連絡窓口なし)の勧告" />
+		<property value="16" label="届出の要求" />
+		<property value="17" label="区分所有者の認定（第１５条第６項）" />
+		<property value="18" label="区分所有者の認定（第１８条第４項）" />
+	</code>
+	<code id="CD020">
+		<property value="1" label="管理状況届出書" />
+		<property value="2" label="届出受理通知書" />
+		<property value="3" label="助言内容通知書" />
+		<property value="4" label="現地調査通知書" />
+		<property value="5" label="督促通知書（１回目用）" />
+		<property value="6" label="督促通知書（２回目以降用）" />
+	</code>
+	<code id="CD021">
+		<property value="1" label="対象" />
+		<property value="2" label="対象外" />
+		<property value="3" label="指定しない" />
+	</code>
+	<code id="CD022">
+		<property value="1" label="1回目用" />
+		<property value="2" label="2回目以降用" />
+	</code>
+	<code id="CD023">
+		<property value="1" label="有効" />
+		<property value="2" label="無効" />
+	</code>
+	<code id="CD024">
+		<property value="1" label="利用可能" />
+		<property value="2" label="利用不可" />
+	</code>
+	<code id="CD025">
+		<property value="0" label="未変更" />
+		<property value="1" label="変更済" />
+	</code>
+	<code id="CD026">
+		<property value="0" label="ログインしていない" />
+		<property value="1" label="ログイン中" />
+	</code>
+	<code id="CD027">
+		<property value="1" label="都職員" />
+		<property value="2" label="区市町村" />
+		<property value="3" label="システム管理者" />
+		<property value="4" label="保守業者" />
+	</code>
+	<code id="CD028">
+		<property value="1" label="助言通知、現地調査通知の使用可能" />
+		<property value="2" label="助言通知、現地調査通知の使用不可" />
+	</code>
+	<code id="CD029">
+		<property value="1" label="任意" />
+		<property value="2" label="必須" />
+	</code>
+	<code id="CD030">
+		<property value="1" label="未受理" />
+		<property value="2" label="受理済" />
+		<property value="3" label="指定しない" />
+	</code>
+	<code id="CD031">
+		<property value="1" label="一時保存_管理組合" />
+		<property value="2" label="一時保存_区市町村" />
+		<property value="3" label="一時保存_都職員" />
+		<property value="4" label="一時保存_システム管理者" />
+		<property value="5" label="一時保存_保守業者" />
+		<property value="6" label="正式" />
+	</code>
+	<code id="CD032">
+		<property value="1" label="1" />
+		<property value="2" label="2" />
+	</code>
+	<code id="CD033">
+		<property value="1" label="届出" />
+		<property value="2" label="変更届出" />
+		<property value="3" label="届出受理" />
+		<property value="4" label="変更届出受理" />
+		<property value="5" label="助言通知" />
+		<property value="6" label="現地調査通知" />
+		<property value="7" label="督促通知（一回目）" />
+		<property value="8" label="督促通知（二回目以降）" />
+		<property value="9" label="届出受理メール通知" />
+		<property value="10" label="変更届出受理メール通知" />
+		<property value="11" label="助言メール通知" />
+		<property value="12" label="現地調査メール通知" />
+	</code>
+	<code id="CD034">
+		<property value="1" label="受理" />
+		<property value="2" label="届出" />
+		<property value="3" label="助言通知" />
+		<property value="4" label="現地調査通知" />
+		<property value="5" label="未届" />
+		<property value="6" label="通知書郵送" />
+	</code>
+	<code id="CD035">
+		<property value="1" label="年度" />
+		<property value="2" label="年月" />
+		<property value="3" label="年月日" />
+		<property value="4" label="区市町村" />
+	</code>
+	<code id="CD036">
+		<property value="1" label="未届" />
+		<property value="2" label="届出済" />
+		<property value="3" label="指定しない" />
+	</code>
+	<code id="CD037">
+		<property value="1" label="未通知" />
+		<property value="2" label="通知済" />
+	</code>
+	<code id="CD038">
+		<property value="1" label="ロック" />
+		<property value="0" label="アンロック" />
+	</code>
+	<code id="CD039">
+		<property value="1" label="職権訂正である" />
+		<property value="0" label="職権訂正ではない" />
+	</code>
+	<code id="CD040">
+		<property value="1" label="建物を除却したため" />
+		<property value="2" label="区分所有建物ではなくなったため" />
+		<property value="9" label="その他" />
+	</code>
+	<code id="CD041">
+		<property value="1" label="15" />
+		<property value="2" label="16" />
+	</code>
+	<code id="CD042">
+		<property value="1" label="1" />
+		<property value="3" label="3" />
+		<property value="4" label="4" />
+		<property value="5" label="5" />
+	</code>
+	<code id="CD043">
+		<property value="1" label="1" />
+		<property value="2" label="2" />
+	</code>
+	<code id="CD044">
+		<property value="1" label="1" />
+		<property value="3" label="3" />
+		<property value="5" label="5" />
+	</code>
+	<code id="CD045">
+		<property value="1" label="第４条第２項第１号" />
+		<property value="2" label="第４条第２項第２号" />
+		<property value="3" label="第４条第２項第３号" />
+		<property value="4" label="第５条第１項" />
+		<property value="5" label="第５条第２項" />
+	</code>
+	<code id="CD046">
+		<property value="01" label="ユーザ情報通知メール用" />
+		<property value="02" label="審査結果通知メール用" />
+		<property value="03" label="パスワード再発行通知メール用（管理組合向け）" />
+		<property value="04" label="パスワード再発行通知メール用（区市町村向け）" />
+		<property value="05" label="届出受理通知メール用" />
+		<property value="06" label="助言内容通知メール用" />
+		<property value="07" label="現地調査通知メール用" />
+		<property value="08" label="管理状況届出書用" />
+		<property value="09" label="届出受理通知書用" />
+		<property value="10" label="助言内容通知書用" />
+		<property value="11" label="現地調査通知書用" />
+		<property value="12" label="督促通知書(1回目用)" />
+		<property value="13" label="督促通知書(2回目以降用)" />
+	</code>
+	<code id="CD047">
+		<property value="1" label="1回目用出力済" />
+		<property value="2" label="2回目以降用出力済" />
+		<property value="3" label="指定しない" />
+	</code>
+	<code id="CD048">
+		<property value="1" label="未通知" />
+		<property value="2" label="通知済（1回目用）" />
+		<property value="3" label="通知済（2回目以降用）" />
+	</code>
+	<code id="CD049">
+		<property value="1" label="除却" />
+		<property value="0" label="除却しない" />
+	</code>
+	<code id="CD050">
+		<property value="1" label="メール" />
+		<property value="2" label="郵送" />
+	</code>
+	<code id="CD051">
+		<property value="1" label="初回ログイン・パスワード初期化（パスワード再発行後）" />
+		<property value="2" label="パスワード有効期限切れ（定期更新）" />
+		<property value="3" label="メニューから" />
+	</code>
+	<code id="CD052">
+		<property value="1" label="0％" />
+		<property value="2" label="～5％" />
+		<property value="3" label="～10％" />
+		<property value="4" label="～20％" />
+		<property value="5" label="～20％超" />
+		<property value="8" label="不明" />
+		<property value="9" label="回答しない" />
+	</code>
+	<code id="CD053">
+		<property value="1" label="ある" />
+		<property value="2" label="ない" />
+	</code>
+	<code id="CD054">
+		<property value="1" label="ある" />
+		<property value="2" label="ない" />
+		<property value="9" label="指定しない" />
+	</code>
+	<code id="CD055">
+		<property value="1" label="いる" />
+		<property value="2" label="いない" />
+		<property value="9" label="指定しない" />
+	</code>
+	<code id="CD056">
+		<property value="01" label="全マンション数" />
+		<property value="02" label="要届出マンション数" />
+		<property value="03" label="任意届出マンション数" />
+		<property value="04" label="届出登録（新規）" />
+		<property value="05" label="届出書の受理（新規）" />
+		<property value="06" label="助言通知" />
+		<property value="07" label="届出登録（変更）" />
+		<property value="08" label="届出書の受理（変更）" />
+		<property value="09" label="督促" />
+		<property value="10" label="管理不全の兆候があるマンションの調査" />
+		<property value="11" label="未届マンション(連絡窓口あり)の調査" />
+		<property value="12" label="未届マンション(連絡窓口なし)の調査" />
+		<property value="13" label="管理不全の兆候があるマンションへの指導" />
+		<property value="14" label="未届マンション(連絡窓口あり)の指導" />
+		<property value="15" label="未届マンション(連絡窓口なし)の指導" />
+		<property value="16" label="管理不全の兆候があるマンションへの勧告" />
+		<property value="17" label="未届マンション(連絡窓口あり)の勧告" />
+		<property value="18" label="未届マンション(連絡窓口なし)の勧告" />
+		<property value="19" label="届出の要求" />
+		<property value="20" label="区分所有者の認定（第15条第６項）" />
+		<property value="21" label="区分所有者の認定（第18条第４項）" />
+	</code>
+	<code id="CD057">
+		<property value="1" label="年度" />
+		<property value="2" label="年月" />
+		<property value="3" label="年月日" />
+	</code>
+	<code id="CD058">
+		<property value="1" label="年度" />
+		<property value="2" label="年月" />
+		<property value="3" label="年月日" />
+		<property value="4" label="区市町村" />
+	</code>
+	<code id="CD059">
+		<property value="1" label="指定しない" />
+		<property value="2" label="未通知" />
+		<property value="3" label="通知済" />
+	</code>
+</root>

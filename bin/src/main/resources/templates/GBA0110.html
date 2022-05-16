@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>GBA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+<script th:src="@{/js/jquery.validationEngine.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/jquery.validationEngine-ja.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/main.js}"></script>
+</head>
+
+<body>
+
+	<!-- header -->
+	<header>
+		<div class="header">
+			<div class="logo-text">
+				<img class="logo-img" src="./images/logo.png" />
+				<div class="title-header">
+					<span class="text-center">東京都マンション管理状況届出システム</span>
+				</div>
+			</div>
+
+			<div class="text-right">
+				<a
+					href="http://www.metro.tokyo.jp/tosei/tosei/soshikijoho/soshiki/index.html">都庁総合ホームページ</a>
+			</div>
+			<div class="text-right">
+				<button class="btn-logout" style="margin-right: 10px;"
+					onclick="location.href='./AAA.html'">ヘルプ</button>
+				<button class="btn-logout" onclick="location.href='./AAA.html'">ログアウト</button>
+			</div>
+			<div class="text-right">最終ログイン日時：2019/10/01 15：00 &nbsp;&nbsp;</div>
+			<div class="text-left">ユーザ名：○○マンション</div>
+		</div>
+	</header>
+	<!-- end header -->
+
+	<!-- main -->
+	<main>
+	<div class="main-header">
+		<div class="title-1">メニュー（区市町村／都職員用)</div>
+	</div>
+
+	<!-- main contents list menu -->
+	<div id="contents">
+		<div class="container-menu">
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./GJA0110.html'">届出受理</button>
+				</div>
+				<span class="container-65">届出情報を確認し、受理の登録と通知を行います。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./GJA0110.html'">助言通知</button>
+				</div>
+				<span class="container-65">受理済みの届出情報をもとに、管理組合/区分所有者へ助言の通知を行います。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./GJA0110.html'">現地調査通知</button>
+				</div>
+				<span class="container-65">管理組合/区分所有者へ現地調査を行う日程の通知を行います。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./GEC0110.html'">経過記録一括登録</button>
+				</div>
+				<span class="container-65">経過記録をアップロードファイルから一括登録します。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./GJA0110.html'">マンション情報検索</button>
+				</div>
+				<span class="container-65">登録されているマンション情報の検索を行います。マンション情報/届出状況/受理状況が確認できます。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./GKA0110.html'">データ集計</button>
+				</div>
+				<span class="container-65">集計項目・集計単位を選択しデータ集計を行います。集計結果をダウンロードできます。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./GCA0110.html'">登録審査</button>
+				</div>
+				<span class="container-65">新規ユーザ登録に対する審査を行います。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./ABA0110.html'">都区市町村ユーザ管理</button>
+				</div>
+				<span class="container-65">都区市町村ユーザ情報の確認/追加/変更を行います。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./AAA0110.html'">マンション情報アップロード</button>
+				</div>
+				<span class="container-65">マンション基本情報をアップロードファイルから一括登録します。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						onclick="location.href='./SBA0110.html'">パスワード変更</button>
+				</div>
+				<span class="container-65">パスワードの変更を行います。</span>
+			</div>
+		</div>
+	</div>
+
+	</main>
+	<!-- end main -->
+
+	<!-- footer -->
+	<footer>
+		<div class="footer">
+			<span class="text-big">問合せ／サイトポリシー</span> <span class="text-small">
+				Copyright (C) 2020 Tokyo Metropolitan Government. All Rights
+				Reserved. </span>
+		</div>
+	</footer>
+	<!-- end footer -->
+
+</body>
+
+</html>

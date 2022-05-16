@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>GAA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+<script th:src="@{/js/jquery.validationEngine.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/jquery.validationEngine-ja.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/main.js}"></script>
+
+</head>
+<body>
+	<!-- header-->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header-->
+
+	<!-- main -->
+	<main> <!-- title of the page -->
+	<div class="main-header">
+		<div class="title-1">都区市町村ログイン</div>
+	</div>
+	<!-- title of the page -->
+
+	<div id="contents">
+		<div class="alert-error" th:if="${errorMessage}">
+			<span id="lblErrorMsg" th:text="${errorMessage}"></span>
+		</div>
+		<form id="gsLoginForm" th:action="@{/gs/login}" method="POST">
+			<!-- enter login information -->
+			<div class="login-box-container">
+				<table class="table-text-1">
+					<tbody>
+						<tr>
+							<td class="text-th-2">ログインID</td>
+							<td><input type="text" name="txtLoginId" maxlength="8"
+								class="text-input-1" placeholder=""></td>
+						</tr>
+						<tr>
+							<td class="text-th-2">パスワード</td>
+							<td><input type="password" name="pwdPassword" maxlength="16"
+								class="text-input-1" placeholder=""></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="text-box">
+				<a href="SAA0110.html">利用規約</a>
+			</div>
+			<!-- end enter login information -->
+
+			<div class="text-box">
+				<input id="chkTermsConditions" type="checkbox" class="checkbox-item"
+					name="chkTermsConditions"> <label for="chkTermsConditions">利用規約を確認しました</label>
+			</div>
+
+			<div class="btn-bottom">
+				<button name="btnLogin" type="button" class="btn btn-black">ログイン</button>
+			</div>
+
+			<!-- forgot password-->
+			<div class="text-box">
+				パスワードが不明な方は<a href="SCA0110.html">こちら</a>
+			</div>
+			<!-- end forgot password-->
+		</form>
+
+		<!-- notify the user -->
+		<div class="login-box-container">
+			<table class="table-text-1">
+				<thead>
+					<tr>
+						<td colspan="2" class="text-th-1">ユーザへのお知らせ</td>
+					</tr>
+					<tr class="text-th-2">
+						<td class="text-th-3" style="text-align: center;">日付</td>
+						<td style="text-align: center;">タイトル</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>2019/10/01</td>
+						<td><a href="">メンテナンスのお知らせ</a></td>
+					</tr>
+					<tr>
+						<td>2020/01/01</td>
+						<td><a href="">〇〇〇について</a></td>
+					</tr>
+					<tr>
+						<td>2020/03/01</td>
+						<td><a href="">×××について</a></td>
+					</tr>
+					<tr>
+						<td>2020/05/01</td>
+						<td><a href="">▲▲▲ついて</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- end notify the user -->
+
+	</div>
+	</main>
+	<!-- end main -->
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+	<script>
+    $(document).ready(function() {
+        $("#chkTermsConditions").prop('checked', false);
+        $("button[name='btnLogin']").prop('disabled', true);
+    });
+
+    $("#chkTermsConditions").change(function() {
+        if($("#chkTermsConditions").is(':checked')) {
+            $("button[name='btnLogin']").prop('disabled', false);
+        } else {
+            $("button[name='btnLogin']").prop('disabled', true);
+        }
+    });
+
+    $("button[name='btnLogin']").click(function () {
+        if (!$("button[name='btnLogin']").disabled) {
+            var username = $.trim($("input[name='txtLoginId']").val());
+            var errorMessage;
+            // if (!username) {
+            //     errorMessage = "ログインID は必須項目です。選択してください。";
+            //     return;
+            // }
+            var password = $.trim($("input[name='pwdPassword']").val());
+            // if (!password) {
+            //     errorMessage = "パスワード は必須項目です。選択してください。";
+            //     return;
+            // }
+            // if(!$("#chkTermsConditions").is(':checked')) {
+            //     errorMessage = "利用規約を確認しました は必須項目です。選択してください。";
+            //     $("button[name='btnLogin']").prop('disabled', true);
+            //     return;
+            // }
+            $("#gsLoginForm").submit();
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+</head>
+<body>
+<p><span style="font-weight: bold;">${apartmentName}</span></p>
+<p><span style="font-weight: bold;">${contactName}</span><span>    殿</span></p>
+
+<p>　届出情報が受理されましたのでお知らせいたします。</p>
+<p>以下のURLからログインして、届出受理通知書を確認してください。</p>
+<p style="font-weight: bold;">${loginUrl}</p>
+
+<p>本メールは送信専用メールアドレスから配信しております。</p>
+<p>ご返信いただいてもお答えできませんのでご了承ください。</p>
+<p>本件に関するお問い合わせ、ならびに本メールについてお心当たりが無い場合につきましては、</p>
+<p>下記の問合せ先へご連絡をお願いいたします。</p>
+<p style="font-weight: bold;">${cityName}</p>
+<p style="font-weight: bold;">${windowBelong}</p>
+<p style="font-weight: bold;">${windowTelNo}</p>
+<p style="font-weight: bold;">${windowFaxNo}</p>
+<p style="font-weight: bold;">${windowMailAddress}</p>
+</body>
+</html>

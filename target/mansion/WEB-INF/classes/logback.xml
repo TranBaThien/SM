@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+	<property name="LOGS" value="/var/logs" />
+	<!-- <property name="mansionLayout" >%d{yyyy/MM/dd HH:mm:ss.SSS},[%t],%-5p,%X{hostName},%X{pid},%X{tid},%X{uid},%X{sid},%X{hotsAddress},%c{1},%M,%m%n%ex</property> -->
+	<property name="mansionLayout"
+		value="%d{yyyy/MM/dd HH:mm:ss.SSS},[%t],%-5p,%X{hostName},%X{pid},%X{tid},%X{uid},%X{sid},%X{hotsAddress},%c{1},%M,%m%n%ex" />
+	<property name="filename" value="mansion-todokede.log" />
+	<appender name="Console"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				${mansionLayout}
+			</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="RollingFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS}/${filename}</file>
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily and when the file reaches 10 MegaBytes -->
+			<fileNamePattern>${LOGS}/mansion-todokede-%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!-- LOG everything at INFO level -->
+	<root level="info">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</root>
+
+	<!-- LOG "com.baeldung*" at TRACE level -->
+	<logger name="jp.lg.tokyo.metro.mansion.todokede" level="trace"
+		additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
+
+</Configuration>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <title>ABB0110</title>
+    <link th:href="@{/lib/normalize.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery-ui.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+    const baseUrl = [[${#request.getContextPath()}]];
+    const ABB110_GLOBAL_VAR = {
+        redirectToABA : [[${redirectToABA}]],
+        redirectError : [[${redirectError}]],
+        rdoUserType : [[${UserCityVo.rdoUserType}]],
+        userId : [[${UserCityVo.userId}]],
+        pwdPassword : [[${UserCityVo.pwdPassword}]],
+        pwdPasswordConfirm : [[${UserCityVo.pwdPasswordConfirm}]],
+        chkAvailability : [[${UserCityVo.chkAvailability}]],
+        messageSuccess : [[${messageSuccess}]],
+        errorMessage : [[${errorMessage}]],
+    }
+    </script>
+</head>
+
+<body>
+<!--header-->
+    <th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+<!-- end header -->
+    
+<main>
+    <!-- title -->
+    <div class="main-header">
+            <div class="title-1">
+                    ユーザ情報追加・変更
+            </div>
+    </div>
+    <!-- end title -->
+
+    <form th:action="@{/ABB0110/save}" th:object="${UserCityVo}" th:name="ABB0110form" id="ABB0110form" class="user-city-register" method="post">
+    <!-- contents -->
+    <div id="contents"> 
+        <!-- turn back -->
+        <div class="turn-back">
+                <span class="column-1"><a th:href="@{/GBA0110}" th:tabindex="-1">メニューへ戻る</a></span>
+                <input type="button" class="btn-custom-border " th:tabindex="-1" th:onclick="turnBack()" value="戻る"></input>
+        </div>
+        <!-- end turn back -->
+        <!-- text are title -->
+        <div class="text-are-title">
+            <span>ユーザ情報を入力し、「登録」ボタンをクリックしてください。</span><br/>
+        </div>
+        <!-- text are title -->
+
+        <!-- Error area -->
+        <div class="alert-error" id="errorMessageDiv" th:if="${errorMessage}">
+            <span>
+                <th:block th:each="item : ${errorMessage}">
+                <p th:utext="${item}">
+                </th:block>
+            </span>
+        </div>
+        <!-- End Error area -->
+    
+        <!-- table user information -->
+        <div class="table">
+            <table class="table-ex-info">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="table-3-th1">ユーザ情報</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="table-common-col-2 madatory">
+                                                         種別<span class="form-note">必須</span>
+                        </th>
+                        <td>
+                           <div class="checkbox-div">
+                                <div th:each="item, iterStat : *{rdoUserTypeList}" class="radio-and-label r-width-1" th:tabindex="${1+ iterStat.index}" >
+                                    <input th:field="*{rdoUserType}" class="radio-items " name="rdoUserType"
+                                     th:id="'radio-' + ${iterStat.index + 1}" type="radio" th:value="${item.value}">
+                                    <label th:for="'radio-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                    <input type="hidden" th:field="*{rdoUserTypeList[__${iterStat.index}__].value}" />
+                                    <input type="hidden" th:field="*{rdoUserTypeList[__${iterStat.index}__].label}" />
+                                </div>
+                          </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>区市町村</th>
+                            <td>  
+                            <div class="select-width-text">
+                                  <select class="select-search" th:field="*{lstCity}" tabindex="10" name="lstCity"> 
+                                      <option value=""></option>
+                                      <option th:each="item, iterStat : *{lstCitylist}" th:value="${item.value}" th:text="${item.label}"></option>
+                                  </select>
+                                  <div style="display:none;" th:each="item, iterStat : *{lstCitylist}">
+                                      <input type="hidden" th:field="*{lstCitylist[__${iterStat.index}__].value}" />
+                                      <input type="hidden" th:field="*{lstCitylist[__${iterStat.index}__].label}" />
+                                  </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2 madatory">
+                          氏名<span class="form-note">必須</span>
+                        </th>
+                        <td>
+                            
+                            姓と名の間には全角スペースを入力してください。
+                            <br/>
+                                  <input type="text" th:field="*{txtUserName}" tabindex="11" name="txtUserName" class="text-input-1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2 madatory">
+                            氏名フリガナ<span class="form-note">必須</span>
+                         </th>
+                        <td>
+                            姓と名の間には全角スペースを入力してください。
+                            <br/>
+                                  <input type="text" th:field="*{txtUserNamePhonetic}" tabindex="12" name="txtUserNamePhonetic" class="text-input-1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2 madatory">
+                           メールアドレス<span class="form-note">必須</span>
+                        </th>
+                        <td>
+                                  <input type="text" th:field="*{txtMail}" tabindex="13" name="txtMail" class="text-input-1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2 madatory">
+                                メールアドレス（確認）<span class="form-note">必須</span>
+                        </th>
+                        <td>
+                                  <input type="text" th:field="*{txtMailConfirm}" tabindex="14" name="txtMailConfirm" class="text-input-1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2 madatory">
+                            電話番号<span class="form-note">必須</span>
+                        </th>
+                        <td>
+                                  <input type="text" th:field="*{txtPhonenumber1}" tabindex="15"  name="txtPhonenumber1" class="number-phone-1">
+                                  <span class="span-blank">-</span>
+                                  <input type="text" th:field="*{txtPhonenumber2}" tabindex="16" name="txtPhonenumber2" class="number-phone-2">
+                                  <span class="span-blank">-</span>
+                                  <input type="text" th:field="*{txtPhonenumber3}" tabindex="17" name="txtPhonenumber3" class="number-phone-2">
+                        </td>
+                    </tr>
+                    <tr>
+                            <th class="table-common-col-2">
+                                <div class="form-lable">
+                                    利用停止
+                                </div>
+                            </th>
+                            <td tabindex="18">
+                                <input class="checkbox-item checkbox-1 c-width-4" id="cb5" type="checkbox"  th:name="chkAvailability" th:value="2">
+                                <label for="cb5">利用停止</label>
+                            </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2">
+                            <div class="form-lable">
+                                備考
+                            </div>
+                        </th>
+                        <td>
+                             <input type="text" th:field="*{txtContact}" tabindex="19" class="text-input-1" name="txtContact">
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- end table user information -->
+
+        <!-- login information -->
+        <div class="table">
+            <table class="table-ex-info password-sd">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="table-3-th1">ログイン情報</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="table-common-col-2 madatory">
+                            ログインID<span class="form-note">必須</span>
+                        </th>
+                        <td>G/A <input type="text" th:field="*{txtLoginid}" tabindex="20" class="halfchar13" name="txtLoginid">チェックデジット1桁 </td>
+                    </tr>
+                    <tr class = "password">
+                        <th class="table-common-col-2 madatory">
+                            パスワード<span class="form-note">必須</span>
+                        </th>
+                        <td>
+                            <div class="password-input">
+                                <input type="password" th:field="*{pwdPassword}" tabindex="21" class="text-input-1 pwdEyeInput" name="pwdPassword">
+                                <img class="pwdEyeInputIcon" th:src="@{/images/icon-eye.png}" width=20  alt=""/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class = "password">
+                        <th class="table-common-col-2 madatory">
+                            パスワード（確認）<span class="form-note">必須</span>
+                        </th>
+                        <td>
+                            <div class="password-input">
+                                <input type="password" th:field="*{pwdPasswordConfirm}" tabindex="22" class="text-input-1 pwdEyeInput" name="pwdPasswordConfirm">
+                                <img class="pwdEyeInputIcon" th:src="@{/images/icon-eye.png}" width=20  alt=""/>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- end login information -->
+
+        <!-- check box -->
+        <div class="text-box" tabindex="23">
+            <input type="checkbox" class="checkbox-item" name="chkTermsConditions" id="chkTermsConditions">
+            <label for="chkTermsConditions">入力内容を確認しました</label>
+        </div>
+        <!-- end check box -->
+
+        <!-- btn bottom -->
+        <div class="btn-bottom">
+            <input type="button" name="btnNewRegistration" id="btnNewRegistration" class="btn btn-black" tabindex="23" value="登録"></input>
+        </div>
+        <!-- end btn bottom -->
+
+        <!-- turn back bottom -->
+        <div class="turn-back-bottom ">
+            <input type="button" class="btn-custom-border" th:onclick="turnBack()" value="戻る" tabindex="24"></input>
+        </div>
+        <!-- end turn back bottom -->
+
+        <div id="dialog-register" style="display: none;">
+        </div>
+    <!-- end contents -->
+        <input type="hidden" th:field="*{userId}"/>
+        <input type="hidden" th:field="*{updateTime}"/>
+        </div>
+    </form>
+</main>
+    <form th:action="@{/ABA0110}" id="submitFormbutton" method="POST">
+         <input type="hidden" name="error"/> 
+    </form>
+    <!-- footer -->
+    <th:block th:include="/fragments/main-footer" />
+    <!-- end footer -->
+
+
+<!-- js -->
+    <!-- js -->
+    <script th:src="@{/js/jquery-ui.js}"></script>
+    <script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+    <script th:src="@{/js/const.js}"></script>
+    <script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/js/password-eye.js}"></script>
+    <script th:src="@{/js/ABB0110.js}"></script>
+    <script th:src="@{/js/jquery.jpostal.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/movescreen.js}"></script>
+</body>
+</html>

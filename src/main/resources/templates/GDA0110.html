@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=11">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="format-detection" content="email=no">
+	<title>GDA0110届出受理登録</title>
+	<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+	<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+	<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet"/>
+	<script th:src="@{/js/jquery-3.0.0.js}"></script>
+	<script th:src="@{/js/jquery-ui.js}"></script>
+	<style>
+		.disabledItem {
+			pointer-events: none;
+			opacity: 0.4;
+		}
+	</style>
+	<script type="text/javascript" th:inline="javascript">
+		const baseUrl = [[${#request.getContextPath()}]];
+	</script>
+</head>
+
+<body>
+
+	<!-- header  -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header  -->
+
+	<main>
+		<!-- title of main -->
+		<div class="main-header">
+			<div class="title-1">
+				届出受理登録
+			</div>
+		</div>
+		<div id="contents">
+			<div class="turn-back">
+				<span class="column-1"><a href="javascript:void(0)" onclick="goBackToMenu()" tabindex="6">メニューへ戻る</a></span>
+                <a id="goBackToMenu" th:href="@{/GBA0110}" hidden >メニューへ戻る</a>
+				<button class="btn-custom-border" onclick="goBack()">戻る</button>
+			</div>
+
+			<div class="text-are-title">
+				<span>届出内容を確認し、「登録」ボタンをクリックしてください。<br />
+					届出内容を訂正する場合は、「職権訂正する」を選択すると、訂正することが出来ます。<br />
+					通知方法にメールを選択した場合、マンションの連絡先のメールアドレスに届出受理通知書を送信します。
+				</span>
+			</div>
+
+			        <!-- Error area -->
+	        <div class="alert-error" id="beErrorMessage" th:if="${not #lists.isEmpty(errorMessage)}">
+	            <div th:each="err : ${errorMessage}">
+                    <span th:utext="${err}"></span>
+                    <br/>
+                </div>
+	        </div>
+	        <div class="alert-error" id="errorExclusive" th:if="${not #lists.isEmpty(errorExclusive)}">
+                <div th:each="err : ${errorExclusive}">
+                    <span th:utext="${err}"></span>
+                    <br/>
+                </div>
+            </div>
+			<!--End error area-->
+
+			<div class="btn-middle">
+				<input type="button" class="btn btn-black" name="btnCorrection" th:value="${notificationAcceptance.btnCorrectionValue}">
+			</div>
+			<div class="list-menu">
+                <span class="collapse"><a onclick="showForm('','area-0')" href="#a0">マンション基本情報</a></span>
+                <span class="collapse "><a onclick="showForm('btn-table-2','tbody-2')" href="#a2">届出基本情報</a></span>
+				<span class="collapse "><a onclick="showForm('btn-table-3','tbody-3')" href="#a3">届出情報</a></span>
+				<span class="collapse "><a onclick="showForm('btn-table-4','tbody-4')" href="#a4">マンションの概要</a></span>
+				<span class="collapse "><a onclick="showForm('btn-table-5','tbody-5')" href="#a5">管理不全を予防するための必須事項</a></span>
+				<span class="collapse "><a onclick="showForm('btn-table-6','tbody-6')"
+						href="#a6">適正な維持管理に関する事項</a></span><br>
+				<span class="collapse "><a onclick="showForm('btn-table-7','tbody-7')"
+						href="#a7">マンションの社会的機能の向上に資する取組に関する事項</a></span>
+				<span class="collapse "><a onclick="showForm('btn-table-8','tbody-8')" href="#a8">連絡先</a></span>
+				<span class="collapse "><a onclick="showForm('','area-3')" href="#a9">任意項目情報</a></span>
+				<span class="collapse "><a onclick="showForm('','area-4')" href="#a10">職権訂正情報</a></span>
+				<span class="collapse "><a onclick="showForm('','area-5')" href="#a11">受理通知内容情報</a></span><br>
+				<span class="collapse "><a onclick="showForm('','area-6')" href="#a12">通知情報</a></span>
+				<span class="collapse "><a id="b13" onclick="showAll()" href="#a1">全て開く</a></span>
+				<span class="collapse "><a id="b14" onclick="closeAll()" href="#a1">全て閉じる</a></span>
+			</div>
+			<div class="btn-main">
+				<form id="form" class="notification-acceptance-register" method="post" th:action="@{/GDA0110/show}" enctype="multipart/form-data">
+							<!-- table base information -->
+					<th:block th:insert="~{fragments/mansion-template :: mansion-info}"></th:block>
+							<!-- end table base information -->
+							<!-- table report base information -->
+					<th:block th:insert="~{fragments/mansion-template :: basic-report-info}"></th:block>
+							<!-- end table report base information -->
+
+
+							<!-- table notification info-->
+					<th:block th:insert="~{fragments/mansion-template :: notification-info-area-common}"></th:block>
+							<!-- end table notification info -->
+
+							<!-- table overview mansion -->
+					<th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-overview-mansion}"></th:block>
+							<!-- end table overview mansion -->
+
+							<!-- table  essebtials to prevent management failure -->
+					<th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-essentials-to-prevent-management}"></th:block>
+							<!-- end table  essebtials to prevent management failure -->
+
+							<!-- table oppropriate maintenance -->
+					<th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-appropriate-maintenance}"></th:block>
+							<!-- end table  oppropriate maintenance -->
+
+							<!-- table  issue improvement for social functions of mansion -->
+					<th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-issue-improvement-social}"></th:block>
+							<!-- end table  issue improvement for social functions of mansion -->
+
+							<!-- Table  contact imformation -->
+					<th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-contact-information}"></th:block>
+							<!-- end table  contact imformation -->
+
+							<!-- Table  optional information -->
+					<th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-optional-information}"></th:block>
+							<!-- end table  optional information -->
+
+							<!-- Table  authority correction information -->
+					<th:block th:insert="~{fragments/mansion-template :: authority-correction-information}"></th:block>
+					<!-- end table  optional information -->
+
+					<div class="turn-back-bottom">
+						<input type="button" class="btn-custom-border" onclick="saveTemporaryAcceptanceData()" id="btnTmpSave" value="一時保存" >
+						<span style="margin-left: 10px; margin-right: 10px"></span>
+						<input type="button" class="btn-custom-border" onclick="restoreTemporaryAcceptanceData()" id="btnRestore" th:class="${isActiveRestoreButton ? 'btn-custom-border' : 'btn-custom-border disabledItem'}" value="復元">
+					</div>
+
+					<!-- Area acceptance notification contents -->
+					<th:block th:insert="~{fragments/mansion-template :: acceptance-notification}"></th:block>
+					<!-- End area acceptance notification contents -->
+
+					<!-- 通知情報エリア -->
+					<th:block th:insert="~{fragments/mansion-template :: method-notification}"></th:block>
+					<!-- 通知情報エリアの終わり -->
+
+					<div class="text-box">
+						<input type="checkbox" class="checkbox-item" name="csample" id="cd1">
+						<label for="cd1">入力内容を確認しました</label>
+					</div>
+					<div class="btn-bottom">
+						<input type="button" class="btn btn-black" id="btnRegister" name="btnRegister" value="登録" onclick="submitAcceptanceForm()">
+					</div>
+
+					<input type="hidden" th:field="${notificationRegistration.buildDay}" />
+					<input type="hidden" th:field="${notificationRegistration.buildMonth}" />
+					<input type="hidden" th:field="${notificationRegistration.buildYear}" />
+                    <input type="hidden" th:field="${mansionInfo.newestNotificationNo}" />
+                    <input type="hidden" th:field="${notificationRegistration.notificationNo}" />
+					<input type="hidden" th:field="${notificationRegistration.changeCount}" />
+					<input type="hidden" th:field="${notificationRegistration.notificationCount}" />
+					<input type="hidden" th:field="${notificationRegistration.notificationDateTBL200}" />
+                    <input type="hidden" th:field="${notificationRegistration.updateNotification}" />
+                    <input type="hidden" th:field="${notificationRegistration.infoAreaCommon.lblReceiptNumber}" />
+                    <input type="hidden" th:field="${notificationRegistration.infoAreaCommon.inActiveItem}" />
+                    <input type="hidden" th:field="${notificationRegistration.cityCode}" />
+                    <input type="hidden" th:field="${notificationAcceptance.chkConfirm}" />
+                    <input type="hidden" th:field="${notificationAcceptance.btnCorrectionOn}" />
+                    <input type="hidden" th:field="${notificationAcceptance.btnCorrectionValue}" />
+				</form>
+			</div>
+
+			<div class="turn-back-bottom">
+				<button class="btn-custom-border" onclick="goBack()">戻る</button>
+			</div>
+		</div>
+
+
+	</main>
+
+	<form th:action="@{/GDA0110/show}" id="transitionsForm" method="POST">
+		<input type="hidden" name="apartmentId" th:value="${mansionInfo.apartmentId}"/>
+		<input type="hidden" name="relatedNumber" th:value="${acceptNo}" />
+	</form>
+
+	<div id="div3" style="display: none;">
+		<p id="message"></p>
+	</div>
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+
+	<!-- js -->
+	<script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"> </script>
+	<script th:src="@{/js/main.js}"></script>
+	<script th:src="@{/js/const.js}"></script>
+	<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+	<script th:src="@{/js/jquery.jpostal.js}"></script>
+    <script th:src="@{/js/mansionNotification.js}"></script>
+	<script th:src="@{/js/GDA0110.js}"></script>
+	<!-- end js -->
+
+	<script>
+		const errorExclusiveVal = "[[${errorExclusive}]]";
+		const contextPath = "[[${#request.contextPath}]]";
+		const isStoreTemporarilyComplete = "[[${isStoreTemporarilyComplete}]]";
+		const isAcceptanceComplete = "[[${isAcceptanceComplete}]]";
+        const isSendEMail = "[[${isSendEMail}]]";
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+	<title>MAA0110</title>
+    <link th:href="@{/lib/normalize.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet"/>
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"> </script>
+    <script th:src="@{/js/jquery.validationEngine-ja.js}" type="text/javascript" charset="utf-8"> </script>
+	<script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/const.js}"></script>
+	<script type="text/javascript" th:inline="javascript">
+    	const baseUrl = [[${#request.getContextPath()}]];
+	</script>
+</head>
+
+<body>
+
+	<!-- header-->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+<!-- end header-->	
+
+<!-- main -->
+<main>
+    <!-- title of the page -->
+	<div class="main-header">
+		<div class="title-1">
+			管理組合ログイン
+		</div>
+    </div>
+    <!-- title of the page -->
+
+
+			<!-- creat user -->
+			<div id="contents">
+				<div class="btn-bottom btn-end">
+					<button type="button" class="btn btn-black" onclick="registerAccount()">新規ユーザ登録</button>
+				</div>
+
+				<!-- Error area -->
+				<div class="alert-error" hidden>
+					<span id="lblErrorMsg" th:utext="${errorMessage}"></span>
+				</div>
+				<!-- End Error area -->
+
+				<form id="amLoginForm" th:action="@{/am/login}" method="POST">
+					<!-- import login -->
+					<div class="login-box-container">
+						<table class="table-text-1">
+							<tbody>
+								<tr>
+									<td class="text-th-2">ログインID</td>
+									<td>
+										<label>
+											<input type="text" id="txtLoginId" name="txtLoginId" data-validation-engine="validate[required]" class="text-input-1" th:value="${loginId}" tabindex="1">
+										</label>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-th-2">パスワード</td>
+									<td>
+										<div class="password-input">
+											<input type="password" id="pwdPassword" name="pwdPassword" data-validation-engine="validate[required]" class="text-input-1 pwdEyeInput" th:value="${password}" tabindex="2">
+											<img class="pwdEyeInputIcon" th:src="@{/images/icon-eye.png}" width=20 />
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="text-box">
+						<a id="termsConditionsUrl" href="javascript: void(0)" tabindex="3"><u>利用規約</u></a>
+					</div>
+					<!-- end enter login information -->
+
+					<div class="text-box">
+						<input id="chkTermsConditions" type="checkbox" class="checkbox-item" name="chkTermsConditions">
+						<label id="lblChkTermsConditions" for="chkTermsConditions" tabindex="4">利用規約を確認しました</label>
+					</div>
+
+					<div class="btn-bottom">
+						<button name="btnLogin" type="button" class="btn btn-black" tabindex="5">ログイン</button>
+					</div>
+
+
+					<!-- forgot password-->
+					<div class="text-box">
+						パスワードが不明な方は<a href="javascript:void(0)" onclick="goForgotPasswordScreen()" tabindex="6">こちら</a>
+					</div>
+					<!-- end forgot password-->
+
+				</form>
+
+
+			<!-- notify the user -->
+			<div class="login-box-container">
+				<table class="table-text-1">
+					<thead>
+						<tr>
+							<td colspan="2" class="text-th-1">ユーザへのお知らせ</td>
+						</tr>
+					</thead>
+					<tbody id="contents_notice">
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+</main>
+	<!-- end main -->
+<form th:action="@{/SCA0110/show}" id="redirectForm" method="POST">
+</form>
+	<form th:action="@{/MCA0110/show}" id="redirectMCAForm" method="POST">
+	</form>
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+	<script th:src="@{/js/password-eye.js}"></script>
+	<script th:src="@{/js/MAA0110.js}"></script>
+	<script>
+		const password = "[[${password}]]";
+        const isError = "[[${isError}]]";
+		const contentNotice = "[[${loginNotice.setPoint}]]";
+	</script>
+</body>
+</html>

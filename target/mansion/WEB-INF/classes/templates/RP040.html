@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<style>
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #FAFAFA;
+	font: 12pt "Tahoma";
+}
+
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.subpage-footer-span {
+	font-size: 0.75em;
+	float: right;
+}
+
+.page {
+	width: 216mm;
+	min-height: 279mm;
+	margin: 10mm auto;
+	border: 1px #D3D3D3 solid;
+	border-radius: 5px;
+	background: white;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.subpage {
+	padding-left: 2em;
+	padding-right: 2em;
+	margin-top: 1em;
+	margin-bottom: 2em;
+	height: 297mm;
+}
+
+.subpage-title {
+	padding-left: 4em;
+	padding-top: 5em;
+}
+
+.subpage-border {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	margin-top: 0.5em;
+	border: 1px solid black;
+	height: 285mm;
+}
+
+@page {
+	size: Letter;
+	margin: 0;
+}
+
+@media print {
+	html, body {
+		width: 216mm;
+		height: 279mm;
+	}
+	.page {
+		margin: 0;
+		border: initial;
+		border-radius: initial;
+		width: initial;
+		min-height: initial;
+		box-shadow: initial;
+		background: initial;
+	}
+}
+
+.header-input {
+	border: none;
+	width: 1.5em;
+}
+
+.header-span {
+	font-size: 10.5pt;
+}
+
+.document-number {
+	padding-top: 1em;
+	padding-right: 4em;
+	text-align: right;
+	width: -webkit-fill-available;
+}
+
+.document-number-span {
+	font-size: 10.5pt;
+}
+
+.document-date {
+	padding-right: 4em;
+	padding-top: 0.5em;
+	text-align: right;
+	width: -webkit-fill-available;
+}
+
+.document-sign-label {
+	padding-right: 4em;
+	text-align: center;
+	padding-top: 5px;;
+	width: -webkit-fill-available;
+}
+
+.document-date-span {
+	font-size: 10.5pt;
+}
+
+.document-tono {
+	padding-left: 2em;
+	padding-top: 3em;
+	width: -webkit-fill-available;
+}
+
+.document-tono-span {
+	font-size: 10.5pt;
+}
+
+.document-sender {
+	text-align: right;
+	padding-right: 3em;
+	padding-top: 0.6em;
+	width: -webkit-fill-available;
+}
+
+.document-sender-span {
+	font-size: 10.5pt;
+}
+
+.document-sign {
+	float: right;
+	padding-right: 3.7em;
+}
+
+.document-sign-span {
+	text-align: center;
+}
+
+.document-sign-img {
+	width: 2em;
+	height: 2em;
+}
+
+.document-name {
+	text-align: center;
+	padding-top: 2em;
+	width: -webkit-fill-available;
+}
+
+.document-name-span {
+	font-size: 16pt;
+}
+
+.document-info {
+	width: -webkit-fill-available;
+	padding-top: 6em;
+	padding-left: 4em;
+	padding-right: 4em;
+	line-height: 1.5em;
+	text-indent: 2em;
+}
+
+.document-info-date-span {
+	font-size: 11pt;
+}
+
+.document-info-span {
+	font-size: 11pt;
+	padding-left: 2em;
+}
+
+.document-note {
+	width: -webkit-fill-available;
+	padding-top: 1.5em;
+	text-align: center;
+}
+
+.document-note-span {
+	font-size: 10.5pt;
+}
+
+.document-note1-div {
+	width: -webkit-fill-available;
+	padding-top: 2.5em;
+	text-align: left;
+	padding-left: 4em;
+	padding-right: 4em;
+}
+
+.document-note1-div-custom {
+	width: -webkit-fill-available;
+	padding-top: 1em;
+	text-align: left;
+	padding-left: 4em;
+	padding-right: 4em;
+}
+
+.document-note1-span {
+	font-size: 10.5pt;
+}
+
+.document-note1-span-custom {
+	font-size: 11pt;
+	padding-left: 2em;
+}
+
+.note-span-title {
+	width: 4em;
+	padding-right: 2em;
+}
+
+.text-area {
+	border: none;
+	width: 46.5em;
+	height: 30em;
+	overflow: hidden;
+	font-size: 11pt;
+}
+
+.mainsion-display-information {
+	padding-left: 2em;
+}
+
+.span-p-r-7 {
+	padding-right: 6.1em;
+}
+
+.span-p-r-5 {
+	padding-right: 5em;
+}
+
+.span-p-r-3 {
+	padding-right: 3em;
+}
+
+.span-p-r-2 {
+	padding-right: 2em;
+}
+
+.span-p-r-9 {
+	padding-right: 9em;
+}
+
+.span-p-r-12 {
+	padding-right: 12em;
+}
+
+.span-p-l-5 {
+	padding-left: 5em;
+}
+
+.margin-top10 {
+	margin-top: 10px;
+}
+
+.padding-top7 {
+	padding-top: 7px;
+}
+
+.padding-top10 {
+	padding-top: 10px;
+}
+
+.padding-top15 {
+	padding-top: 15px;
+}
+
+.padding-top20 {
+	padding-top: 20px;
+}
+
+.padding-top30 {
+	padding-top: 30px;
+}
+
+.p-l-4 {
+	padding-left: 4em;
+}
+</style>
+
+<script>
+        $(document).ready(function(){
+       
+        }
+    </script>
+</head>
+<body>
+	<div class="book">
+
+		<div class="page">
+			<div class="subpage">
+				<div class="subpage-title-create padding-top20 p-l-4">
+					<span class="header-span"
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"></span> <span
+						class="document-info-date-span"
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif; font-size: 10.5px;"
+						th:text="*{RP040Vo.appendixNo}"> </span> <span class="header-span"
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"> <span
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">関係）</span>
+					</span>
+				</div>
+
+				<div class="document-number padding-top15">
+					<span class="document-number-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> </span>
+				</div>
+				<div class="document-name">
+					<span class="document-name-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> <b>調査実施通知書</b>
+					</span>
+				</div>
+				<div class="document-date">
+					<span class="document-span span-p-r-7"
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">第</span> <span
+						id="document-issue-span"
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif; font-size: 10.5px;"
+						th:text="*{RP040Vo.documentNo}"></span> <span
+						class="document-span"
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"> 号</span>
+				</div>
+
+				<div class="document-date padding-top10">
+					<span class="document-date-span"
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"></span> <span
+						class="document-date-span span-p-r-3"
+						style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif; font-size: 10.5px;"
+						th:text="*{RP040Vo.noticeDate}"> </span>
+				</div>
+				<div class="document-tono">
+					<span class="document-tono-span span-p-r-7"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> </span> <span
+						class="document-tono-span span-p-r-7"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; font-size: 10.5px;"
+						th:text="*{RP040Vo.recipientNameApartment}"> </span> <span
+						class="document-tono-span span-p-r-7"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; font-size: 10.5px;"
+						th:text="*{RP040Vo.recipientNameUser}"> </span> <span
+						class="document-tono-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> 殿 </span>
+				</div>
+				<div style="display: flex; float: right;">
+					<div class="document-sign-label ">
+						<span class="document-sign-span"
+							style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif; font-size: 10.5px;"
+							th:text="*{RP040Vo.sender}"> </span>
+					</div>
+					<div class="document-sign" style="vertical-align: middle;">
+						<!--<span>&#12958;</span>-->
+						<img class="document-sign-img" src="image/sign.png" alt="Sign">
+					</div>
+				</div>
+				<div class="document-info">
+					<span class="document-info-span span-p-r-12"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-left: 0em; font-size: 10.5px;"
+						th:text="*{RP040Vo.sender}"> </span> <span
+						class="document-info-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-left: 0em;">
+						下記マンションについて、東京におけるマンションの適正な管理の促進に関する条例（平成31年東京都条例第30号）第17条の規定により、下記のとおり調査を実施するので通知します。
+					</span>
+
+				</div>
+				<div class="document-note">
+					<span class="document-note-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> 記 </span>
+				</div>
+
+				<div class="document-note1-div">
+					<span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-right: 1em;">
+						1 </span> <span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;">
+						対象となるマンション </span> </br>
+					<div class="mainsion-display-information padding-top7">
+						<span class="document-note1-span note-span-title"
+							style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"> 所在地 </span>
+						<span class="document-tono-span"
+							style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; font-size: 11px;"
+							th:text="*{RP040Vo.address}"> </span>
+					</div>
+
+				</div>
+				<div class="document-note1-div">
+					<span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-right: 1em;">
+						2 </span> <span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;">
+						調査の実施予定日時 </span> </br>
+
+					<div class="padding-top7">
+						<span class="document-date-span"
+							style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"> </span> <span
+							class="document-tono-span"
+							style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; font-size: 11px;"
+							th:text="*{RP040Vo.investImplPlanDatetime}"> </span>
+					</div>
+				</div>
+				<div class="document-note1-div-custom padding-top20">
+					<span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-right: 1em;">
+						3 </span> <span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> 調査を行う者
+					</span> <span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-left: 7em; font-size: 11px;"
+						th:text="*{RP040Vo.investImplNumberPeople}"> </span> <span
+						class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> 名 </span>
+				</div>
+				<div class="document-note1-div-custom padding-top30">
+					<span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-right: 1em;">
+						4 </span> <span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> 必要となる書類
+					</span>
+					<div style="padding-left: 2em;">
+						<div class="document-note1-span "
+							style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; height: 2.5em; word-wrap: break-word; width: 35em; text-align: left">
+							<span class="document-note1-span"
+								style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-left: 7em; font-size: 11px;"
+								th:text="*{RP040Vo.necessaryDocument}"> </span>
+						</div>
+					</div>
+				</div>
+				<div class="document-note1-div-custom padding-top20">
+					<span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; padding-right: 1em;">
+						5 </span> <span class="document-note1-span"
+						style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;"> 担当・連絡先
+					</span> </br>
+					<div class="mainsion-display-information">
+						<span class="document-note1-span"
+							style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; font-size: 11px;"
+							th:text="*{RP040Vo.contact}"> </span>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

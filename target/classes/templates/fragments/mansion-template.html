@@ -1,0 +1,1147 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+ 
+<head>
+    <meta charset="UTF-8" />
+    <title>Mansion Template</title>
+</head>
+<body>
+
+	<!-- table base information -->
+	<div class="table" id="a0" th:fragment="mansion-info" th:object="${mansionInfo}">
+		<table class="table-base-information">
+			<thead>
+				<tr>
+					<th class="table-common-title" colspan="2">マンション基本情報</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th class="table-common-col-2">
+						マンション名
+					</th>
+					<td th:text="*{apartmentName}"></td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2">
+						マンション名フリガナ
+					</th>
+					<td th:text="*{apartmentNamePhonetic}"></td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2">
+						住所
+					</th>
+					<td th:text="*{lblApartmentAddress}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<input type="hidden" th:value="*{apartmentId}" name="apartmentId" />
+		<input type="hidden" th:value="*{apartmentName}" name="apartmentName" />
+		<input type="hidden" th:value="*{apartmentNamePhonetic}" name="apartmentNamePhonetic" />
+		<input type="hidden" th:field="*{lblApartmentAddress}"/>
+	</div>
+	<!-- end table base information -->
+
+	<!-- table report base information -->
+	<div class="table" id="a2"  th:fragment="basic-report-info" th:object="${notificationRegistration}">
+		<table class="table-base-information">
+			<thead>
+					<th class="table-common-title" colspan="2">
+						<div class="checkbox-div">
+							届出基本情報
+							<input type="button" class="btn-custom-border" id="btn-table-2" value="非表示" />
+						</div>
+					</th>
+			</thead>
+			<tbody id="tbody-2">
+				<tr>
+					<th class="table-common-col-2 madatory">
+						マンション名<span class="form-note">必須</span>
+					</th>
+					<td>
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{basicReportInfo.txtApartmentName}" maxlength="50" id="basicReportInfo.txtApartmentName" data-validation-engine="validate[required, maxSize[50], custom2[prohibitionCharacter]]" class="fullchar input-required">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory">
+							マンション名フリガナ<span class="form-note">必須</span>
+					</th>
+					<td>
+						<input type="text" maxlength="100" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{basicReportInfo.txtApartmentNamePhonetic}" data-validation-engine="validate[required, custom[kana]]" class="fullchar input-required">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory">
+							郵便番号<span class="form-note">必須</span>
+					</th>
+					<td>
+						<input type="text" id="txtApartmentZipCode1" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{basicReportInfo.txtApartmentZipCode1}" maxlength="3" data-validation-engine="validate[required, custom[halfwidthNumbers], minSize[3], maxSize[3]]" class="postal-code-1 input-required"><span class="span-blank">-</span>
+						<input type="text" id="txtApartmentZipCode2" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{basicReportInfo.txtApartmentZipCode2}" maxlength="4" data-validation-engine="validate[required, custom[halfwidthNumbers], minSize[4], maxSize[4]]" class="postal-code-2 input-required">
+						<input type="button" id="validApartmentZipCode" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" style="cursor: pointer;" class="btn-custom-border button-custom-with82" value="自動入力">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory">
+							住所１<span class="form-note">必須</span>
+					</th>
+					<td>
+ 						<span>東京都</span>
+						<input type="text" id="lblApartmentAddress1" class="input-required pointer-events-none" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" readonly="readonly" th:field="*{basicReportInfo.lblApartmentAddress1}" />
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory">
+						住所２<span class="form-note">必須</span>
+					</th>
+					<td>
+						<input type="text" id="txtApartmentAddress2" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{basicReportInfo.txtApartmentAddress2}" data-validation-engine="validate[required, custom[fullwidthCharacters], maxSize[100]]" maxlength="100" size="100" class="fullchar input-required">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table report base information -->
+
+	<!-- table notification info-->
+	<div class="table" id="a3" th:fragment="notification-info-area-common" th:object="${notificationRegistration}">
+		<table class="table-notification-info" >
+			<thead>
+				<th class="table-common-title" colspan="3">
+					<div class="checkbox-div">
+						届出情報
+						<input type="button" class="btn-custom-border" id="btn-table-3" value="非表示"/>
+					</div>
+				</th>
+			</thead>
+			<tbody id="tbody-3">
+				<tr id="receiptNumber" th:if="*{screenGJA0120}">
+					<th class="table-common-col-2" colspan="2">受付番号</th>
+					<td>
+						<label th:class="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:text="*{infoAreaCommon.lblReceiptNumber}"></label>
+						<input type="hidden" th:field="*{infoAreaCommon.lblReceiptNumber}" />
+					</td>
+					<input type="hidden" th:field="*{screenGJA0120}"/> 
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory" colspan="2">
+						届出年月日<span class="form-note">必須</span>
+					</th>
+					<td class="text-date">
+                        <div>
+                            <span>(西暦)</span>
+                            <input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.calNotificationDate}" maxlength="10" class="text-input-date input-required" id="datepicker-1" data-validation-engine="validate[required]" />
+                            <img class="ui-datepicker-trigger notifiDate" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:src="@{/images/icon-calendar.svg}" alt="Choose" title="Choose">
+                        </div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1" rowspan="2">届出者</th>
+					<th class="table-common-th-1">管理組合名</th>
+					<td>
+						<div class="checkbox-div">
+							<input type="text" maxlength="50" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtNotificationGroupName}" data-validation-engine="validate[maxSize[50], custom2[prohibitionCharacter]]" class="fullchar">
+							<span class="text-span">管理組合</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">届出者氏名</th>
+					<td>
+						<input type="text" class="fullchar" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="20" th:field="*{infoAreaCommon.txtNotificationPersonName}" data-validation-engine="validate[maxSize[20], custom2[prohibitionCharacter]]">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">届出種別</th>
+					<td>
+						<div th:each="item, iterStat : *{infoAreaCommon.lstNotificationType}" class="radio-and-label radio-reason disable-item">
+							<input type="radio" th:field="*{infoAreaCommon.rdoNotificationType}" class="radio-items" th:id="'radio-' + ${iterStat.index + 1}" th:value="${item.value}">
+							<label th:for="'radio-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+							<input type="hidden" th:field="*{infoAreaCommon.lstNotificationType[__${iterStat.index}__].value}" />
+							<input type="hidden" th:field="*{infoAreaCommon.lstNotificationType[__${iterStat.index}__].label}" />
+						</div>
+					</td>
+				</tr>
+				<tr th:if="${(notificationRegistration.updateNotification && notificationRegistration.screenId != 'GDA0110') || notificationRegistration.screenId == 'GDA0110' && notificationRegistration.infoAreaCommon.rdoChangeReason != null}">
+					<th class="table-common-col-2" colspan="2">変更理由</th>
+					<td>
+						<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'"
+							 th:each="item, iterStat : *{infoAreaCommon.lstChangeReasonCode}"
+							 class="radio-and-label radio-reason">
+							<input type="radio" th:field="*{infoAreaCommon.rdoChangeReason}" class="radio-items"
+								   th:id="'radio-' + ${iterStat.index + 3}" th:value="${item.value}">
+							<label th:for="'radio-' + ${iterStat.index + 3}" th:text="${item.label}"></label>
+							<input type="hidden"
+								   th:field="*{infoAreaCommon.lstChangeReasonCode[__${iterStat.index}__].value}"/>
+							<input type="hidden"
+								   th:field="*{infoAreaCommon.lstChangeReasonCode[__${iterStat.index}__].label}"/>
+						</div>
+					</td>
+				</tr>
+				<tr th:if="${(notificationRegistration.updateNotification && notificationRegistration.screenId != 'GDA0110') || notificationRegistration.screenId == 'GDA0110' && notificationRegistration.infoAreaCommon.rdoChangeReason != null}">
+					<th class="table-common-col-2" colspan="2">建物の滅失その他の事由</th>
+					<td id="lostElseReasonBlock">
+						建物の滅失その他の事由の場合に選択してください。
+						<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'"
+							 th:each="item, iterStat : *{infoAreaCommon.lstLostElseReasonCode}"
+							 th:class="${iterStat.index} > 1 ? 'flex-row' : 'radio-and-label  radio-reason'">
+
+							<input type="radio" th:if="${iterStat.index < 2}"
+								   th:field="*{infoAreaCommon.rdoLostElseReasonCode}" class="radio-items r-dis"
+								   th:id="'r-' + ${iterStat.index + 2}" th:value="${item.value}">
+							<label th:if="${iterStat.index} < 2" th:for="'r-' + ${iterStat.index + 2}"
+								   th:text="${item.label}"></label>
+
+							<div th:if="${iterStat.index} > 1" class="radio-and-label radio-reason-1"
+								 th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'">
+								<input type="radio" id="r-4" th:field="*{infoAreaCommon.rdoLostElseReasonCode}"
+									   th:value="${item.value}" class="radio-items">
+								<label for="r-4" th:text="${item.label}"></label>
+							</div>
+							<input type="text" th:if="${iterStat.index} > 1"
+								   th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'"
+								   th:field="*{infoAreaCommon.txtLostElseReasonElse}" class="in-reason" maxlength="30">
+
+							<input type="hidden"
+								   th:field="*{infoAreaCommon.lstLostElseReasonCode[__${iterStat.index}__].value}"/>
+							<input type="hidden"
+								   th:field="*{infoAreaCommon.lstLostElseReasonCode[__${iterStat.index}__].label}"/>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table notification info -->
+
+	<!-- table overview mansion -->
+	<div class="table" id="a4" th:fragment="notification-info-area-common-overview-mansion" th:object="${notificationRegistration}">
+		<table class="table-overview-mansion" >
+			<thead>
+				<th class="table-common-title" colspan="3">
+					<div class="checkbox-div">
+						マンションの概要
+						<input type="button" class="btn-custom-border" id="btn-table-4" value="非表示"></input>
+					</div>
+				</th>
+			</thead>
+			<tbody id="tbody-4">
+				<tr>
+					<th class="table-common-th-1" rowspan="3">管理組合の形態</th>
+					<th class="table-common-th-1">団地管理組合か否か</th>
+					<td >
+						<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstGroupYesno}" class="radio-and-label radio-reason">
+							<input type="radio" th:field="*{infoAreaCommon.rdoGroupYesno}" class="radio-items" th:id="'r-' + ${iterStat.index + 5}" th:value="${item.value}">
+							<label th:for="'r-' + ${iterStat.index + 5}" th:text="${item.label}"></label>
+							<input type="hidden" th:field="*{infoAreaCommon.lstGroupYesno[__${iterStat.index}__].value}" />
+							<input type="hidden" th:field="*{infoAreaCommon.lstGroupYesno[__${iterStat.index}__].label}" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">棟数</th>
+					<td>
+						団地管理組合である場合に入力してください。
+						<br/>
+						全
+						<input th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" type="text" class="halfchar" th:field="*{infoAreaCommon.txtApartmentNumber}" maxlength="3">
+						棟
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">管理の形態</th>
+					<td id="managementFormBlock">
+						団地管理組合である場合に選択してください。
+						<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstGroupForm}" th:class="${item.label} != 'その他'  ? 'radio-and-label radio-reason': 'flex-row-2'">
+							<input type="radio" th:field="*{infoAreaCommon.rdoGroupForm}" class="radio-items" th:id="'r-' + ${iterStat.index + 8}" th:value="${item.value}" th:if="${item.label != 'その他'}">
+							<label th:for="'r-' + ${iterStat.index + 8}" th:text="${item.label}" th:if="${item.label != 'その他'}"></label>
+							
+							<div class="radio-and-label radio-reason-1" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:if="${item.label == 'その他'}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoGroupForm}" class="radio-items" th:id="'r-' + ${iterStat.index + 8}" th:value="${item.value}" th:if="${item.label == 'その他'}">
+								<label th:for="'r-' + ${iterStat.index + 8}" th:text="${item.label}"></label>
+							</div>
+							<input type="text" th:field="*{infoAreaCommon.txtGroupFormElse}" class="in-reason" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="30" th:if="${item.label == 'その他'}">
+							
+							<input type="hidden" th:field="*{infoAreaCommon.lstGroupForm[__${iterStat.index}__].value}" />
+							<input type="hidden" th:field="*{infoAreaCommon.lstGroupForm[__${iterStat.index}__].label}" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">戸数</th>
+					<td>
+						団地管理組合の場合は、各棟の戸数を記載してください。
+						<br/>
+						全
+						<input th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" type="text" maxlength="6" class="halfchar" th:field="*{infoAreaCommon.txtHouseNumber}" data-validation-engine="validate[custom[halfwidthNumbers], maxSize[6]]">
+						戸
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">階数</th>
+					<td>
+						<input type="text" maxlength="2" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtFloorNumber}" class="postal-code-1" data-validation-engine="validate[custom[halfwidthNumbers], maxSize[2]]"> <span class="span-blank">階</span>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">
+						新築年月日
+					</th>
+					<td class="text-date">
+							<div>
+								<span>(西暦)</span>
+                                <input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.calBuiltDate}" maxlength="10" class="text-input-date" id="calBuildDate"/>
+                                <img class="ui-datepicker-trigger clsCalBuildDate" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:src="@{/images/icon-calendar.svg}" alt="Choose" title="Choose">
+                            </div>
+					</td>
+				</tr>
+
+				<tr>
+					<th class="table-common-col-2" colspan="2">土地の権利</th>
+					<td>
+						<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstLandRights}" th:class="${item.label} != 'その他'  ? 'radio-and-label radio-reason': 'flex-row-2'">
+							<input type="radio" th:field="*{infoAreaCommon.rdoLandRights}" class="radio-items" th:id="'r-' + ${iterStat.index + 12}" th:value="${item.value}" th:if="${item.label != 'その他'}">
+							<label th:for="'r-' + ${iterStat.index + 12}" th:text="${item.label}" th:if="${item.label != 'その他'}"></label>
+							
+							<div class="radio-and-label radio-reason-1" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:if="${item.label == 'その他'}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoLandRights}" class="radio-items" th:id="'r-' + ${iterStat.index + 12}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 12}" th:text="${item.label}"></label>
+							</div>
+							<input type="text" th:field="*{infoAreaCommon.txtLandRightsElse}" class="in-reason" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="30" th:if="${item.label == 'その他'}">
+							
+							<input type="hidden" th:field="*{infoAreaCommon.lstLandRights[__${iterStat.index}__].value}" />
+							<input type="hidden" th:field="*{infoAreaCommon.lstLandRights[__${iterStat.index}__].label}" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">併設用途</th>
+					<td>
+						<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstUsefor}" th:class="${item.label} != 'その他'  ? 'radio-and-label radio-reason': 'flex-row-2'">
+							<input type="radio" th:field="*{infoAreaCommon.rdoUsefor}" class="radio-items" th:id="'r-' + ${iterStat.index + 17}" th:value="${item.value}" th:if="${item.label != 'その他'}">
+							<label th:for="'r-' + ${iterStat.index + 17}" th:text="${item.label}" th:if="${item.label != 'その他'}"></label>
+							
+							<div class="radio-and-label radio-reason-1" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:if="${item.label == 'その他'}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoUsefor}" class="radio-items" th:id="'r-' + ${iterStat.index + 17}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 17}" th:text="${item.label}"></label>
+							</div>
+							<input type="text" th:field="*{infoAreaCommon.txtUseforElse}" class="in-reason" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="30" th:if="${item.label == 'その他'}">
+							
+							<input type="hidden" th:field="*{infoAreaCommon.lstUsefor[__${iterStat.index}__].value}" />
+							<input type="hidden" th:field="*{infoAreaCommon.lstUsefor[__${iterStat.index}__].label}" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1" rowspan="6">管理形態</th>
+					<th class="table-common-th-1">管理形態</th>
+					<td >
+						<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstManagementForm}"  th:class="${item.label} != 'その他'  ? 'radio-and-label radio-reason': 'flex-row-2'">
+							<input type="radio" th:field="*{infoAreaCommon.rdoManagementForm}" class="radio-items" th:id="'r-' + ${iterStat.index + 22}" th:value="${item.value}" th:if="${item.label != 'その他'}">
+							<label th:for="'r-' + ${iterStat.index + 22}" th:text="${item.label}" th:if="${item.label != 'その他'}"></label>
+							<div class="radio-and-label radio-reason-1" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:if="${item.label == 'その他'}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoManagementForm}" class="radio-items" th:id="'r-' + ${iterStat.index + 22}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 22}" th:text="${item.label}"></label>
+							</div>
+							<input type="text" th:field="*{infoAreaCommon.txtManagementFormElse}" class="in-reason" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="30" th:if="${item.label == 'その他'}">
+							
+							<input type="hidden" th:field="*{infoAreaCommon.lstManagementForm[__${iterStat.index}__].value}" />
+							<input type="hidden" th:field="*{infoAreaCommon.lstManagementForm[__${iterStat.index}__].label}" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">管理業者名</th>
+					<td >
+						全部委託または一部委託の場合は記載してください。
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" class="fullchar" th:field="*{infoAreaCommon.txtManagerName}" maxlength="34">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">管理業者名フリガナ</th>
+					<td >
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" class="fullchar"  th:field="*{infoAreaCommon.txtManagerNamePhonetic}" maxlength="34">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">郵便番号</th>
+					<td >
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="3"  th:field="*{infoAreaCommon.txtManagerZipCode1}" id="txtManagerZipCode1" class="postal-code-1" data-validation-engine="validate[custom[halfwidthNumbers], minSize[3], maxSize[3]]"><span class="span-blank">-</span>
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="4" th:field="*{infoAreaCommon.txtManagerZipCode2}" id="txtManagerZipCode2" class="postal-code-2" data-validation-engine="validate[custom[halfwidthNumbers], minSize[4], maxSize[4]]">
+						<input type="button" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" id="validManagerZipCode" class="btn-custom-border button-custom-with82" value="自動入力"></input>
+					</td>
+				</tr>
+
+				<tr>
+					<th class="table-common-th-1">住所</th>
+					<td >
+						<input type="text" class="fullchar" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" id="lblManagerAddress1" th:field="*{infoAreaCommon.txtManagerAddress}" maxlength="100">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">電話番号</th>
+					<td >
+						<input type="text" maxlength="5" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtManagerTelno1}" class="number-phone-1"><span class="span-blank">-</span>
+						<input type="text" maxlength="4" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtManagerTelno2}" class="number-phone-2"><span class="span-blank">-</span>
+						<input type="text" maxlength="4" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtManagerTelno3}" class="number-phone-2">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table overview mansion -->
+
+	<!-- table  essentials to prevent management failure -->
+	<div class="table" id="a5" th:fragment="notification-info-area-common-essentials-to-prevent-management" th:object="${notificationRegistration}">
+		<table class="table-notification-info" >
+			<thead>
+				<th class="table-common-title" colspan="3">
+					<div class="checkbox-div">
+						管理不全を予防するための必須事項
+						<input type="button" class="btn-custom-border" id="btn-table-5" value="非表示"></input>
+					</div>
+				</th>
+			</thead>
+			<tbody id="tbody-5">
+				<tr>
+					<th class="table-common-col-2 madatory" colspan="2">
+						管理組合
+						<span class="form-note">必須</span>
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd053}" th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoGroup}" class="radio-items input-required" data-validation-engine="validate[minCheckbox[1]" th:id="'r-' + ${iterStat.index + 27}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 27}" th:text="${item.label}"></label>
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd053[__${iterStat.index}__].value}" />
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd053[__${iterStat.index}__].label}" />
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory" colspan="2">
+						管理者等
+						<span class="form-note">必須</span>
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd009}" th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoManager}"  class="radio-items input-required" data-validation-engine="validate[minCheckbox[1]" th:id="'r-' + ${iterStat.index + 29}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 29}" th:text="${item.label}"></label>
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd009[__${iterStat.index}__].value}" />
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd009[__${iterStat.index}__].label}" />
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory" colspan="2">
+						管理規約
+						<span class="form-note">必須</span>
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd053}" th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoRule}" data-validation-engine="validate[minCheckbox[1]" class="radio-items input-required" th:id="'r-' + ${iterStat.index + 31}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 31}" th:text="${item.label}"></label>
+							</div>
+						</div>
+						<div class="flex-row">
+							最終改正年（西暦）
+							<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtRuleChangeYear}" class="halfchar" maxlength="4">
+							年
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1 madatory" rowspan="2">
+						総会開催
+						<span class="form-note">必須</span>
+					</th>
+					<th class="table-common-th-1">年1回以上の開催</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd053}" th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoOneyearOver}" data-validation-engine="validate[minCheckbox[1]" class="radio-items input-required" th:id="'r-' + ${iterStat.index + 33}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 33}" th:text="${item.label}"></label>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">議事録</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd053}" th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoMinutes}" class="radio-items" th:id="'r-' + ${iterStat.index + 35}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 35}" th:text="${item.label}"></label>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory" colspan="2">
+						管理費
+						<span class="form-note">必須</span>
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd053}" th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoManagementCost}" data-validation-engine="validate[minCheckbox[1]" class="radio-items input-required" th:id="'r-' + ${iterStat.index + 37}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 37}" th:text="${item.label}"></label>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2 madatory" colspan="2">
+						修繕積立金
+						<span class="form-note">必須</span>
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd053}" th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoRepairCost}" data-validation-engine="validate[minCheckbox[1]" class="radio-items input-required" th:id="'r-' + ${iterStat.index + 39}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 39}" th:text="${item.label}"></label>
+							</div>
+						</div>
+						<div class="flex-row">
+							㎡当たり月額&nbsp;
+							<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtRepairMonthlycost}" class="halfchar13" maxlength="7">
+								円/㎡（月当たり）
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th class="table-common-col-2 madatory" colspan="2">
+						修繕の計画的な実施<br/>
+						（大規模な修繕工事）
+						<span class="form-note">必須</span>
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd053}" th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoRepairPlan}" data-validation-engine="validate[minCheckbox[1]" class="radio-items input-required" th:id="'r-' + ${iterStat.index + 41}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 41}" th:text="${item.label}"></label>
+							</div>
+						</div>
+						<div class="flex-row">
+							直近実施年 （西暦)
+							<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtRepairNearestYear}" class="halfchar" maxlength="4">
+							年
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table  essentials to prevent management failure -->
+
+	<!-- table appropriate maintenance -->
+	<div class="table" id="a6" th:fragment="notification-info-area-common-appropriate-maintenance" th:object="${notificationRegistration}">
+		<table class="table-oppropriate-maintenance" >
+			<thead>
+				<th class="table-common-title" colspan="3">
+					<div class="checkbox-div">
+						適正な維持管理に関する事項
+						<input type="button" class="btn-custom-border" id="btn-table-6" value="非表示"></input>
+					</div>
+				</th>
+			</thead>
+			<tbody id="tbody-6">
+				<tr>
+					<th class="table-common-col-2" colspan="2">
+						長期修繕計画
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+								<input type="radio" th:field="*{infoAreaCommon.rdoLongRepairPlan}" class="radio-items" th:id="'r-' + ${iterStat.index + 43}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 43}" th:text="${item.label}"></label>
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd002[__${iterStat.index}__].value}" />
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd002[__${iterStat.index}__].label}" />
+							</div>
+						</div>
+						<div class="input-repair">
+							最新作成年（西暦)
+							<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtLongRepairPlanYear}" class="halfchar" maxlength="4">
+							年
+						</div>
+						<div class="input-repair">
+							計画期間
+							<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtLongRepairPlanPeriod}" class="halfchar" maxlength="2">
+							年間
+						</div>
+						<div class="input-repair">
+							(西暦)
+							<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtLongRepairPlanYearFrom}" class="halfchar" maxlength="4">
+							年度 <span class="span-blank-1">～</span>
+							<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:field="*{infoAreaCommon.txtLongRepairPlanYearTo}" class="halfchar" maxlength="4">
+							年度
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">
+						滞納対応に関するルール
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+								<input type="radio" th:field="*{infoAreaCommon.rdoArrearageRule}" class="radio-items" th:id="'r-' + ${iterStat.index + 46}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 46}" th:text="${item.label}"></label>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">
+						区分所有者等名簿等
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+								<input type="radio" th:field="*{infoAreaCommon.rdoSegment}" class="radio-items" th:id="'r-' + ${iterStat.index + 49}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 49}" th:text="${item.label}"></label>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">
+						空き住戸
+					</th>
+					<td>
+						【割合】
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd010}" class="radio-and-label radio-reason">
+								<input type="radio" th:field="*{infoAreaCommon.rdoEmptyPercent}" class="radio-items" th:id="'r-' + ${iterStat.index + 52}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 52}" th:text="${item.label}"></label>
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd010[__${iterStat.index}__].value}" />
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd010[__${iterStat.index}__].label}" />
+							</div>
+						【戸数】<br/>
+						<input th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" data-validation-engine="validate[custom[halfwidthNumbers], maxSize[4]]" type="text" th:field="*{infoAreaCommon.txtEmptyNumber}" class="halfchar" maxlength="4">
+						戸
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">
+						賃貸化住戸
+					</th>
+					<td>
+						【割合】
+							<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd052}" class="radio-and-label radio-reason">
+								<input type="radio" th:field="*{infoAreaCommon.rdoRentalPercent}" class="radio-items" th:id="'r-' + ${iterStat.index + 130}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 130}" th:text="${item.label}"></label>
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd052[__${iterStat.index}__].value}" />
+								<input type="hidden" th:field="*{infoAreaCommon.lstCd052[__${iterStat.index}__].label}" />
+							</div>
+						【戸数】<br/>
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" data-validation-engine="validate[custom[halfwidthNumbers], maxSize[4]]" th:field="*{infoAreaCommon.txtRentalNumber}" class="halfchar" maxlength="4">
+						戸
+					</td>
+				</tr>
+
+				<tr>
+					<th class="table-common-th-1" rowspan="5">耐震化の状況</th>
+					<tr>
+						<th class="table-common-th-1"></th>
+						<td>
+							1981年5月31日以前に建築確認を受けたマンションである場合のみ回答してください。
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-th-1">耐震診断</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd011}" class="radio-and-label r-width-col-3">
+									<input type="radio" th:field="*{infoAreaCommon.rdoSeismicDiagnosis}" class="radio-items" th:id="'r-' + ${iterStat.index + 66}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 66}" th:text="${item.label}"></label>
+									<input type="hidden" th:field="*{infoAreaCommon.lstCd011[__${iterStat.index}__].value}" />
+									<input type="hidden" th:field="*{infoAreaCommon.lstCd011[__${iterStat.index}__].label}" />
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-th-1">耐震性</th>
+						<td>
+							耐震診断を実施済みの場合に回答してください。
+							<div class="checkbox-div">
+								<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd012}" class="radio-and-label r-width-col-3">
+									<input type="radio" th:field="*{infoAreaCommon.rdoEarthquakeResistance}" class="radio-items" th:id="'r-' + ${iterStat.index + 69}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 69}" th:text="${item.label}"></label>
+									<input type="hidden" th:field="*{infoAreaCommon.lstCd012[__${iterStat.index}__].value}" />
+									<input type="hidden" th:field="*{infoAreaCommon.lstCd012[__${iterStat.index}__].label}" />
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-th-1">耐震改修</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd011}" class="radio-and-label r-width-col-3">
+									<input type="radio" th:field="*{infoAreaCommon.rdoSeismicRetrofit}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 72}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 72}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tr>
+
+				<tr>
+					<th class="table-common-col-2" colspan="2">設計図書</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+								<input type="radio" th:field="*{infoAreaCommon.rdoDesignDocument}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 75}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 75}" th:text="${item.label}"></label>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2" colspan="2">
+						修繕履歴
+					</th>
+					<td>
+						<div class="checkbox-div">
+							<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+								<input type="radio" th:field="*{infoAreaCommon.rdoRepairHistory}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 78}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 78}" th:text="${item.label}"></label>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table  appropriate maintenance -->
+
+	<!-- table  issue improvement for social functions of mansion -->
+	<div class="table" id="a7" th:fragment="notification-info-area-common-issue-improvement-social" th:object="${notificationRegistration}">
+		<table class="table-improvenment-mansion" >
+			<thead>
+				<th class="table-common-title" colspan="2">
+					<div class="checkbox-div">
+						マンションの社会的機能の向上に資する取組に関する事項
+						<input type="button" class="btn-custom-border" id="btn-table-7" value="非表示"></input>
+					</div>
+				</th>
+			</thead>
+			<tbody id="tbody-7">
+				<tr>
+					<th class="table-title-th" colspan="2">防災への取組</th>
+					<tr>
+						<th class="table-common-col-2" >自主防災組織</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoVoluntaryOrganization}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 81}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 81}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >防災マニュアル</th>
+						<td>
+							<div class="checkbox-div">
+								<div  th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoDisasterPreventionManual}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 84}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 84}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >防災用品の備蓄</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoDisasterPreventionStockpile}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 87}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 87}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >避難行動要支援者名簿</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoNeedSupportList}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 90}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 90}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >防災訓練の定期的な実施</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoDisasterPreventionRegular}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 93}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 93}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tr>
+
+				<tr>
+					<th class="table-title-th" colspan="2">バリアフリー化・環境への取組又は実施</th>
+					<tr>
+						<th class="table-common-col-2" >エントランスのバリアフリー化（スロープの設置など）</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoSlope}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 96}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 96}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >共用廊下等への手すりの設置</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoRailing}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 99}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 99}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >エレベーターの設置</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoElevator}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 102}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 102}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >共用部分のLED化</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoLed}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 105}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 105}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >開口部の遮熱性能の向上（二重窓・外断熱等）</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoHeatShielding}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 108}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 108}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-common-col-2" >電気自動車等用充電設備の設置等</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoEquipmentCharge}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 111}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 111}" th:text="${item.label}"></label>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tr>
+
+				<tr>
+					<th class="table-title-th" colspan="2">地域コミュニティの形成等の取組</th>
+					<tr>
+						<th class="table-common-col-2" >地域コミュニティの形成等の取組</th>
+						<td>
+							<div class="checkbox-div">
+								<div th:each="item, iterStat : *{infoAreaCommon.lstCd002}" class="radio-and-label r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''} and *{infoAreaCommon.inActiveItem} ? 'disable-item'">
+									<input type="radio" th:field="*{infoAreaCommon.rdoCommunity}" class="radio-items r-width-col-3" th:classappend="${iterStat.index == 1?'r-midle-col-3' : ''}" th:id="'r-' + ${iterStat.index + 114}" th:value="${item.value}">
+									<label th:for="'r-' + ${iterStat.index + 114}" th:text="${item.label}"></label>
+								</div>
+							</div>
+							<p style="height: 2px; margin-top: 3px;">
+							例：町会・自治会との共催事業・協力連携イベント（祭り・運動会・防災訓練・清掃活動等）
+							</p>
+						</td>
+					</tr>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table  issue improvement for social functions of mansion -->
+
+	<!-- Table  contact information -->
+	<div class="table" id="a8" th:fragment="notification-info-area-common-contact-information" th:object="${notificationRegistration}">
+		<table class="table-contact-infor" >
+			<thead>
+				<th class="table-common-title" colspan="3">
+					<div class="checkbox-div">
+						連絡先
+						<input type="button" class="btn-custom-border" id="btn-table-8" value="非表示"></input>
+					</div>
+				</th>
+			</thead>
+			<tbody id="tbody-8">
+				<tr>
+					<th class="table-common-th-1 madatory" rowspan="8">
+						連絡窓口
+						<span class="form-note">必須</span>
+					</th>
+					<th class="table-common-th-1">属性</th>
+					<td>
+						<div th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:each="item, iterStat : *{infoAreaCommon.lstCd013}" th:class="${item.label} != 'その他'  ? 'radio-and-label radio-reason': 'flex-row-2'">
+							<input type="radio" th:field="*{infoAreaCommon.rdoContactProperty}" class="radio-items input-required" data-validation-engine="validate[minCheckbox[1]" th:id="'r-' + ${iterStat.index + 117}" th:value="${item.value}" name="rdoContactProperty" th:if="${item.label != 'その他'}">
+							<label th:for="'r-' + ${iterStat.index + 117}" th:text="${item.label}" th:if="${item.label != 'その他'}"></label>
+							<div class="radio-and-label radio-reason-1" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" th:if="${item.label == 'その他'}">
+								<input type="radio" th:field="*{infoAreaCommon.rdoContactProperty}" class="radio-items input-required" data-validation-engine="validate[minCheckbox[1]" th:id="'r-' + ${iterStat.index + 117}" th:value="${item.value}">
+								<label th:for="'r-' + ${iterStat.index + 117}" th:text="${item.label}"></label>
+							</div>
+							<input type="text" th:field="*{infoAreaCommon.txtContactPropertyElse}" class="in-reason" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="30" th:if="${item.label == 'その他'}">
+							
+							<input type="hidden" th:field="*{infoAreaCommon.lstCd013[__${iterStat.index}__].value}" />
+							<input type="hidden" th:field="*{infoAreaCommon.lstCd013[__${iterStat.index}__].label}" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">郵便番号</th>
+					<td>
+                        <input th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" type="text" id="txtContactZipCode1" maxlength="3" th:field="*{infoAreaCommon.txtContactZipCode1}" data-validation-engine="validate[required, custom[halfwidthNumbers], minSize[3], maxSize[3]]" class="postal-code-1 input-required"><span class="span-blank">-</span>
+                        <input th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" type="text" id="txtContactZipCode2" maxlength="4" th:field="*{infoAreaCommon.txtContactZipCode2}" data-validation-engine="validate[required, custom[halfwidthNumbers], minSize[4], maxSize[4]]" class="postal-code-2 input-required">
+                        <input th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" type="button"  id="validContactZipCode" class="btn-custom-border button-custom-with82" value="自動入力"></input>
+                    </td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">住所</th>
+					<td>
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" id="txtContactAddress" th:field="*{infoAreaCommon.txtContactAddress}" data-validation-engine="validate[required, custom[fullwidthCharacters], maxSize[100]]" maxlength="100" size="100" class="fullchar input-required">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">電話番号</th>
+					<td>
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="5" th:field="*{infoAreaCommon.txtContactTelno1}" data-validation-engine="validate[required, custom[halfwidthNumbers], maxSize[5]]" class="number-phone-1 input-required"><span class="span-blank">-</span>
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="4" th:field="*{infoAreaCommon.txtContactTelno2}" data-validation-engine="validate[required, custom[halfwidthNumbers], maxSize[4]]" class="number-phone-2 input-required"><span class="span-blank">-</span>
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="4" th:field="*{infoAreaCommon.txtContactTelno3}" data-validation-engine="validate[required, custom[halfwidthNumbers], maxSize[4]]" class="number-phone-2 input-required">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">氏名</th>
+					<td><input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="34" th:field="*{infoAreaCommon.txtContactName}" data-validation-engine="validate[required, maxSize[34], custom2[prohibitionCharacter]]" class="fullchar input-required"></td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">氏名フリガナ</th>
+					<td><input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="34" th:field="*{infoAreaCommon.txtContactNamePhonetic}" data-validation-engine="validate[required, custom[kana], maxSize[34]]" class="fullchar input-required"></td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">メールアドレス</th>
+					<td>オンラインによる届出の場合は必ず入力してください。
+						<input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="120" th:field="*{infoAreaCommon.txtContactMail}" class="fullchar">
+					</td>
+				</tr>
+				<tr>
+					<th class="table-common-th-1">メールアドレス （確認）</th>
+					<td><input type="text" th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" maxlength="120" th:field="*{infoAreaCommon.txtContactMailConfirm}" class="fullchar"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table  contact information -->
+
+	<!-- Table  optional information -->
+	<div class="table" id="a9" th:fragment="notification-info-area-common-optional-information" th:object="${notificationRegistration}">
+		<table class="table-optional-infor">
+			<thead>
+				<th class="table-common-title" colspan="2"> 任意項目情報</th>
+			</thead>
+			<tbody id="tbody-10">
+				<th class="table-common-col-2">自由記述欄</th>
+				<td>
+					<textarea th:classappend="*{infoAreaCommon.inActiveItem} ? 'disable-item'" data-validation-engine="validate[maxSize[300], custom2[prohibitionCharacter]]" maxlength="300" class="txaOptional" th:field="*{infoAreaCommon.txaOptional}" rows="4"></textarea>
+				</td>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table  optional information -->
+
+	<!-- Table  authority correction information -->
+	<div class="table" id="a10" th:fragment="authority-correction-information">
+		<table class="table-correction-infor">
+			<thead>
+			<th class="table-common-title" colspan="2"> 職権訂正情報</th>
+			</thead>
+			<tbody>
+			<th class="table-common-col-2">訂正内容</th>
+			<td>
+				<textarea rows="4" th:field="${notificationAcceptance.txaOrrectionDetails}" maxlength="500"></textarea>
+			</td>
+			</tbody>
+		</table>
+	</div>
+	<!-- end table  optional information -->
+
+	<!-- Area acceptance notification contents -->
+	<div class="table" id="a11" th:fragment="acceptance-notification" th:object="${notificationAcceptance}">
+		<table class="table-accept-notification">
+			<thead>
+			<th class="table-common-title" colspan="2">受理通知内容</th>
+			</thead>
+			<tbody>
+			<tr>
+				<th class="table-common-col-2 madatory">
+					様式名<span class="form-note">必須</span>
+				</th>
+				<td>
+					<input type="text" style="width: 50%;" class="halfchar" id="txtAppendixNo" th:field="*{txtAppendixNo}" data-validation-engine="validate[required, maxSize[20], custom2[prohibitionCharacter]]" maxlength="20">
+				</td>
+			</tr>
+			<tr>
+				<th class="table-common-col-2 madatory">
+					文書番号<span class="form-note">必須</span>
+				</th>
+				<td>
+					<input type="text" class="fullchar" id="txtDocumentNo" th:field="*{txtDocumentNo}" data-validation-engine="validate[required, maxSize[20],custom2[prohibitionCharacter]]" maxlength="20">
+				</td>
+			</tr>
+			<tr>
+				<th class="table-common-col-2 madatory">
+					通知年月日<span class="form-note">必須</span>
+				</th>
+				<td class="text-date">通知書には和暦で表示されます。<br />
+                    <div>
+                        <input type="text" class="text-input-date" id="calNoticeDate" name="calNoticeDate" th:value="*{calNoticeDate}" data-validation-engine="validate[required]" maxlength="10">
+                        <img class="ui-datepicker-trigger" id="calNoticeDateButton" th:src="@{/images/icon-calendar.svg}" alt="Choose" title="Choose">
+                    </div>
+				</td>
+			</tr>
+			<tr>
+				<th class="table-common-col-2">宛先(マンション名)</th>
+				<td id="lblRecipientNameApartment" th:text="*{lblRecipientNameApartment}"></td>
+				<input type="hidden" th:field="*{lblRecipientNameApartment}" name="lblRecipientNameApartment">
+			</tr>
+			<tr>
+				<th class="table-common-col-2">宛先(氏名等)</th>
+				<td><span id="labelRecipientNameUser"></span></td>
+				<input type="hidden" th:field="*{lblRecipientNameUser}">
+			</tr>
+			<tr>
+				<th class="table-common-col-2 madatory">
+					発信者名<span class="form-note">必須</span>
+				</th>
+				<td>
+					<input type="text" class="fullchar" th:field="*{txtSender}" data-validation-engine="validate[required, maxSize[20],custom2[prohibitionCharacter]]" maxlength="20">
+				</td>
+			</tr>
+			<tr>
+				<th class="table-common-col-2">届出日</th>
+				<td>
+					通知書には和暦で表示されます。<br />
+					<span id="labelNotificationDate" th:text="*{lblNotificationDate}"></span>
+					<input type="hidden" th:value="*{lblNotificationDate}" name="lblNotificationDate">
+				</td>
+			</tr>
+			<tr>
+				<th class="table-common-col-2 madatory">
+					根拠条文<span class="form-note">必須</span>
+				</th>
+				<td>
+					<span>第　<span id="lblEvidenceBarSpan" th:text="*{lblEvidenceBar}"></span>　条　　第</span>
+					<input type="hidden" th:field="*{lblEvidenceBar}" />
+					<div class="select-container select-rationale">
+						<select name="" id="lstEvidence2_1" class="select-search" th:field="*{lstEvidenceNo}" data-validation-engine="validate[required]">
+							<option value=""></option>
+							<option th:each="item, iterStat : ${CD042}" th:value="${item.value}" th:text="${item.label}"></option>
+						</select>
+						<select name="" id="lstEvidence2_2" class="select-search" th:field="*{lstEvidenceNo}" data-validation-engine="validate[required]">
+							<option value=""></option>
+							<option th:each="item, iterStat : ${CD043}" th:value="${item.value}" th:text="${item.label}"></option>
+						</select>
+					</div>&nbsp;&nbsp;&nbsp;　　項
+				</td>
+			</tr>
+			<tr>
+				<th class="table-common-col-2">備考</th>
+				<td>
+					<textarea name="" rows="4" th:field="*{txaRemarks}" th:text="*{txaRemarks}" data-validation-engine="validate[maxSize[300], custom2[prohibitionCharacter]]" maxlength="300"></textarea>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- End area acceptance notification contents -->
+
+	<!-- Area method notification -->
+	<div class="table" id="a12" th:fragment="method-notification">
+		<table class="table-notification">
+			<thead>
+			<th class="table-common-title" colspan="2">通知情報</th>
+			</thead>
+			<tbody>
+			<tr>
+				<th class="table-common-col-2 madatory">
+					通知方法<span class="form-note">必須</span>
+				</th>
+				<td>
+					<div th:each="item, iterStat : ${CD017}" class="radio-and-label radio-reason">
+						<input th:field="${notificationAcceptance.rdoNotificationMethod}" type="radio" class="radio-items" th:id="'radio-' + ${iterStat.index + 121}" th:value="${item.value}" name="rdoNotificationMethod" data-validation-engine="validate[minCheckbox[1]">
+						<label th:for="'radio-' + ${iterStat.index + 121}" th:text="${item.label}"></label>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- end area method notification -->
+	
+	<header id="mansion-header" th:fragment="mansion-header">
+		<div class="header">
+			<div class="logo-text">
+				<img class="logo-img" alt="logo" th:src="@{/images/logo.png}" />
+				<div class="title-header">
+					<span class="text-center">東京都マンション管理状況届出システム</span>
+				</div>
+			</div>
+
+			<div class="text-right"><a
+					href="http://www.metro.tokyo.jp/tosei/tosei/soshikijoho/soshiki/index.html" target="_blank">都庁総合ホームページ</a>
+			</div>		
+				<div class="text-right" sec:authorize="isAnonymous()">
+					<button class="btn-custom-border" onclick="openHelp('url')" id="btnHowToUse">ヘルプ</button>
+				</div>
+				
+					<div class="text-right" sec:authorize="!isAnonymous()">
+						<button class="btn-custom-border" sec:authorize="!isAnonymous()" style="margin-right: 10px;" onclick="openHelp('url')" id="btnHowToUse">ヘルプ</button>
+						<div id="logoutbutton">
+							<form sec:authorize="!isAnonymous() && hasRole('ROLE_MANSION')" th:action="@{/am/logout}" method="POST" id= "amLogout">
+								<button class="btn-custom-border"  value="submit">ログアウト</button>
+							</form>
+							<form sec:authorize="!isAnonymous() && !hasRole('ROLE_MANSION')" th:action="@{/gs/logout}" method="POST" id= "gsLogout">
+								<button class="btn-custom-border"  value="submit">ログアウト</button>
+							</form>
+						</div>
+					</div>
+					<div id="infoUser">
+						<span sec:authorize="!isAnonymous()" th:if="${#authentication.getPrincipal().getCurrentUserInformation().getLastTimeLoginTime() == null}" class="text-right" th:text="'最終ログイン日時： &nbsp;&nbsp;'"></span>
+						<span sec:authorize="!isAnonymous()" th:if="${#authentication.getPrincipal().getCurrentUserInformation().getLastTimeLoginTime() != null}" class="text-right" th:text="'最終ログイン日時：' + ${#temporals.format(#authentication.getPrincipal().getCurrentUserInformation().getLastTimeLoginTime(), 'yyyy/MM/dd HH:mm')} + ' &nbsp;&nbsp;'"></span>
+						<span sec:authorize="!isAnonymous()" class="text-left" th:text="'ユーザ名：' + ${#authentication.getPrincipal().getCurrentUserInformation().getDisplayName()}"></span>
+			   	    </div>
+		 </div>
+	</header>
+ 
+</body>
+</html>

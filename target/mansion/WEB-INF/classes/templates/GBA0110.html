@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>GBA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-3.0.0.js}">
+
+
+</head>
+
+<body>
+
+	<!-- header-->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header-->
+
+	<!-- main -->
+	<main>
+	<div class="main-header">
+		<div class="title-1">メニュー（区市町村／都職員用)</div>
+	</div>
+
+	<!-- main contents list menu -->
+	<div id="contents">
+		<div class="container-menu">
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/GJA0110'">届出受理</button>
+				</div>
+				<span class="container-65">届出情報を確認し、受理の登録と通知を行います。</span>
+			</div>
+			<div
+				th:if="${#authentication.getPrincipal().getCurrentUserInformation().getUserAuthority() == T(jp.lg.tokyo.metro.mansion.todokede.common.enumerated.UserAuthority).CAN_BE_USE}"
+				class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/GJA0110'">助言通知</button>
+				</div>
+				<span class="container-65">受理済みの届出情報をもとに、管理組合/区分所有者へ助言の通知を行います。</span>
+			</div>
+
+			<div
+				th:if="${#authentication.getPrincipal().getCurrentUserInformation().getUserAuthority() == T(jp.lg.tokyo.metro.mansion.todokede.common.enumerated.UserAuthority).CAN_BE_USE}"
+				class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/GJA0110'">現地調査通知</button>
+				</div>
+				<span class="container-65">管理組合/区分所有者へ現地調査を行う日程の通知を行います。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/GEC0110'">経過記録一括登録</button>
+				</div>
+				<span class="container-65">経過記録をアップロードファイルから一括登録します。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/GJA0110'">マンション情報検索</button>
+				</div>
+				<span class="container-65">登録されているマンション情報の検索を行います。マンション情報/届出状況/受理状況が確認できます。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/GJKA0110'">データ集計</button>
+				</div>
+				<span class="container-65">集計項目・集計単位を選択しデータ集計を行います。集計結果をダウンロードできます。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/GCA0110'">登録審査</button>
+				</div>
+				<span class="container-65">新規ユーザ登録に対する審査を行います。</span>
+			</div>
+
+			<div
+				th:if="${#authentication.getPrincipal().getCurrentUserInformation().getUserTypeCode().getCode() == T(jp.lg.tokyo.metro.mansion.todokede.common.enumerated.UserTypeCode).SYSTEM_ADMIN}"
+				class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/ABA0110'">都区市町村ユーザ管理</button>
+				</div>
+				<span class="container-65">都区市町村ユーザ情報の確認/追加/変更を行います。</span>
+			</div>
+
+			<div
+				th:if="${#authentication.getPrincipal().getCurrentUserInformation().getUserTypeCode().getCode() == T(jp.lg.tokyo.metro.mansion.todokede.common.enumerated.UserTypeCode).SYSTEM_ADMIN}"
+				class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/AAA0110'">マンション情報アップロード</button>
+				</div>
+				<span class="container-65">マンション基本情報をアップロードファイルから一括登録します。</span>
+			</div>
+
+			<div class="text-bgbrow">
+				<div class="container-30">
+					<button type="button" class="btn btn-100"
+						th:onclick="window.location.href='/GBA0110/changePassword'">パスワード変更</button>
+				</div>
+				<span class="container-65">パスワードの変更を行います。</span>
+			</div>
+		</div>
+	</div>
+
+	</main>
+	<!-- end main -->
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+	<!-- js -->
+	<script th:src="@{/js/jquery-ui/jquery-ui.js}"></script>
+	<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+	<script th:src="@{/js/jquery.validationEngine.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/jquery.validationEngine-ja.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/main.js}"></script>
+	<script th:src="@{/js/movescreen.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			if (window.sessionStorage) {
+				var screenID = sessionStorage.getItem("screenID");
+				sessionStorage.clear();
+				sessionStorage.setItem("screenID", screenID);
+			}
+		})
+	</script>
+	<!-- end js -->
+
+</body>
+
+</html>

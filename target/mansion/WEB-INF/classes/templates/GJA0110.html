@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>GJA0110</title>
+
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+</head>
+<body>
+	<!-- header -->
+	<header>
+		<div class="header">
+			<div class="logo-text">
+				<img class="logo-img" src="./images/logo.png" />
+				<div class="title-header">
+					<span class="text-center">東京都マンション管理状況届出システム111</span>
+				</div>
+			</div>
+
+			<div class="text-right">
+				<a
+					href="http://www.metro.tokyo.jp/tosei/tosei/soshikijoho/soshiki/index.html">都庁総合ホームページ</a>
+			</div>
+			<div class="text-right">
+				<button class="btn-custom-border" style="margin-right: 10px;"
+					onclick="location.href='./AAA.html'">ヘルプ</button>
+				<button class="btn-custom-border"
+					onclick="location.href='./AAA.html'">ログアウト</button>
+			</div>
+			<div class="text-right">最終ログイン日時：2019/10/01 15：00 &nbsp;&nbsp;</div>
+			<div class="text-left">ユーザ名：○○マンション</div>
+		</div>
+	</header>
+	<!-- end header -->
+
+	<!-- main -->
+	<main> <!-- title -->
+	<div class="main-header">
+		<div class="title-1">マンション情報検索</div>
+	</div>
+	<!-- end title --> <!-- content -->
+	<div id="contents">
+		<div class="turn-back">
+			<span class="column-1"><a href="GBA0110.html">メニューへ戻る</a></span>
+			<button class="btn-custom-border"
+				onclick='window.location = "GJA0120.html";'>戻る</button>
+		</div>
+
+		<!-- text are title -->
+		<div class="text-are-title">
+			<span>マンション情報を検索します。<br> 検索条件を指定し、「検索」ボタンをクリックしてください。
+			</span>
+		</div>
+		<!-- end text are title -->
+
+		<!-- alert error -->
+		<div class="alert-error">
+			<span>XXXX-E:検索結果が1000件を超えました。検索条件を絞り込んで再度検索してください。</span>
+		</div>
+		<!-- end alert error -->
+
+		<!-- table 1 -->
+		<div class="table">
+			<table class="table-1">
+				<thead>
+					<tr>
+						<th colspan="2">
+							<div class="checkbox-div">
+								検索条件
+								<button class="btn-custom-border">検索条件クリア</button>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>マンションID</th>
+						<td><input type="text" class="textbox-30"></td>
+					</tr>
+					<tr>
+						<th>マンション名（部分一致）</th>
+						<td><input type="text" class="text-input-1"></td>
+					</tr>
+					<tr>
+						<th>マンション名フリガナ（部分一致）</th>
+						<td><input type="text" class="text-input-1"></td>
+					</tr>
+					<tr>
+						<th rowspan="3">所在地</th>
+						<td>届出の内容と一致する情報が検索されます。<br>
+							※ハイフンつなぎ（●●１－１－１）と正式名称（●●１丁目１番地１号）では検索結果が異なります。
+						</td>
+					</tr>
+					<tr>
+
+						<td>
+							<div class="select-width-text">
+								<select class="select-search">
+									<option></option>
+									<option>港区</option>
+									<option>港区</option>
+								</select>
+							</div>
+						</td>
+					</tr>
+					<tr>
+
+						<td><input type="text" class="text-input-1"></td>
+					</tr>
+					<tr>
+						<th>受付番号（完全一致）</th>
+						<td><input type="text" class="textbox-30"></td>
+					</tr>
+					<tr>
+						<th>届出状況</th>
+						<td>
+							<div class="checkbox-div">
+								<div class="radio-and-label r-width-1">
+									<input name="radio" class="radio-items" id="radio-10"
+										type="radio"> <label for="radio-10">指定しない</label>
+								</div>
+								<div class="radio-and-label r-width-1">
+									<input name="radio" class="radio-items" id="radio-11"
+										type="radio"> <label for="radio-11">未届</label>
+								</div>
+								<div class="radio-and-label r-width-1">
+									<input name="radio" class="radio-items" id="radio-12"
+										type="radio"> <label for="radio-12">届出済</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>届出日</th>
+						<td class="text-date"><input type="text" maxlength="10"
+							class="text-input-date date-picker" id="datepicker-1-noTime"
+							value="2019/01/01"> <!-- <img class="ui-datepicker-trigger correspondDate" src="images/icon-calendar.svg" alt="Choose" title="Choose" id="button-datepicker-1"> -->
+							<span>~</span> <input type="text" maxlength="10"
+							class="text-input-date date-picker" id="datepicker-2-noTime"
+							value="2019/01/01"> <!-- <img class="ui-datepicker-trigger correspondDate" src="images/icon-calendar.svg" alt="Choose" title="Choose" id="button-datepicker-2"> -->
+						</td>
+					</tr>
+					<tr>
+						<th>受理状況</th>
+						<td>
+							<div class="checkbox-div">
+								<div class="radio-and-label r-width-1">
+									<input name="radio2" class="radio-items " id="radio-1"
+										type="radio"> <label for="radio-1">指定しない</label>
+								</div>
+								<div class="radio-and-label r-width-1">
+									<input name="radio2" class="radio-items" id="radio-2"
+										type="radio"> <label for="radio-2">未受理</label>
+								</div>
+								<div class="radio-and-label r-width-1">
+									<input name="radio2" class="radio-items" id="radio-3"
+										type="radio"> <label for="radio-3">受理済</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>助言状況</th>
+						<td>
+							<div class="checkbox-div">
+								<div class="radio-and-label r-width-1">
+									<input name="radio3" class="radio-items" id="radio-4"
+										type="radio"> <label for="radio-4">指定しない</label>
+								</div>
+								<div class="radio-and-label r-width-1">
+									<input name="radio3" class="radio-items" id="radio-5"
+										type="radio"> <label for="radio-5">未通知</label>
+								</div>
+								<div class="radio-and-label r-width-1">
+									<input name="radio3" class="radio-items" id="radio-6"
+										type="radio"> <label for="radio-6">通知済</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>督促通知状況</th>
+						<td>
+							<div class="checkbox-div">
+								<div class="radio-and-label r-width-1">
+									<input name="radio4" class="radio-items" id="radio-7"
+										type="radio"> <label for="radio-7">指定しない</label>
+								</div>
+								<div class="radio-and-label r-width-1">
+									<input name="radio4" class="radio-items" id="radio-8"
+										type="radio"> <label for="radio-8">1回目用のみ出力済</label>
+								</div>
+								<div class="radio-and-label r-width-1">
+									<input name="radio4" class="radio-items" id="radio-9"
+										type="radio"> <label for="radio-9">2回目以降用出力済</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>新築年月日</th>
+						<td class="text-date"><input type="text" maxlength="10"
+							class="text-input-date date-picker" id="datepicker-3-noTime"
+							value="2019/01/01"> <!-- <img class="ui-datepicker-trigger correspondDate" src="images/icon-calendar.svg" alt="Choose" title="Choose" id="button-datepicker-3"> -->
+							<span>~</span> <input type="text" maxlength="10"
+							class="text-input-date date-picker" id="datepicker-4-noTime"
+							value="2019/01/01"> <!-- <img class="ui-datepicker-trigger correspondDate" src="images/icon-calendar.svg" alt="Choose" title="Choose" id="button-datepicker-4"> -->
+
+						</td>
+					</tr>
+					<tr>
+						<th>戸数</th>
+						<td><input type="text" class="textbox-15">
+							&nbsp;&nbsp;&#126;&nbsp;&nbsp; <input type="text"
+							class="textbox-15"></td>
+					</tr>
+					<tr>
+						<th>階数</th>
+						<td><input type="text" class="textbox-15">
+							&nbsp;&nbsp;&#126;&nbsp;&nbsp; <input type="text"
+							class="textbox-15"></td>
+					</tr>
+					<tr>
+						<th>建物の滅失</th>
+						<td><input class="checkbox-item checkbox-2" id="cb2"
+							type="checkbox" checked> <label for="cb2">建物を滅失したマンションを除く</label>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- end table 1 -->
+
+		<!-- button mid -->
+		<div class="btn-bottom">
+			<button type="submit" class="btn btn-black" onclick="search()">検索</button>
+		</div>
+		<!-- end button mid -->
+
+		<!-- table 2 -->
+		<div class="table">
+			<table class="table-1">
+				<thead>
+					<tr>
+						<th colspan="2">検索結果</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<!-- end table 2 -->
+		<div th:object="${searchInformationMansion}">
+			<!-- table 3 -->
+			<div class="table table-margin0">
+				<span>全</span><span th:text="${numberOfMansion}"></span><span>件</span>
+
+				<!-- select -->
+				<div class="select-containerr">
+					<div class="select-container-20">
+						<select class="select-search">
+							<option>届出日（降順）</option>
+							<option>届出日（降順）</option>
+						</select>
+					</div>
+				</div>
+				<!-- end select -->
+				<table class="table-2">
+					<thead>
+						<tr>
+							<th style="width: 1%;">No.</th>
+							<th style="width: 7%;">マンションID</th>
+							<th style="width: 12%;">マンション名</th>
+							<th style="width: 7%;">住所</th>
+							<th style="width: 7%;">届出日</th>
+							<th style="width: 4%;">届出</th>
+							<th style="width: 4%;">受理</th>
+							<th style="width: 1%;">参照</th>
+						</tr>
+
+					</thead>
+
+
+					<tr th:each="mansionInfo,state : ${searchInformationMansion}">
+						<td th:utext="${state.count } "></td>
+						<td th:utext="${mansionInfo.lblApartmentId}"></td>
+						<td class="left-text"><a class="blue-text" href=""
+							th:utext="${mansionInfo.lnkApartmentName}"></a></td>
+						<td class="left-text" th:utext="${mansionInfo.lblAddress}">港区赤坂１－１</td>
+						<td th:utext="${mansionInfo.lblNotificationDate}"></td>
+						<td th:utext="${mansionInfo.lblNotificationStatus}"></td>
+						<td th:utext="${mansionInfo.lblAcceptStatus}">-</td>
+						<td th:switch="${mansionInfo.lblNotificationStatus}">
+							<button th:case="'未届'"
+								class="btn-custom-border button-custom-with82"
+								onclick="notificationAcceptance()">届出受理</button>
+							<div th:case="'届出済'">
+								<button class="btn-custom-border button-custom-with82"
+									onclick="progressRecord()">経過記録</button>
+								<button class="btn-custom-border button-custom-with82"
+									onclick="notificationAcceptance()">届出受理</button>
+							</div>
+
+						</td>
+					</tr>
+
+
+					</tbody>
+				</table>
+			</div>
+			<!-- end table 3 -->
+
+			<!-- phan trang -->
+			<div>
+				<div class="list-menu">
+					<span class="collapse"><a href="#">最初</a></span>｜ <span
+						class="collapse "><a href="#">前へ</a></span>｜ <span
+						class="collapse "><a href="#">1</a></span>｜ <span
+						class="collapse "><a href="#">2</a></span>｜ <span
+						class="collapse "><a href="#">3</a></span>｜ <span
+						class="collapse "><a href="#">次へ</a></span>｜ <span
+						class="collapse "><a href="#">最後</a></span>
+				</div>
+			</div>
+			<!-- end phan trang -->
+
+			<!-- turn back -->
+			<span th:text="${numberOfMansion}"></span>
+			<div class="turn-back">
+
+				<button th:if="${numberOfMansion == 0}" type="submit"
+					class="btn btn-black btn-end-1" disabled>CSVファイル出力</button>
+				<button th:unless="${numberOfMansion == 0}" type="submit"
+					class="btn btn-black btn-end-1">CSVファイル出力</button>
+
+				<button class="btn-custom-border"
+					onclick='window.location = "GJA0120.html";'>戻る</button>
+			</div>
+		</div>
+		<!-- end turn back -->
+	</div>
+	<!-- end content --> </main>
+	<!-- end main-->
+
+	<!-- footer -->
+	<footer>
+		<div class="footer">
+			<span class="text-big"><a href="#">問合せ</a>／<a href="#">サイトポリシー</a></span>
+			<span class="text-small"> Copyright (C) 2020 Tokyo
+				Metropolitan Government. All Rights Reserved. </span>
+		</div>
+	</footer>
+	<!-- end footer -->
+
+	<!-- js -->
+	<script src="./lib/jquery-ui/jquery-ui.js"></script>
+	<script src="./js/main.js"></script>
+	<script src="./js/movescreen.js"></script>
+	<!-- end js -->
+
+</body>
+
+</html>

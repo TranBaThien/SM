@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>SBA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+<script th:src="@{/js/jquery.validationEngine.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/jquery.validationEngine-ja.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/main.js}"></script>
+</head>
+
+<body>
+
+	<header>
+		<div class="header">
+			<div class="logo-text">
+				<img class="logo-img" src="./images/logo.png" />
+				<div class="title-header">
+					<span class="text-center">東京都マンション管理状況届出システム</span>
+				</div>
+			</div>
+
+			<div class="text-right">
+				<a
+					href="http://www.metro.tokyo.jp/tosei/tosei/soshikijoho/soshiki/index.html">都庁総合ホームページ</a>
+			</div>
+			<div class="text-right">
+				<button class="btn-logout" style="margin-right: 10px;"
+					onclick="location.href='./AAA.html'">ヘルプ</button>
+				<button class="btn-logout" onclick="location.href='./AAA.html'">ログアウト</button>
+			</div>
+			<div class="text-right">最終ログイン日時：2019/10/01 15：00 &nbsp;&nbsp;</div>
+			<div class="text-left">ユーザ名：○○マンション</div>
+		</div>
+	</header>
+
+	<main>
+	<div class="main-header">
+		<div class="title-1">パスワード変更</div>
+	</div>
+	<div id="contents">
+		<div class="turn-back">
+			<span class="column-1"><a href="MBA0110.html">メニューへ戻る</a></span>
+			<button class="btn-logout" onclick="location.href='./MBA0110.html'">戻る</button>
+		</div>
+
+		<div class="text-are-title">
+			<span> 初期パスワードを変更してください。<br>
+				パスワード有効期限が切れています。パスワードを変更してください。
+			</span>
+		</div>
+
+		<div class="alert-error">
+			<span> XXXX-E：現在のパスワードに誤りがあります。 </span>
+		</div>
+		<div class="table">
+			<table class="table-thead-1">
+				<thead>
+					<tr>
+						<td class="table-thead-td-1" colspan="2">ログイン情報</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="table-tbody-td-1">現在のパスワード</td>
+						<td><input type="text" class="text-input-1"></td>
+					</tr>
+					<tr>
+						<td class="table-tbody-td-1">新しいパスワード</td>
+						<td><input type="text" class="text-input-1"></td>
+					</tr>
+					<tr>
+						<td class="table-tbody-td-1">新しいパスワード（確認）</td>
+						<td class="text-colums-2"><input type="text"
+							class="text-input-1"></td>
+					</tr>
+					<tr>
+						<td class="table-tbody-td-1">メールアドレス</td>
+						<td><input type="text" class="text-input-1"></td>
+					</tr>
+					<tr>
+						<td class="table-tbody-td-1">メールアドレス（確認）</td>
+						<td><input type="text" class="text-input-1"></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="btn-bottom">
+				<button type="submit" class="btn btn-black" onclick="Changepass()">変更</button>
+			</div>
+		</div>
+		<div style="margin-top: 40px;" class="turn-back-bottom">
+			<button class="btn-logout" onclick="location.href='./MBA0110.html'">戻る</button>
+		</div>
+	</div>
+	</main>
+
+	<footer>
+		<div class="footer">
+			<span class="text-big">問合せ／サイトポリシー</span> <span class="text-small">
+				Copyright (C) 2020 Tokyo Metropolitan Government. All Rights
+				Reserved. </span>
+		</div>
+	</footer>
+
+
+</body>
+
+</html>

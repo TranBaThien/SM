@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>ABA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+
+<script>
+        $(document).ready(function(){
+            var count = "[[${count}]]";
+            var errorMesage = "[[${errorMesage}]]";
+            if(errorMesage == ''){
+                $("#messageErrorDiv").hide();
+            }
+        });
+    </script>
+</head>
+
+<body>
+	<!-- header -->
+	<header>
+		<div class="header">
+			<div class="logo-text">
+				<img class="logo-img" src="./images/logo.png" />
+				<div class="title-header">
+					<span class="text-center">東京都マンション管理状況届出システム</span>
+				</div>
+			</div>
+
+			<div class="text-right">
+				<a
+					href="http://www.metro.tokyo.jp/tosei/tosei/soshikijoho/soshiki/index.html">都庁総合ホームページ</a>
+			</div>
+			<div class="text-right">
+				<button class="btn-custom-border" style="margin-right: 10px;"
+					onclick="openHelp('url')" id="btnHowToUse">ヘルプ</button>
+				<button class="btn-custom-border"
+					onclick="location.href='./AAA.html'">ログアウト</button>
+			</div>
+			<div class="text-right">最終ログイン日時：2019/10/01 15：00 &nbsp;&nbsp;</div>
+			<div class="text-left">ユーザ名：○○マンション</div>
+		</div>
+	</header>
+	<!-- end header -->
+
+	<main> <!-- title -->
+	<div class="main-header">
+		<div class="title-1">都区市町村ユーザ一覧</div>
+	</div>
+	<!-- end title --> <!-- contents -->
+	<div id="contents">
+
+		<!-- turn back -->
+		<div class="turn-back">
+			<span class="column-1"><a href="./GBA0110">メニューへ戻る</a></span>
+			<button class="btn-custom-border"
+				onclick="windown.location.href='./GBA0110'">戻る</button>
+		</div>
+		<!-- end turn back -->
+
+		<!-- text are title -->
+		<div class="text-are-title">
+			<span>都職員、区市町村のユーザを表示します。<br>
+				ユーザを追加する場合は、「ユーザ追加」ボタンをクリックしてください。<br>
+				ユーザ情報を変更する場合は、該当するユーザの「変更」ボタンをクリックしてください。
+			</span>
+		</div>
+		<!-- end text are title -->
+
+		<!-- alert error -->
+		<div class="alert-error" id="messageErrorDiv">
+			<span>XXXX-E：既に他のユーザによってユーザ情報が変更されました。</span>
+		</div>
+		<!-- end alert error -->
+
+		<div class="btn-right-margintop20">
+			<button class="btn btn-black" type="submit"
+				onclick="location.href='ABB0110.html'">ユーザ追加</button>
+		</div>
+
+		<div class="text-bg92CDDC">ユーザ一覧</div>
+
+		<!-- table 2 -->
+		<div class="table table-margin10">
+			全 <span th:text="${count}"></span>件
+			<table class="table-2">
+				<thead>
+					<tr>
+						<th style="width: 1%;">No.</th>
+						<th style="width: 7%;">ログインID</th>
+						<th style="width: 12%;">氏名</th>
+						<th style="width: 7%;">区市町村</th>
+						<th style="width: 7%;">ログイン状態</th>
+						<th style="width: 4%;">利用状態</th>
+						<th style="width: 4%;">ログイン<br>失敗回数
+						</th>
+						<th style="width: 1%;">操作</th>
+					</tr>
+
+				</thead>
+				<tbody>
+					<th:block th:each="user, iter: ${userList}">
+						<tr>
+							<td class="alg-l" th:text="${iter.index}"></td>
+							<td th:text="${user.loginId}"></td>
+							<td class="left-text" th:text="${user.userName}"></td>
+							<td th:text="${user.cityName}"></td>
+							<td th:text="${user.loginStatusFlag}"></td>
+							<td th:text="${user.availability}"></td>
+							<td th:text="${user.loginErrorCount}"></td>
+							<td><button class="btn-custom-border button-custom-with82"
+									onclick="location.href='@{/GBA0110/{id}(id=${user.userId})}'">変更</button></td>
+						</tr>
+					</th:block>
+
+				</tbody>
+			</table>
+		</div>
+		<!-- end table 2 -->
+
+		<!-- turn back bottom -->
+		<div class="btn-right-margintop20">
+			<button class="btn-custom-border"
+				onclick="windown.location.href='./GBA0110'">戻る</button>
+		</div>
+		<!-- end turn back bottom -->
+	</div>
+	<!-- end contents --> </main>
+
+	<!-- footer -->
+	<footer>
+		<div class="footer">
+			<span class="text-big"><a href="#">問合せ</a>／<a href="#">サイトポリシー</a></span>
+			<span class="text-small"> Copyright (C) 2020 Tokyo
+				Metropolitan Government. All Rights Reserved. </span>
+		</div>
+	</footer>
+	<!-- end footer -->
+
+	<!-- js -->
+	<script src="./lib/jquery-ui/jquery-ui.js"></script>
+	<script src="./js/main.js"></script>
+	<script src="./js/movescreen.js"></script>
+	<!-- end js -->
+
+</body>
+
+</html>

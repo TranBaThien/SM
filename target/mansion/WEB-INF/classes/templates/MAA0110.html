@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>MAA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/css/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/jquery.validationEngine.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/jquery.validationEngine-ja.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/const.js}"></script>
+
+</head>
+
+<body>
+
+	<!-- header-->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header-->
+
+	<!-- main -->
+	<main> <!-- title of the page -->
+	<div class="main-header">
+		<div class="title-1">都区市町村ログイン</div>
+	</div>
+	<!-- title of the page --> <!-- creat user -->
+	<div id="contents">
+		<div class="btn-bottom btn-end">
+			<button type="submit" class="btn btn-black"
+				onclick="RegisterAccount()">新規ユーザ登録</button>
+		</div>
+
+		<!-- Error area -->
+		<div class="alert-error" hidden>
+			<span id="lblErrorMsg" th:text="${errorMessage}"></span>
+		</div>
+		<!-- End Error area -->
+
+		<form id="amLoginForm" th:action="@{/am/login}" method="POST">
+			<!-- import login -->
+			<div class="login-box-container">
+				<table class="table-text-1">
+					<tbody>
+						<tr>
+							<td class="text-th-2">ログインID</td>
+							<td><label> <input type="text" name="txtLoginId"
+									data-validation-engine="validate[maxSize[8]]"
+									class="text-input-1">
+							</label></td>
+						</tr>
+						<tr>
+							<td class="text-th-2">パスワード</td>
+							<td><label> <input type="password"
+									name="pwdPassword"
+									data-validation-engine="validate[maxSize[16]]"
+									class="text-input-1">
+							</label></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="text-box">
+				<a id="termsConditionsUrl" href="javascript: void(0)"><u>利用規約</u></a>
+			</div>
+			<!-- end enter login information -->
+
+			<div class="text-box">
+				<input id="chkTermsConditions" type="checkbox" class="checkbox-item"
+					name="chkTermsConditions"> <label for="chkTermsConditions">利用規約を確認しました</label>
+			</div>
+
+			<div class="btn-bottom">
+				<button name="btnLogin" type="button" class="btn btn-black">ログイン</button>
+			</div>
+
+
+			<!-- forgot password-->
+			<div class="text-box">
+				パスワードが不明な方は<a href="javascript:void(0)"
+					onclick="goForgotPasswordScreen()">こちら</a>
+			</div>
+			<!-- end forgot password-->
+
+		</form>
+
+
+		<!-- notify the user -->
+		<div class="login-box-container">
+			<table class="table-text-1">
+				<thead>
+					<tr>
+						<td colspan="2" class="text-th-1">ユーザへのお知らせ</td>
+					</tr>
+					<tr class="text-th-2">
+						<td class="text-th-3" style="text-align: center;">日付</td>
+						<td style="text-align: center;">タイトル</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td
+							th:text="${#temporals.format(loginNotice.updateDateTime, 'yyyy/MM/dd')}"></td>
+						<td><a th:href="${loginNotice.setPoint}"
+							th:text="${loginNotice.setTargetNameJp}"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	</main>
+	<!-- end main -->
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+	<script>
+		const currentScreenId = "MAA0110";
+		const chkTermsConditionsKey = "MAA0110_chkTermsConditions";
+		const screenId = "screenId";
+		$(document).ready(function() {
+			const errorMessage = "[[${errorMessage}]]";
+			if (errorMessage) {
+				$(".alert-error").attr("hidden", false);
+			}
+
+			$("#chkTermsConditions").prop('checked', false);
+			$("button[name='btnLogin']").prop('disabled', true);
+			if (window.sessionStorage) {
+				sessionStorage.clear();
+				sessionStorage.setItem(screenId, currentScreenId);
+			}
+
+			$("input[name='txtLoginId']").focus();
+		});
+
+		$("#amLoginForm").validationEngine({
+			promptPosition: "bottomLeft",
+			showArrowOnRadioAndCheckbox: true,
+			focusFirstField: true,
+			scroll: false
+		});
+
+		$("#chkTermsConditions").change(function() {
+			if($("#chkTermsConditions").is(':checked') && sessionStorage.getItem(chkTermsConditionsKey) === "ON") {
+				$("button[name='btnLogin']").prop('disabled', false);
+			} else {
+				$("button[name='btnLogin']").prop('disabled', true);
+			}
+		});
+
+		$("#termsConditionsUrl").click(function () {
+			sessionStorage.setItem(chkTermsConditionsKey, "ON");
+			if($("#chkTermsConditions").is(':checked')) {
+				$("button[name='btnLogin']").prop('disabled', false);
+			}
+			window.open("SAA0110", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=700");
+		});
+
+		$("button[name='btnLogin']").click(function () {
+			$(".alert-error").empty();
+			if (!$("button[name='btnLogin']").disabled) {
+				const username = $.trim($("input[name='txtLoginId']").val());
+				const errorMessages = [];
+				if (!username) {
+					errorMessages.push(getMessage("E0002", "ログインID"));
+				}
+				const password = $.trim($("input[name='pwdPassword']").val());
+				if (!password) {
+					errorMessages.push(getMessage("E0002", "パスワード"));
+				}
+
+				if (errorMessages.length > 0) {
+					$(".alert-error").attr("hidden",false);
+					jQuery.each( errorMessages, function( i, val ) {
+						$(".alert-error").append('<span>' + val +'</span><br/>');
+					});
+					return;
+				}
+				$("#amLoginForm").submit();
+			}
+		});
+
+		function goForgotPasswordScreen() {
+	        sessionStorage.setItem('previousScreen', 'MAA0110');
+	        window.location.href = '/SCA0110';
+	    }
+	</script>
+</body>
+
+</html>

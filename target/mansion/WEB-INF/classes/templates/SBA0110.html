@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>SBA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/css/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<script>
+/* 	$(document).ready(function(){
+	   	$("#button3").click(function() {
+		$("#div3").dialog({
+			modal:true, //モーダル表示
+			title: "テストダイアログ",//タイトル
+			buttons: { //ボタン
+			"OK": function() {
+				$(this).dialog("close");
+				form[0].submit();
+				},
+			"キャンセル": function() {
+				$(this).dialog("close");
+				}
+			},
+		});
+	});
+	
+ 	var message = "[[${success}]]";
+	if (message !== '') {
+		$("#div4")
+			.dialog({
+				modal:true,
+				title:"テストダイアログ",
+				buttons: {
+    				"OK": function() {
+    					form[0].submit();
+    				}
+				}
+		});
+	} 
+	
+	$(".formUpdate").validationEngine({
+		// 以下のパラメータは任意
+		promptPosition: "bottomLeft",//エラー文の表示位置
+		showArrowOnRadioAndCheckbox: true,//エラー箇所の図示
+		focusFirstField: true,//エラー時に一番文頭の入力フィールドにフォーカスさせるかどうか
+		scroll: false,
+		maxErrorsPerField: 1,
+		onValidationComplete: function(form, status){
+			if(status) {
+				$("#div3").dialog({
+					modal:true, //モーダル表示
+					title: "テストダイアログ",//タイトル
+					buttons: { //ボタン
+					"OK": function() {
+						$(this).dialog("close");
+						form[0].submit();
+						},
+					"キャンセル": function() {
+						$(this).dialog("close");
+						}
+					},
+				});
+			}
+		}
+	});
+ 	
+}); */
+</script>
+</head>
+
+<body>
+
+	<!-- header -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header -->
+	<main>
+	<div class="main-header">
+		<div class="title-1">パスワード変更</div>
+	</div>
+	<form th:action="@{/SBA0110/save}" th:object="${changePasswordForm}"
+		method="post" id="formUpdate" class="formUpdate">
+		<div id="contents">
+			<div class="turn-back" th:if="${user}=='city'">
+				<span class="column-1"><a href="MBA0110.html">メニューへ戻る</a></span>
+				<button class="btn-custom-border"
+					onclick="location.href='./MBA0110.html'">戻る</button>
+			</div>
+
+			<div class="text-are-title">
+				<span th:text="${lblPasswordChangeGuide}"> </span>
+			</div>
+
+			<!-- alert error -->
+			<!-- 			<div class="alert-error" th:if="${#fields.hasErrors('*')}">
+				<div th:each="err : ${#fields.errors('*')}">
+					<span th:text="${err}" id="span1"></span>
+					<br/>
+				</div>
+			</div> -->
+			<div class="alert-error" th:if="${errorsMesage != null}">
+				<span> <th:block th:each="item : ${errorsMesage}">
+						<p th:text="${item}">
+					</th:block>
+				</span>
+			</div>
+			<!-- end alert error -->
+
+			<div class="table">
+				<table class="table-thead-1">
+					<thead>
+						<tr>
+							<td class="table-thead-td-1" colspan="2">ログイン情報</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="table-tbody-td-1">現在のパスワード</td>
+							<td><input th:field="*{pwdPasswordNow}" type="password"
+								class="text-input-1"
+								data-validation-engine="validate[required, custom[halfsizeAlphanumeric], minSize[8], maxSize[16]]"
+								data-errormessage-value-missing="現在のパスワード  は必須項目です。入力してください。">
+							</td>
+						</tr>
+						<tr>
+							<td class="table-tbody-td-1">新しいパスワード</td>
+							<td><input th:field="*{pwdPassword}" type="password"
+								class="text-input-1"
+								data-validation-engine="validate[required, custom[halfsizeAlphanumeric], minSize[8], maxSize[16]]"
+								data-errormessage-value-missing="新しいパスワード  は必須項目です。入力してください。">
+							</td>
+						</tr>
+						<tr>
+							<td class="table-tbody-td-1">新しいパスワード（確認）</td>
+							<td class="text-colums-2"><input
+								th:field="*{pwdPasswordConfirm}" type="password"
+								class="text-input-1"
+								data-validation-engine="validate[required, custom[halfsizeAlphanumeric], equals[pwdPassword], minSize[8], maxSize[16]]"
+								data-errormessage-value-missing="新しいパスワード（確認） は必須項目です。入力してください。">
+							</td>
+						</tr>
+						<tr>
+							<td class="table-tbody-td-1">メールアドレス</td>
+							<td><input th:field="*{txtMail}" type="text"
+								class="text-input-1"
+								data-validation-engine="validate[required, custom[email], custom[halfsizeAlphanumeric], maxSize[120]]"
+								data-errormessage-value-missing="メールアドレス  は必須項目です。入力してください。">
+							</td>
+						</tr>
+						<tr>
+							<td class="table-tbody-td-1">メールアドレス（確認）</td>
+							<td><input th:field="*{txtMailConfirm}" type="text"
+								class="text-input-1"
+								data-validation-engine="validate[required, custom[email], custom[halfsizeAlphanumeric],equals[txtMail] , maxSize[120]]"
+								data-errormessage-value-missing="メールアドレス（確認）  は必須項目です。入力してください。">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="btn-bottom">
+					<!-- 	<button type="submit" class="btn btn-black" id="button3">変更</button> -->
+					<input type="submit" value="submit" />
+
+				</div>
+			</div>
+			<div style="margin-top: 40px;" class="turn-back-bottom">
+				<button class="btn-custom-border">戻る</button>
+			</div>
+		</div>
+		<input type="hidden" th:field="*{apartmentId}" /> <input type="hidden"
+			th:value="${user}" /> <input type="hidden" th:value="${success}" />
+	</form>
+	<div id="div3" style="display: none;">
+		<p>入力した内容で パスワード変更 します。 よろしいでしょうか。</p>
+	</div>
+	<div id="div4" style="display: none;">
+		<p>パスワード、 を 変更しました。</p>
+	</div>
+	<div id="success" style="display: none;">
+		<p th:text="${success}"></p>
+	</div>
+	</main>
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+	<script th:src="@{/js/const.js}"></script>
+	<script th:src="@{/js/jquery-ui.min.js}"></script>
+	<script th:src="@{/js/jquery-ui/jquery-ui.js}"></script>
+	<script th:src="@{/js/shortcut-key.js}"></script>
+	<script th:src="@{/lib/jquery-ui/external/jquery/jquery.js}"></script>
+	<script th:src="@{/lib/jquery-ui/jquery-ui.js}"></script>
+	<script th:src="@{/js/jquery.validationEngine.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/jquery.validationEngine-ja.js}"
+		type="text/javascript" charset="utf-8"> </script>
+	<script th:src="@{/js/SBA0110.js}"></script>
+	<!--  	 <script>
+ 		function updateUserSBA0110() {
+  		   if(!$(".formUpdate").validationEngine('validate')){
+		         return false;
+        	} 
+ 			var form = document.getElementsByName('formUpdate');
+ 			form[0].submit();
+ 		}
+ 	</script>  -->
+
+</body>
+
+</html>

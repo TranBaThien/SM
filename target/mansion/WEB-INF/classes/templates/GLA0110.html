@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/jquery.validationEngine.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/jquery.validationEngine-ja.js}"
+	type="text/javascript" charset="utf-8"> </script>
+<script th:src="@{/js/main.js}"></script>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/jquery-ui/jquery-ui.js}"></script>
+<script th:src="@{/js/shortcut-key.js}"></script>
+<script th:src="@{/lib/jquery-ui/external/jquery/jquery.js}"></script>
+<script th:src="@{/lib/jquery-ui/jquery-ui.js}"></script>
+<style type="text/css">
+.ui-button.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close
+	{
+	display: none;
+}
+</style>
+<script>
+	$(document).ready (function(){
+	 	var message = "[[${success}]]";
+	 	if(message!== "")
+			$("#div4").dialog({
+				modal:true, //モーダル表示
+				closeOnEscape: false,
+				buttons: {
+				"OK": function() {
+					$(this).dialog("close"); 
+					window.location.href ="/GJA0120";
+					},
+				}
+			});	 
+	$(".formUpdate").validationEngine({
+			// 以下のパラメータは任意
+			promptPosition: "bottomLeft",//エラー文の表示位置
+			showArrowOnRadioAndCheckbox: true,//エラー箇所の図示
+			focusFirstField: true, //エラー時に一番文頭の入力フィールドにフォーカスさせるかどうか
+			scroll: false,
+			maxErrorsPerField: 1,
+			onValidationComplete: function(form, status){
+				if(status) {
+					$("#div3").dialog({
+						modal:true, //モーダル表示
+						title: "テストダイアログ",//タイトル
+						buttons: { //ボタン
+						"OK": function() {
+							$(this).dialog("close");
+							form[0].submit();
+							},
+						"キャンセル": function() {
+							$(this).dialog("close");
+							}
+						},
+					});
+				}
+			}
+		}); 
+	 	
+	});
+	 </script>
+</head>
+
+<body>
+	<!-- header -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header -->
+	<div id="div3" style="display: none;">
+		<p>入力した内容で パスワード変更 します。 よろしいでしょうか。</p>
+	</div>
+	<main> <!-- title -->
+	<div class="main-header">
+		<div class="title-1">管理組合ユーザログインID再発行</div>
+	</div>
+
+	<div id="contents">
+		<!-- turn back -->
+		<div class="turn-back">
+			<span class="column-1"><a
+				style="text-decoration-line: underline"
+				th:onclick="window.location.href='/GBA0110'">メニューへ戻る</a></span>
+			<button class="btn-logout"
+				th:onclick="window.location.href='/GJA0120'">戻る</button>
+		</div>
+		<!-- end turn back -->
+		<!-- end title -->
+		<div class="text-are-title">
+			<span>管理組合ユーザのログインIDを再発行します。<br>
+				ログインID入力し、「再発行」ボタンをクリックしてください。
+			</span>
+		</div>
+		<!-- content -->
+		<!-- text are title -->
+		<div class="alert-error" th:if="${messageError}!=null">
+			<span> <th:block th:each="item : ${messageError}">
+					<p th:text="${item}">
+				</th:block>
+			</span>
+		</div>
+
+		<!-- end alert error -->
+		<!-- table 1 -->
+		<th:block th:insert="~{fragments/mansion-template :: mansion-info}"></th:block>
+
+		<!-- end table 1 -->
+		<form th:action="@{/GLA0110/save}"
+			th:object="${reissueUserManagementInfo}"
+			th:name="formReisueUserManagement" id="formUpdate" class="formUpdate"
+			method="post">
+			<!-- table 2 -->
+
+			<div class="table">
+				<table class="table-1">
+					<thead>
+						<tr>
+							<th colspan="2">ログイン情報</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<th>現在のログインID</th>
+							<td><label th:text="*{lblLoginidNow}"
+								th:field="*{lblLoginidNow}" class="text-30"></label> <input
+								type="hidden" th:value="*{lblLoginidNow}" name="lblLoginidNow" />
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">パスワード <span
+								class="form-note">必須 </span>
+							</th>
+							<td class="text-left"><input th:field="*{pwdPassword}"
+								type="password" class="textbox-30"
+								data-validation-engine="validate[required, custom2[prohibitionCharacter] , minSize[8], maxSize[16]]"
+								maxlength="16"
+								data-errormessage-value-missing="パスワード は必須項目です。入力してください。">
+								<input type="hidden" th:value="*{pwdPassword}"
+								name="pwdPassword" /></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">パスワード（確認） <span
+								class="form-note">必須 </span>
+							</th>
+							<td class="text-left"><input
+								th:field="*{pwdPasswordConfirm}" type="password"
+								class="textbox-30"
+								data-validation-engine="validate[required,custom2[prohibitionCharacter], equals[pwdPassword], minSize[8], maxSize[16]]"
+								maxlength="16"
+								data-errormessage-value-missing="パスワード（確認） は必須 項目です。入力してください。">
+								<input type="hidden" th:value="*{pwdPasswordConfirm}"
+								name="pwdPasswordConfirm" /></td>
+						</tr>
+						<tr>
+							<th>最終ログイン日時</th>
+
+							<td class="text-colums-2"><label
+								th:field="*{lblLastTimeLoginTime}"
+								th:text="*{lblLastTimeLoginTime}"> </label> <input type="hidden"
+								th:value="*{lblLastTimeLoginTime}" name="lblLastTimeLoginTime" />
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+				<input type="hidden" th:value="*{apartmentId}" name="apartmentId" />
+				<div class="text-box">
+					<input type="checkbox" class="checkbox-item" name="checkConfirm"
+						id="confirm"> <label for="confirm">入力内容を確認しました</label>
+				</div>
+				<div class="btn-bottom">
+					<button type="submit" class="btn btn-black" id="btnsub" disabled>再発行</button>
+				</div>
+			</div>
+		</form>
+		<!-- end table 2 -->
+
+		<!-- bottom right button -->
+		<div style="margin-top: 40px;" class="turn-back-bottom">
+			<button class="btn-logout"
+				th:onclick="window.location.href='/GJA0120'">>戻る</button>
+		</div>
+		<!-- end bottom right button -->
+	</div>
+	<!-- end content --> </main>
+	<div id="div3" style="display: none;">
+		<p>
+			入力した内容で/管理組合ユーザログインID再発行します。<br /> よろしいでしょうか。
+		</p>
+	</div>
+	<div id="div4" style="display: none;">
+		<p>管理組合ユーザログインID を 再発行しました。</p>
+	</div>
+	<div id="success" style="display: none;">
+		<p th:text="${success}" id="successMessage"></p>
+	</div>
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+	<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+	<script th:src="@{/js/const.js}"></script>
+	<script th:src="@{/js/jquery.validationEngine.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/GLA0110.js}"></script>
+	<script th:src="@{/js/main.js}"></script>
+	<script> 
+     $('#confirm').click(function() {
+         var checkBox = document.getElementById("confirm");
+         if (checkBox.checked == true){
+             document.getElementById("btnsub").disabled = false;
+         } else {
+             document.getElementById("btnsub").disabled = true;
+         }
+    });
+ 	</script>
+</body>
+</html>

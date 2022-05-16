@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <title>MDA0110</title>
+    <link th:href="@{/lib/normalize.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/jquery.jpostal.js}"></script>
+    <style>
+        #lblApartmentAddress1 {
+            background-color: transparent;
+            border: 0px solid;
+            height: 32px;
+            color: #151414;
+            width: 360px;
+        }
+    </style>
+    <script type="text/javascript" th:inline="javascript">
+        const BASE_URL = [[${#request.getContextPath()}]];
+
+        const MESSAGE_SUCCESS = [[${messageSuccess}]];
+        //Notification no for gen report
+        const NOTIFICATION_NO_RP010 = [[${notificationNoRP010}]];
+        //Get role mansion
+        const ROLE_MANSION = [[${roleMansion}]];
+        //Check error message exclude
+        const MESSAGE_ERROR_EXCLUDE = [[${errorMessageExclude}]];
+        // Check confirm Button
+        const CONFIRM_CHECKBOX = [[${notificationRegistration.chkConfirm}]];
+        // Save temporary data
+        const TEMPORARY_SAVE = [[${temporarySave}]];
+    </script>
+</head>
+<body>
+    <!-- header  -->
+    <th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+    <!-- end header  -->
+    <!-- main -->
+    <main>
+
+        <!-- title of main -->
+        <div class="main-header">
+            <div class="title-1">
+            届出事項登録
+            </div>
+        </div>
+        <form th:action="@{/MDA0110/save}" th:object="${notificationRegistration}" id="form" class="notification-register" method="post" enctype="multipart/form-data">
+
+        <!-- content in main -->
+        <div id="contents">
+
+            <div id="asddsa2" class="scrolling-before">
+                <div class="turn-back">
+                    <span class="column-1 back-previous-screen"><a href="javascript:void(0)" onclick="backToMenu()" >メニューへ戻る</a></span>
+                    <input type="button" class="btn-custom-border" th:data="*{apartmentId}" th:onclick="turnBack(this.getAttribute('data'))" value="戻る"></input>
+                </div>
+                <div class="export-file-tbn">
+                        <input type="button" class="btn-custom-border btn-export btn-saveTemp" name="btn-saveTempData" value="一時保存"/>
+                        <input type="button" class="btn-custom-border btn-export" th:classappend="*{canRestore} ? '' : 'disable-item-button'" th:data1="${mansionInfo.apartmentId}" th:data2="${notificationRegistration.notificationNo}" onclick="restoreTemporary(this.getAttribute('data1'), this.getAttribute('data2'))" value="復元"></input>
+                        <input type="button" class="btn-custom-border btn-export" id="btn-export-top" value="エクスポート">
+                    </div>
+                <div class="text-percent">入力状況<span class="percent-numb-required"> </span></div>
+            </div>
+
+            <div id="asddsa">
+                <div class="turn-back">
+                    <span class="column-1 back-previous-screen"><a href="javascript:void(0)" onclick="backToMenu()" >メニューへ戻る</a></span>
+                    <input type="button" class="btn-custom-border" th:data="*{apartmentId}" th:onclick="turnBack(this.getAttribute('data'))" value="戻る"></input>
+
+                </div>
+                <div class="export-file-tbn">
+                    <input type="button" class="btn-custom-border btn-export btn-saveTemp" name="btn-saveTempData" value="一時保存"/>
+                    <input type="button" class="btn-custom-border btn-export" th:classappend="*{canRestore} ? '' : 'disable-item-button'" th:data1="${mansionInfo.apartmentId}" th:data2="${notificationRegistration.notificationNo}" onclick="restoreTemporary(this.getAttribute('data1'), this.getAttribute('data2'))" value="復元"></input>
+                    <input type="button" class="btn-custom-border btn-export" id="btn-export-content" value="エクスポート"/>
+                </div>
+                <div class="text-are-title">
+                    <span>届出事項を入力し、「登録」ボタンをクリックしてください。</span>
+                </div>
+                <div class="text-percent">入力状況<span class="percent-numb-required"></span></div>
+            </div>
+            <!-- alert error -->
+            <div class="alert-error error-margin"  id="sizediv" th:style="${not #lists.isEmpty(errorMessages)} ? '' : 'display:none;'">
+                <div th:each="err : ${errorMessages}">
+                    <span th:utext="${err}"></span>
+                    <br/>
+                </div>
+            </div>
+            <!-- end alert error -->
+            <!-- table import -->
+            <div class="table">
+
+                <table class="table-import">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="table-3-th1">インポートファイル指定</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>インポートファイル</th>
+                            <td>
+                                <div class="btn-import">
+                                    <input type="text" id="text-upload" class="input-import">
+                                    <input type="file" id="real-file" onchange="changeFile('real-file')"  accept=".csv" hidden="hidden">
+                                    <input type="button" class="btn-custom-border" onclick="uploadFileCsv('text-upload','real-file')" value="参照"></input>
+                                    <input type="button" class="btn-custom-border btn-margin-5" onclick="importCsv('real-file')" value="インポート"></input>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- End table import -->
+
+            <div class="list-menu">
+                <span class="collapse "><a id="b0" href="javascript:void(0)">マンション基本情報</a></span>
+                <span class="collapse "><a id="b2" href="javascript:void(0)">届出基本情報</a></span>
+                <span class="collapse "><a id="b3" href="javascript:void(0)">届出情報</a></span>
+                <span class="collapse "><a id="b4" href="javascript:void(0)">マンションの概要</a></span>
+                <span class="collapse "><a id="b5" href="javascript:void(0)">管理不全を予防するための必須事項</a></span>
+                <span class="collapse "><a id="b6" href="javascript:void(0)">適正な維持管理に関する事項</a></span><br>
+                <span class="collapse "><a id="b7" href="javascript:void(0)">マンションの社会的機能の向上に資する取組に関する事項</a></span>
+                <span class="collapse "><a id="b8" href="javascript:void(0)">連絡先</a></span>
+                <span class="collapse "><a id="b9" href="javascript:void(0)">任意項目情報</a></span><br>
+                <span class="collapse "><a id="b13" onclick="showAll()" href="javascript:void(0)">全て開く</a></span>
+                <span class="collapse "><a id="b14" onclick="closeAll()" href="javascript:void(0)">全て閉じる</a></span>
+            </div>
+
+            <div class="main-contents-btn">
+
+                <!-- table base information -->
+                <th:block th:insert="~{fragments/mansion-template :: mansion-info}"></th:block>
+                <input type="hidden" th:value="${mansionInfo.newestNotificationNo}" th:name="${newestNotificationNo}" />
+                <!-- end table base information -->
+
+                <!-- table report base information -->
+                <th:block th:insert="~{fragments/mansion-template :: basic-report-info}"></th:block>
+                <!-- end table report base information -->
+
+                <!-- table notification info-->
+                <th:block th:insert="~{fragments/mansion-template :: notification-info-area-common}"></th:block>
+                <!-- end table notification info -->
+
+                <!-- table overview mansion -->
+                <th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-overview-mansion}"></th:block>
+                <!-- end table overview mansion -->
+
+                <!-- table  essebtials to prevent management failure -->
+                <th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-essentials-to-prevent-management}"></th:block>
+                <!-- end table  essebtials to prevent management failure -->
+
+                <!-- table oppropriate maintenance -->
+                <th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-appropriate-maintenance}"></th:block>
+                <!-- end table  oppropriate maintenance -->
+
+                <!-- table  issue improvement for social functions of mansion -->
+                <th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-issue-improvement-social}"></th:block>
+                <!-- end table  issue improvement for social functions of mansion -->
+
+                <!-- Table  contact imformation -->
+                <th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-contact-information}"></th:block>
+                <!-- end table  contact imformation -->
+
+                <!-- Table  optional information -->
+                <th:block th:insert="~{fragments/mansion-template :: notification-info-area-common-optional-information}"></th:block>
+                <!-- end table  optional information -->
+
+            </div>
+
+            <div class="text-main-export">
+                <span>【留意事項】</span><br/>
+                <p>
+                    1　東京におけるマンションの適正な管理の促進に関する条例（平成31年東京都条例第30号）第3条第2項では、条例の施行及びマンションの適正な管理の促進を図るための施策の実施に当たって、特別区及び市町村（以下「区市町村」という。）が行う施策に対し、都は必要な支援を行うものとしています。区市町村と緊密に連携し、情報の共有を図るとともに必要な支援を行うため、本届出内容は、同条第3項に定めるデータベースに記録するとともに、都と区市町村とで共有させていただきます。
+                </p>
+                <p>
+                    2　御回答いただいた内容は、条例の施行のほか、マンションの建替えや耐震化の促進に関する施策の実施に当たっての基礎資料及び連絡先として利用する場合がありますが、行政目的以外に利用することはありません。
+                </p>
+            </div>
+
+            <div class="text-box">
+                <input type="checkbox" class="checkbox-item chkConfirm" th:name="chkConfirm"  id="cd-4" th:value="1">
+                <label for="cd-4">入力内容を確認しました</label>
+            </div>
+
+            <div class="btn-bottom">
+                <input type="button" class="btn btn-black btn-register" id = "registerNotification" value="登録"/>
+            </div>
+
+            <div class="turn-back-bottom">
+                    <input type="button" class="btn-custom-border" th:data="*{apartmentId}" th:onclick="turnBack(this.getAttribute('data'))" value="戻る"></input>
+                </div>
+
+        </div>
+        <input type="hidden" th:field="*{acceptStatus}" />
+        <input type="hidden" th:field="*{nextNotificationDate}" />
+        <input type="hidden" th:field="*{updateNotification}" />
+        <input type="hidden" th:field="*{buildDay}" />
+        <input type="hidden" th:field="*{buildMonth}" />
+        <input type="hidden" th:field="*{buildYear}" />
+        <input type="hidden" th:field="*{newestNotificationNo}" />
+        <input type="hidden" th:field="*{notificationNo}" />
+        <input type="hidden" th:field="*{changeCount}" />
+        <input type="hidden" th:field="*{notificationCount}" />
+        <input type="hidden" th:field="*{notificationDateTBL200}" />
+        <input type="hidden" th:field="*{canRestore}" />
+        <input type="hidden" th:field="*{screenGJA0120}" />
+        <input type="hidden" th:field="*{cityCode}" />
+        <input type="hidden" id="fileMaxSize" th:field="*{fileMaxSize}"/>
+        <!-- End contents -->
+        </form>
+    </main>
+    <!-- End main -->
+
+    <!-- footer -->
+    <th:block th:include="/fragments/main-footer" />
+    <!-- end footer -->
+    <!-- Report form -->
+    <form th:action="@{/MDA0110/report}" id="submitReportForm" target="RP010" method="POST">
+        <input type="hidden" name="reportName"/>
+        <input type="hidden" name="relatedNumber"/>
+    </form>
+    <!-- End report form -->
+    <!-- Back form -->
+    <form th:action="@{/GJA0120/show}" id="submitGJAForm" method="POST">
+        <input type="hidden" id="apartment-id" name="apartmentId"/>
+        <input type="hidden" id="notification-id" name="notificationNo"/>
+    </form>
+    <form th:action="@{/GJA0110/show}" id="submitGJA0110Form" method="POST">
+        <input type="hidden" id="button-id" name="buttonId"/>
+    </form>
+    <!-- End  Back form -->
+    <!-- Dialog message -->
+    <div id="alertMessage" style="display:none;">
+        <p id="message"></p>
+    </div>
+    <!-- End Dialog message -->
+    <script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+    <script th:src="@{/js/const.js}"></script>
+    <script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/mansionNotification.js}"></script>
+    <script th:src="@{/js/MDA0110.js}"></script>
+</body>
+
+</html>

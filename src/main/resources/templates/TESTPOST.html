@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="format-detection" content="email=no">
+	<title>TEST</title>
+	<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<script th:src="@{/js/jquery-3.0.0.js}"></script>
+  	<script type="text/javascript" th:inline="javascript">
+        const BASE_URL = [[${#request.getContextPath()}]];
+	</script>
+    
+</head>
+
+<body>
+
+	<!-- header-->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header-->	
+
+	<!-- main -->
+	<main>
+		<div class="main-header">
+			<div class="title-1">
+				メニュー（区市町村／都職員用)
+			</div>
+		</div>
+	
+		<!-- main contents list menu -->
+		<div id="contents">
+			<div class="container-menu">
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGEB0110()">GEB0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="apartmentId" class="text-input-2" value="1016000001"/>
+						</div>
+						<br/>
+						<div class="container-50">
+							<span>ProgressRecordNo: </span><input type="text" id="progressRecordNo" class="text-input-2" value="1000000369"/>
+						</div>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGEA0110()">GEA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="mansionId" class="text-input-2" value="1016000001"/>
+						</div>
+					</div>
+				</div>
+				
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGFA0110()">GFA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="GFA0110-mansionId" class="text-input-2" value="1016000001"/>
+						</div>
+					</div>
+				</div>
+				
+				
+					<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGLA0110()">GLA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="mansionId1" class="text-input-2" value="1016000005"/>
+						</div>
+					</div>
+				</div>
+				
+                <div class="text-bgbrow">
+                    <div class="container-30">
+                        <button type="button" class="btn btn-100" onclick="submitMoveFormGGA0110()">GGA0110</button>
+                    </div>
+                    <div class="container-65">
+                        <div class="container-50">
+                            <span>AppartmentID: </span><input type="text" id="GGA0110-mansionId" class="text-input-2" value="1016000001"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-bgbrow">
+                    <div class="container-30">
+                        <button type="button" class="btn btn-100" onclick="submitMoveFormABA0110()">ABA0110</button>
+                    </div>
+                    <div class="container-65">
+                        <div class="container-50">
+                            <span>AppartmentID: </span><input type="text" id="ABA0110-mansionId" class="text-input-2" value="1016000001"/>
+                        </div>
+                    </div>
+                </div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormSCA0110()">SCA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>ScreenID: </span><input type="text" id="SCA0110-screenId" class="text-input-2" value="GAA0110"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormMEA0110()">MEA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="MEA0110-mansionId" class="text-input-2" value="1016000001"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGJA0120()">GJA0120</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="GJA0120-mansionId" class="text-input-2" value="1016000001"/>
+						</div>
+					<br/>
+						<div class="container-50">
+							<span>NotificationNo: </span><input type="text" id="GJA0120-notificationNo" class="text-input-2" value="1016000001"/>
+						</div>
+					</div>
+				</div>
+				
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormSBA0110()">SBA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+						</div>
+					</div>
+				</div>
+				
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGCA0120()">GCA0120</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="GCA0120-mansionId" class="text-input-2" value="1016000001"/>
+						</div>
+						<div class="container-50">
+							<span>APPLICATION_NO: </span><input type="text" id="GCA0120-applicationNo" class="text-input-2" value="1000000013"/>
+						</div>
+					</div>
+				</div>
+				
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGIA0110()">GIA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="mansionIdForGIA0110" class="text-input-2" value="1016000001"/>
+						</div>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGDA0110()">GDA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="mansionIdForGDA0110" class="text-input-2" value="1000000002"/>
+						</div>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGJA0110()">GJA0110</button>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormMCA0110()">MCA0110</button>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormMDA0110()">MDA0110</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID: </span><input type="text" id="mansionIdForMDA0110" class="text-input-2" value="1016000001"/>
+						</div>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGCA0110()">GCA0110</button>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormAAA0110()">AAA0110</button>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGEC0110()">GEC0110</button>
+					</div>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormGKA0120()">GKA0120</button>
+					</div>
+					<div class="container-65">
+						<div class="container-50">
+							<span>AppartmentID List: </span><textarea id="apartmentIdList" rows="5">1016000001,1016000002,1016000003,1016000004,1016000005</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<form th:action="@{/GEB0110/show}" id="submitRedirect" method="POST">
+			<input type="hidden" name="apartmentId"/>
+			<input type="hidden" name="progressRecordNo"/>
+			<input type="hidden" name="error"/>
+		</form>
+		
+		<form th:action="@{/GCA0120/show}" id="submitRedirect_1" method="POST">
+			<input type="hidden" name="applicationNo"/>  
+			<input type="hidden" name="apartmentId"/> 
+		</form>
+		
+		<form th:action="@{/MCA0110/show}" id="submitRedirect_2" method="POST">
+		</form>
+
+		<form th:action="@{/GJA0110/show}" id="submitRedirect_3" method="POST">
+		</form>
+
+		<form th:action="@{/GCA0110}" id="submit" method="POST">
+		</form>
+		<form th:action="@{/GJA0120/show}" id="submitRedirect_4" method="POST">
+			<input type="hidden" name="apartmentId"/>
+			<input type="hidden" name="notificationNo"/>
+		</form>
+		<form th:action="@{/GKA0120/show}" id="submitRedirect_GKA0120" method="POST">
+			<input type="hidden" name="apartmentIds"/>
+		</form>
+	</main>
+	<!-- end main -->
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+	<script th:src="@{/js/main.js}"></script>
+	<script type="text/javascript">
+		function submitMoveFormGEB0110() {
+			
+			$('#submitRedirect').attr('action', BASE_URL + '/GEB0110/show')
+			$('input[name=apartmentId]').val($('input[id=apartmentId]').val());
+			$('input[name=progressRecordNo]').val($('input[id=progressRecordNo]').val());
+			
+			$('#submitRedirect').submit();
+		}
+		function submitMoveFormGEA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/GEA0110/show')
+			var parameter1 = $('input[id=mansionId]').val();
+			$('input[name=apartmentId]').val(parameter1);
+			$('#submitRedirect').submit();
+		}
+		
+		function submitMoveFormGFA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/GFA0110/show')
+			var parameter1 = $('input[id=GFA0110-mansionId]').val();
+			$('input[name=apartmentId]').val(parameter1);
+			$('#submitRedirect').submit();
+		}
+		
+		function submitMoveFormGLA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/GLA0110/show')
+			var parameter1 = $('input[id=mansionId1]').val();
+			$('input[name=apartmentId]').val(parameter1);
+			$('#submitRedirect').submit();
+		}
+		
+		function submitMoveFormGIA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/GIA0110/show')
+			var parameter1 = $('input[id=mansionIdForGIA0110]').val();
+			$('input[name=apartmentId]').val(parameter1);
+			$('#submitRedirect').submit();
+		}
+		
+	    function submitMoveFormGGA0110() {
+	            $('#submitRedirect').attr('action', BASE_URL + '/GGA0110')
+	            var parameter1 = $('input[id=GGA0110-mansionId]').val();
+	            $('input[name=apartmentId]').val(parameter1);
+	            $('#submitRedirect').submit();
+	    }
+
+        function submitMoveFormABA0110() {
+            $('#submitRedirect').attr('action', BASE_URL + '/ABA0110')
+            var parameter1 = $('input[id=ABA0110-mansionId]').val();
+            $('input[name=error]').val(parameter1);
+            $('#submitRedirect').submit();
+    }
+		function submitMoveFormSCA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/SCA0110');
+			var screenId = $("#SCA0110-screenId").val();
+			sessionStorage.setItem("screenId", screenId);
+			$('#submitRedirect').submit();
+		}
+		function submitMoveFormMEA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/MEA0110/show');
+			var parameter1 = $('input[id=MEA0110-mansionId]').val();
+			$('input[name=apartmentId]').val(parameter1);
+			$('#submitRedirect').submit();
+		}
+		function submitMoveFormGJA0120() {
+			$('#submitRedirect_4').attr('action', BASE_URL + '/GJA0120/show');
+			var parameter1 = $('input[id=GJA0120-mansionId]').val();
+			$('input[name=apartmentId]').val(parameter1);
+			var parameter2 = $('input[id=GJA0120-notificationNo]').val();
+			$('input[name=notificationNo]').val(parameter2);
+			$('#submitRedirect_4').submit();
+		}
+		function submitMoveFormSBA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/SBA0110');
+			$('#submitRedirect').submit();
+		}
+		
+		function submitMoveFormGCA0120() {
+			$('#submitRedirect_1').attr('action', BASE_URL + '/GCA0120/show');
+			var parameter1 = $('input[id=GCA0120-applicationNo]').val();
+			var parameter2 = $('input[id=GCA0120-mansionId]').val();
+			$('input[name=applicationNo]').val(parameter1);
+			$('input[name=apartmentId]').val(parameter2);
+			$('#submitRedirect_1').submit();
+		}
+		
+		function submitMoveFormMCA0110() {
+			$('#submitRedirect_2').attr('action', BASE_URL + '/MCA0110/show');
+			$('#submitRedirect_2').submit();
+		}
+		function submitMoveFormGJA0110() {
+			$('#submitRedirect_3').attr('action', BASE_URL + '/GJA0110/show');
+			$('#submitRedirect_3').submit();
+		}
+
+
+		function submitMoveFormMDA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/MDA0110/show')
+			$('input[name=apartmentId]').val($('input[id=mansionIdForMDA0110]').val());
+			//$('input[name=progressRecordNo]').val($('input[id=progressRecordNo]').val());
+
+			$('#submitRedirect').submit();
+		}
+
+		function submitMoveFormGDA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/GDA0110/show');
+			var parameter1 = $('input[id=mansionIdForGDA0110]').val();
+			$('input[name=apartmentId]').val("1067000501");
+
+			$('input[name=apartmentId]').val("1000000002");
+
+			$('input[name=apartmentId]').val("1000001999");
+
+			$('#submitRedirect').submit();
+		}
+
+
+
+		function submitMoveFormGCA0110() {
+        	$('#submit').submit();
+        }
+		
+		function submitMoveFormAAA0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/AAA0110');
+			$('#submitRedirect').submit();
+		}
+		
+		function submitMoveFormGEC0110() {
+			$('#submitRedirect').attr('action', BASE_URL + '/GEC0110');
+			$('#submitRedirect').submit();
+		}
+		
+		function submitMoveFormGKA0120() {
+			const apartmentIdList = $('#apartmentIdList').val();
+			$('#submitRedirect_GKA0120').attr('action', BASE_URL + '/GKA0120/show');
+			$('#submitRedirect_GKA0120').find('input[name=apartmentIds]').val(apartmentIdList);
+			$('#submitRedirect_GKA0120').submit();
+		}
+
+	</script>
+	<!-- end js -->
+</body>
+
+</html>

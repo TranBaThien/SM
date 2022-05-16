@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="format-detection" content="email=no">
+	<title>ZAA0140</title>
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+   	<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+    <script th:src="@{/js/movescreen.js}"></script>
+    <script th:src="@{/js/main.js}"></script>	
+</head>
+
+<body>
+	<!-- header -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header -->
+
+	<main>
+		<div class="main-header">
+			<div class="title-1">
+				システム停止中
+			</div>
+		</div>
+
+		<div id="contents">
+			<div class="text-notification">
+				<span style="font-weight:bold">
+					システム利用時間外です。<br /><br />
+					【管理組合利用時間】XX：XX～XX：XX<br /><br />
+					【都区市町村職員利用時間】XX：XX～XX：XX
+				</span>
+			</div>
+
+			<div class="turn-back-bottom">
+				<button class="btn-custom-border" onclick="goBack();">閉じる</button>
+			</div>
+		</div>
+	</main>
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+	<!-- js -->
+ 	 <script th:src="@{/js/main.js}"></script>
+	<!-- end js -->
+	
+	<script>
+		function goBack() {
+			
+			window.history.back();
+		}
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+.header {
+	padding-left: 0.2em;
+	text-align: left;
+	width: -webkit-fill-available;
+}
+
+.header-span {
+	font-size: 10.5pt;
+}
+
+.document-number {
+	padding-right: 4em;
+	text-align: right;
+	width: -webkit-fill-available;
+	padding-top: 0.5em
+}
+
+.document-number-span {
+	font-size: 10.5pt;
+}
+
+.document-date {
+	/* padding-right : 4em; */
+	text-align: right;
+	width: -webkit-fill-available;
+}
+
+.document-date-span {
+	font-size: 10.5pt;
+}
+
+.document-tono {
+	padding-left: 2em;
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+	width: -webkit-fill-available;
+}
+
+.document-tono-span {
+	font-size: 10.5pt;
+}
+
+.document-sender {
+	text-align: right;
+	padding-right: 3em;
+	padding-top: 0.6em;
+	width: -webkit-fill-available;
+}
+
+.document-sender-span {
+	font-size: 10.5pt;
+}
+
+.document-sign {
+	padding-top: 0.5em;
+	float: right;
+}
+
+.document-sign-img {
+	width: 2em;
+	height: 2em;
+}
+
+.document-name {
+	text-align: center;
+	padding-top: 5em;
+	width: -webkit-fill-available;
+}
+
+.document-name-span {
+	font-size: 16pt;
+}
+
+.document-info {
+	width: -webkit-fill-available;
+	padding-top: 4.5em;
+	padding-left: 4em;
+	padding-right: 4em;
+	text-indent: 2em;
+}
+
+.document-info-date-span {
+	font-size: 11pt;
+}
+
+.document-info-span {
+	font-size: 11pt;
+	padding-left: 2em;
+}
+
+.document-note {
+	width: -webkit-fill-available;
+	padding-top: 4em;
+	text-align: center;
+}
+
+.document-note-span {
+	font-size: 11pt;
+}
+
+.document-note1-div {
+	width: -webkit-fill-available;
+	padding-top: 4em;
+	text-align: left;
+	padding-left: 4em;
+	padding-right: 4em;
+}
+
+.document-note1-span {
+	font-size: 10.5pt;
+}
+
+.document-note2-span {
+	font-size: 10.5pt;
+	padding-right: 2em;
+}
+
+.note-span-title {
+	width: 4em;
+	padding-right: 2em;
+}
+
+.text-area {
+	border: none;
+	width: 48em;
+	height: 30em;
+	overflow: hidden;
+	font-size: 11pt;
+}
+
+.mainsion-display-information {
+	padding-left: 2em;
+}
+
+.span-p-r-7 {
+	padding-right: 6.1em;
+}
+
+.span-p-r-5 {
+	padding-right: 5em;
+}
+
+.span-p-r-2 {
+	padding-right: 2em;
+}
+
+.span-p-r-3 {
+	padding-right: 3em;
+}
+
+.margin-top10 {
+	margin-top: 10px;
+}
+
+.padding-top7 {
+	padding-top: 7px;
+}
+
+.padding-top10 {
+	padding-top: 10px;
+}
+
+.padding-top15 {
+	padding-top: 15px;
+}
+
+.padding-top20 {
+	padding-top: 20px;
+}
+
+.padding-top30 {
+	padding-top: 30px;
+}

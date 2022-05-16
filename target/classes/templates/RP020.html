@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+	<link th:href="@{/css/print.css}" rel="stylesheet">
+	<link th:href="@{/css/style.css}" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+<body>
+	<div class="book">
+		<section class="sheet">
+			<div class="page">
+				<div class="subpage">
+					<div class="subpage-title-create padding-top20 font-MS-size-105">
+						<span class="header-span" th:text="${rp020Vo.appendixNo}"></span>
+					</div>
+
+					<div class="document-date font-MS-size-105">
+						<span th:text="${rp020Vo.documentNo}"></span>
+					</div>
+
+					<div class="document-date padding-top10 font-MS-size-105">
+						<span class="document-date-span" th:text="${rp020Vo.noticeDate}"></span>
+					</div>
+					
+					<div class="document-tono font-MS-size-105">
+						<span class="document-tono-span span-p-r-7" th:text="${rp020Vo.recipientNameApartment}"></span>
+						<span class="document-tono-span span-p-r-7" th:text="${rp020Vo.recipientNameUser}">
+						</span>
+						<span class="document-tono-span">　殿</span>
+					</div>
+
+					<div class="document-sign-label font-MS-size-105">
+                        <span class="document-sign-span" th:text="${rp020Vo.sender}">
+                        </span>
+                    </div>
+                     <div class="stamp-name font-MS-size-105" th:if="${rp020Vo.stampName} == '印'">
+                         <span>印</span>
+                     </div>
+					<div class="document-name">
+						<span class="document-name-span">
+							<b>届出受理通知書</b>
+						</span>
+					</div>
+					<div class="document-info font-MS-size-11">
+						<span th:text="${rp020Vo.notificationDate}"></span><span class="document-info-span" style="padding-left:0em;">付けで別紙のとおりマンション管理状況（変更等）届出書の提出があった東京におけるマンションの適正な管理の促進に関する条例（平成31年東京都条例第30号）</span><span class="document-info-date-span">第</span><span th:text="${rp020Vo.evidenceBar}"></span><span class="document-info-date-span ">条第</span><span th:text="${rp020Vo.evidenceNo}"></span><span class="document-info-date-span">項の規定による届出については、これを受理しましたので通知いたします。</span>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>

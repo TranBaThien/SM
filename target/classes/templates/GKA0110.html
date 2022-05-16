@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>GKA0110</title>
+
+    <link rel="stylesheet" th:href="@{/lib/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/GKA0110.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery.datetimepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/validationEngine.jquery.css}">
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        const baseUrl = [[${#request.getContextPath()}]];
+        const GKA0110_GLOBAL_VAR = {
+            dataAggregateResultVo: [[${dataAggregateResultVo}]]
+        }
+    </script>
+</head>
+
+<body>
+<!-- header -->
+<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+<!-- end header -->
+
+<!-- main -->
+<main>
+
+    <!-- title -->
+    <div class="main-header">
+        <div class="title-1">データ集計</div>
+    </div>
+    <div class="turn-back-bottom">
+
+    </div>
+    <div id="contents">
+        <form class="user-register" enctype="multipart/form-data" id="dataAggregate" method="post"
+              th:action="@{/GKA0110/aggregate}" th:name="dataAggregate" th:object="${dataAggregate}">
+            <!-- turn back -->
+            <div class="turn-back">
+                <span class="column-1"><a th:href="@{/GBA0110}" tabindex="1">メニューへ戻る</a></span>
+                <button class="btn-custom-border" type="button" th:onclick="goBack()" tabindex="2">戻る</button>
+            </div>
+
+            <!-- text are title -->
+            <div class="text-are-title">
+                <span>各種データを集計します。<br>
+                    集計内容と検索条件を指定し、「集計」ボタンをクリックしてください。</span>
+            </div>
+            <!-- end text are title -->
+
+            <!-- alert error -->
+            <div th:if="${not #lists.isEmpty(errorMessage)}">
+                <div class="alert-error" id="errorMessageDiv" th:if="${errorMessage}">
+                <span>
+                    <th:block th:each="item : ${errorMessage}">
+                        <p th:text="${item}">
+                    </th:block>
+                </span>
+                </div>
+            </div>
+            <!-- end alert error -->
+            
+            <!-- table 1 -->
+            <div class="table">
+                <table class="table-4">
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                <div class="checkbox-div">
+                                    集計内容
+                                    <button type="button" class="btn-custom-border" id="btnAggregateClear" tabindex="3">集計内容クリア</button>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="line-height: 0.15;">
+                            <th>集計項目</th>
+                            <td>
+                                <th:block th:each="item, iter : *{lstChkSummaryItem}">
+                                    <th:block th:if="${iter.index == 0 || iter.index == 3 || iter.index == 6 || iter.index == 9 || iter.index == 11 || iter.index == 13 || iter.index == 15
+                                    || iter.index == 17|| iter.index == 19}">
+                                    <th:div class="checkbox-div">
+                                    </th:block>
+                                    <th:block th:if="${dataAggregate.chkSummaryItem} != null">
+                                    <input class="checkbox-item checkbox-1" name="chkSummaryItem" type="checkbox" th:id="'chkSummary' + ${iter.index + 1}" th:value="${item.value}"
+                                        th:checked="${#lists.contains(dataAggregate.chkSummaryItem, item.value)}">
+                                    </th:block>
+                                    <th:block th:unless="${dataAggregate.chkSummaryItem} != null">
+                                    <input class="checkbox-item checkbox-1" name="chkSummaryItem" type="checkbox" th:id="'chkSummary' + ${iter.index + 1}" th:value="${item.value}">
+                                    </th:block>
+                                    <label style="margin:1px; width:100%" th:for="'chkSummary' + ${iter.index + 1}" th:text="${item.label}" th:tabindex="${4 + iter.index}"></label>
+                                    <th:block th:if="${iter.index == 2 || iter.index == 5 || iter.index == 8 || iter.index == 10 || iter.index == 12 || iter.index == 14 || iter.index == 16
+                                     || iter.index == 18|| iter.index == 20}">
+                                    </th:div>
+                                    </th:block>
+                                    <input th:field="*{lstChkSummaryItem[__${iter.index}__].label}" type="hidden"/>
+                                    <input th:field="*{lstChkSummaryItem[__${iter.index}__].value}" type="hidden"/>
+                                </th:block>
+                            </td>
+                        </tr>
+                        <tr style="line-height: 0.15;">
+                            <th>集計単位</th>
+                            <td>
+                            <th:block th:each="item, iterStat : *{lstRdoAggregateCredit}">
+
+                                <th:block th:if="${iterStat.index == 0}">
+                                <th:div class="checkbox-div">
+                                </th:block>
+
+                                <th:block th:if="${iterStat.index > 2}">
+                                    <th:div class="radio-and-label r-width-6" th:tabindex="${25 + iterStat.index}">
+                                </th:block>
+                                <th:block th:unless="${iterStat.index > 2}">
+                                    <th:div class="radio-and-label r-width-4" th:tabindex="${25 + iterStat.index}">
+                                </th:block>
+
+                                    <input class="radio-items" name="rdoAggregateCredit"
+                                               th:field="*{rdoAggregateCredit}" th:id="'radio-' + ${iterStat.index + 1}"
+                                               th:value="${item.value}" type="radio">
+                                    <label th:for="'radio-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+
+                                </th:div>
+
+                                <th:block th:if="${iterStat.index == 2}">
+                                </th:div>
+                                </th:block>
+
+                                <input th:field="*{lstRdoAggregateCredit[__${iterStat.index}__].value}" type="hidden"/>
+                                <input th:field="*{lstRdoAggregateCredit[__${iterStat.index}__].label}" type="hidden"/>
+                            </th:block>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end table 1 --> 
+
+            <!-- table 2 -->
+            <div class="table" style="margin-top: 12px;">
+                <table class="table-notification-info">
+                    <thead>
+                        <tr>
+                               <th class="table-common-title"  colspan="4">
+                                <div class="checkbox-div">
+                                        検索条件
+                                    <button class="btn-custom-border" id="btnSearchClear" type="button" tabindex="29">検索条件クリア</button>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th class="table-common-col-2" colspan="3">集計期間</th>
+                        <td class="text-date">
+                            <input class="text-input-date" id="cldPeriodFrom" name="cldPeriodFrom"
+                                   tabindex="30" th:field="*{cldPeriodFrom}"
+                                   type="text">
+                            <img alt="Choose" class="ui-datepicker-trigger"
+                                 id="cldPeriodFromButton" th:src="@{/images/icon-calendar.svg}"
+                                 title="Choose">
+                            <span>～</span>
+                            <input class="text-input-date" id="cldPeriodTo" name="cldPeriodTo"
+                                   tabindex="31" th:field="*{cldPeriodTo}"
+                                   type="text">
+                            <img alt="Choose" class="ui-datepicker-trigger"
+                                 id="cldPeriodToButton" th:src="@{/images/icon-calendar.svg}" title="Choose">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="3">新築年月日</th>
+                        <td class="text-date">
+                            <input class="text-input-date" id="cldNewBulidingFrom" name="cldNewBulidingFrom"
+                                   tabindex="32" th:field="*{cldNewBulidingFrom}" 
+                                   type="text">
+                            <img alt="Choose" class="ui-datepicker-trigger"
+                                 id="cldNewBulidingFromButton" th:src="@{/images/icon-calendar.svg}" title="Choose">
+                            <span>～</span>
+
+                            <input class="text-input-date" id="cldNewBulidingTo" name="cldNewBulidingTo"
+                                   tabindex="33" th:field="*{cldNewBulidingTo}"
+                                   type="text">
+                            <img alt="Choose" class="ui-datepicker-trigger"
+                                 id="cldNewBulidingToButton" th:src="@{/images/icon-calendar.svg}" title="Choose">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="3">建物戸数</th>
+                        <td>
+                            <input class="textbox-15" id="txtHouseNumberFromId" name="txtHouseNumberFrom"
+                                   onblur="autoFillCommand()" tabindex="34" th:field="*{txtHouseNumberFrom}" type="text">
+                            &nbsp;&nbsp;戸
+                            <span> ～ </span>
+                            <input class="textbox-15" id="txtHouseNumberToId" name="txtHouseNumberTo"
+                                   onblur="autoFillCommand()" tabindex="35" th:field="*{txtHouseNumberTo}" type="text"
+                            >&nbsp;&nbsp;戸
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="3">区市町村</th>
+                        <td class="text-colums-2">
+                            <div th:if="*{userType} == '2'">
+                                <span th:text="*{cityName}"></span>
+                                <input th:field="*{cityCode}" type="hidden"/>
+                                <input th:field="*{cityName}" type="hidden"/>
+                            </div>
+                            <div class="select-width-text" th:unless="*{userType} == '2'">
+                                <select class="select-search" th:field="*{cityCode}" tabindex="36" id="txtCityCode" name="txtCityCode">
+                                        <option value=""></option>
+                                        <option th:each="city, iterStat : *{lstCity}" th:value="${city.cityCode}" th:text="${city.cityName}"></option>
+                                </select>
+                                <div style="display:none;" th:each="item, iterStat : *{lstCity}">
+                                    <input type="hidden" th:field="*{lstCity[__${iterStat.index}__].cityCode}" />
+                                    <input type="hidden" th:field="*{lstCity[__${iterStat.index}__].cityName}" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-th-10" rowspan="4">ステータス</th>
+                        <th class="table-common-col-2" colspan="2">届出状況</th>
+                        <td>
+                            <div class="checkbox-div">
+                                <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoNotificationStatus}">
+                                    <div th:tabindex="${37 + iterStat.index}">
+                                        <input class="radio-items" name="rdoNotificationStatus"
+                                               th:field="*{rdoNotificationStatus}" th:id="'radio-noti-' + ${iterStat.index + 1}"
+                                               th:value="${item.value}"  type="radio">
+                                        <label th:for="'radio-noti-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <input th:field="*{lstRdoNotificationStatus[__${iterStat.index}__].value}" type="hidden"/>
+                                        <input th:field="*{lstRdoNotificationStatus[__${iterStat.index}__].label}" type="hidden"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            受理状況（新規）
+                        </th>
+                        <td>
+                        <div class="checkbox-div ">
+                            <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoAcceptanceStatusNew}">
+                                <div th:tabindex="${40 + iterStat.index}">
+                                    <input class="radio-items" name="rdoAcceptanceStatusNew"
+                                           th:field="*{rdoAcceptanceStatusNew}" th:id="'radio-accept-new-' + ${iterStat.index + 1}"
+                                           th:value="${item.value}" type="radio">
+                                    <label th:for="'radio-accept-new-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                    <input th:field="*{lstRdoAcceptanceStatusNew[__${iterStat.index}__].value}" type="hidden"/>
+                                    <input th:field="*{lstRdoAcceptanceStatusNew[__${iterStat.index}__].label}" type="hidden"/>
+                                </div>
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            受理状況（変更）
+                        </th>
+                        <td>
+                        <div class="checkbox-div ">
+                            <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoAcceptanceStatusChange}">
+                                <div th:tabindex="${43 + iterStat.index}">
+                                    <input class="radio-items" name="rdoAcceptanceStatusChange"
+                                           th:field="*{rdoAcceptanceStatusChange}" th:id="'radio-accept-change-' + ${iterStat.index + 1}"
+                                           th:value="${item.value}" type="radio">
+                                    <label th:for="'radio-accept-change-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                    <input th:field="*{lstRdoAcceptanceStatusChange[__${iterStat.index}__].value}" type="hidden"/>
+                                    <input th:field="*{lstRdoAcceptanceStatusChange[__${iterStat.index}__].label}" type="hidden"/>
+                                </div>
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            都支援対象
+                        </th>
+                        <td>
+                            <div class="checkbox-div">
+                                <div  class="radio-and-label r-width-6"th:each="item, iterStat : *{lstRdoSupportTarget}">
+                                    <div th:tabindex="${47 + iterStat.index}">
+                                        <input class="radio-items" name="rdoSupportTarget"
+                                                th:field="*{rdoSupportTarget}" th:id="'radio-support-' + ${iterStat.index + 1}" 
+                                                th:value="${item.value}" type="radio">
+                                        <label th:for="'radio-support-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <!-- Backup value when error -->
+                                        <input type="hidden" th:field="*{lstRdoSupportTarget[__${iterStat.index}__].value}" />
+                                        <input type="hidden" th:field="*{lstRdoSupportTarget[__${iterStat.index}__].label}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-th-10" rowspan="9">管理不全を予防するための必須事項</th>
+                        <th class="table-common-col-2" colspan="2">
+                            管理組合
+                        </th>
+                        <td>
+                            <div class="checkbox-div">
+                                <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoGroup}">
+                                    <div th:tabindex="${51 + iterStat.index}">
+                                        <input class="radio-items" name="rdoGroup"
+                                                   th:field="*{rdoGroup}" th:id="'radio-group-' + ${iterStat.index + 1}"
+                                                   th:value="${item.value}" type="radio">
+                                        <label th:for="'radio-group-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <input th:field="*{lstRdoGroup[__${iterStat.index}__].value}" type="hidden"/>
+                                        <input th:field="*{lstRdoGroup[__${iterStat.index}__].label}" type="hidden"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            管理者等
+                        </th>
+                        <td>
+                            <div class="checkbox-div">
+                                <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoManager}">
+                                    <div th:tabindex="${55 + iterStat.index}">
+                                        <input class="radio-items" name="rdoManager"
+                                           th:field="*{rdoManager}" th:id="'radio-manager-' + ${iterStat.index + 1}"
+                                           th:value="${item.value}" type="radio">
+                                        <label th:for="'radio-manager-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <input th:field="*{lstRdoManager[__${iterStat.index}__].value}" type="hidden"/>
+                                        <input th:field="*{lstRdoManager[__${iterStat.index}__].label}" type="hidden"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            管理規約
+                        </th>
+                        <td>
+                            <div class="checkbox-div">
+                                   <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRule}">
+                                    <div th:tabindex="${59 + iterStat.index}">
+                                        <input class="radio-items" name="rdoRule"
+                                           th:field="*{rdoRule}" th:id="'radio-rule-' + ${iterStat.index + 1}"
+                                           th:value="${item.value}" type="radio">
+                                        <label th:for="'radio-rule-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <input th:field="*{lstRule[__${iterStat.index}__].value}" type="hidden"/>
+                                        <input th:field="*{lstRule[__${iterStat.index}__].label}" type="hidden"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-th-1" rowspan="2">総会開催</th>
+                        <th class="table-common-th-1">
+                            年１回以上の開催
+                        </th>
+                        <td>
+                            <div class="checkbox-div">
+                                <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoOneyearOver}">
+                                    <div th:tabindex="${63 + iterStat.index}">
+                                        <input class="radio-items" name="rdoOneyearOver"
+                                           th:field="*{rdoOneyearOver}" th:id="'radio-oyo-' + ${iterStat.index + 1}"
+                                           th:value="${item.value}" type="radio">
+                                        <label th:for="'radio-oyo-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <input th:field="*{lstRdoOneyearOver[__${iterStat.index}__].value}" type="hidden"/>
+                                        <input th:field="*{lstRdoOneyearOver[__${iterStat.index}__].label}" type="hidden"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-th-1">
+                            議事録の作成
+                        </th>
+                        <td>
+                            <div class="checkbox-div">
+                                <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoMinutes}">
+                                    <div th:tabindex="${67 + iterStat.index}">
+                                        <input class="radio-items" name="rdoMinutes"
+                                           th:field="*{rdoMinutes}" th:id="'radio-minutes-' + ${iterStat.index + 1}"
+                                           th:value="${item.value}" type="radio">
+                                        <label th:for="'radio-minutes-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <input th:field="*{lstRdoMinutes[__${iterStat.index}__].value}" type="hidden"/>
+                                        <input th:field="*{lstRdoMinutes[__${iterStat.index}__].label}" type="hidden"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            管理費
+                        </th>
+                        <td>
+                            <div class="checkbox-div">
+                                <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoManagementCost}">
+                                    <div th:tabindex="${71 + iterStat.index}">
+                                        <input class="radio-items" name="rdoManagementCost"
+                                           th:field="*{rdoManagementCost}" th:id="'radio-mn-cost-' + ${iterStat.index + 1}"
+                                           th:value="${item.value}" type="radio">
+                                        <label th:for="'radio-mn-cost-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <input th:field="*{lstRdoManagementCost[__${iterStat.index}__].value}" type="hidden"/>
+                                        <input th:field="*{lstRdoManagementCost[__${iterStat.index}__].label}" type="hidden"/>
+                                    </div>
+                                   </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            修繕積立金
+                        </th>
+                        <td>
+                            <div class="checkbox-div">
+                                <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoRepairCost}">
+                                    <div th:tabindex="${75 + iterStat.index}">
+                                        <input class="radio-items" name="rdoRepairCost"
+                                                   th:field="*{rdoRepairCost}"th:id="'radio-rp-cost-' + ${iterStat.index + 1}"
+                                                   th:value="${item.value}" type="radio">
+                                        <label th:for="'radio-rp-cost-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                        <input th:field="*{lstRdoRepairCost[__${iterStat.index}__].value}" type="hidden"/>
+                                        <input th:field="*{lstRdoRepairCost[__${iterStat.index}__].label}" type="hidden"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            修繕の計画的な実施（大規模な修繕工事）
+                        </th>
+                        <td>
+                        <div class="checkbox-div">
+                            <div class="radio-and-label r-width-6" th:each="item, iterStat : *{lstRdoRepairPlan}">
+                                <div th:tabindex="${79 + iterStat.index}">
+                                    <input class="radio-items" name="rdoRepairPlan"
+                                           th:field="*{rdoRepairPlan}" th:id="'radio-rp-plan-' + ${iterStat.index + 1}"
+                                           th:value="${item.value}" type="radio">
+                                    <label th:for="'radio-rp-plan-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                    <input th:field="*{lstRdoRepairPlan[__${iterStat.index}__].value}" type="hidden"/>
+                                    <input th:field="*{lstRdoRepairPlan[__${iterStat.index}__].label}" type="hidden"/>
+                                </div>
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="table-common-col-2" colspan="2">
+                            管理不全の兆候
+                        </th>
+                        <td>
+                            <div tabindex="82">
+                                <input class="checkbox-item checkbox-2" th:checked="*{chkInadequateManagement}" name="chkInadequateManagement" id="chkInadequateManagement" type="checkbox"/>
+                                <label style="font-size: 1.6rem" th:for="'chkInadequateManagement'">管理不全を予防するための必須事項項目のうち、いずれかが「無」と回答</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+                <div class="btn-bottom" style="margin-top: 10px;">
+                    <button class="btn btn-black" type="button" th:onclick="onSearching()" tabindex="83">集計</button>
+                </div>
+            </div>
+            <!-- end table 2 -->
+            <!-- table 3 -->
+            <div class="table table-margin0" th:if="${dataAggregateResultVo} != null" th:with="count=${#lists.size(dataAggregateResultVo)}">
+                <div class="table" style="margin-top: 10px; margin-bottom: 6px;">
+                    <table class="table-1">
+                        <thead>
+                            <tr>
+                                <th colspan="2">集計結果</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <span th:if="${count} != '0'">全&nbsp;<span th:text="${count}"></span>&nbsp;件<br/></span>
+                <table th:if="${count} != '0'" class="table-2" style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th style="width: 4%;">No.</th>
+                            <th style="width: 12%;">集計単位</th>
+                            <th style="width: 12%;" th:each="label: ${lstLblSummaryItem}" th:text="${label}" />
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th:block th:each="row, iter1: ${dataAggregateResultVo}">
+                        <tr> 
+                            <td rowspan="2" th:text="${iter1.index + 1}"></td>
+                            <td rowspan="2" th:text="${row.aggregateCreditDsp}"></td>
+                            <th:block th:each="summary, iter2: ${row.lstSummaryItem}">
+                            <td>
+                                <input id="apartmentIdRef" name="apartmentIdRef" type="hidden"/>
+                                <a class="blue-text" href="" id="lnkApartmentName" th:if="${summary.lnkSummaryItem} != '0'" th:utext="${summary.lnkSummaryItem}" 
+                                    th:aggregateCredit="${row.aggregateCredit}" th:summaryCd="${summary.summaryCd}" 
+                                    onclick="summaryMansion(this.getAttribute('aggregateCredit'), this.getAttribute('summaryCd'))"
+                                    th:tabindex="${84 + (iter1.index * iter2.index)}"></a>
+                                <span th:if="${summary.lnkSummaryItem} == 0" th:utext="${summary.lnkSummaryItem}"></span>
+                            </td>
+                            </th:block>
+                        </tr>
+                        <tr> 
+                            <th:block th:each="summary, iter: ${row.lstSummaryItem}">
+                            <td th:text="${summary.lblSummaryItemAll}"></td>
+                            </th:block>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div> 
+            <!-- end table 3 -->
+
+            <div class="turn-back">
+            <!-- CSV button -->
+                <div class="btn-left" tabindex="785">
+                    <button type="button" class="btn btn-black" id="exportCsv" th:classappend="${dataAggregateResultVo} == null ? 'disable-item'">CSVファイル一括出力</button>
+                </div>
+            <!-- end CSV button -->
+
+            <!-- turn back bottom button -->
+                <div class="btn-right-margintop20" tabindex="786">
+                    <button class="btn-custom-border" type="button"  th:onclick="goBack()">戻る</button>
+                </div>
+            </div>
+            <!-- end turn back bottom button -->
+
+            <input th:field="*{userType}" type="hidden"/>
+        </form>
+        <!-- end content -->
+    </div>
+
+    <form id="submitToGKA0120" method="POST" th:action="@{/GKA0120/show}">
+        <input name="apartmentIds" type="hidden"/>
+    </form>
+
+</main>
+<!-- end main-->
+
+<!-- footer -->
+<th:block th:include="/fragments/main-footer"/>
+<!-- end footer -->
+<!-- js -->
+<script th:src="@{/js/jquery-ui.js}"></script>
+<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+<script th:src="@{/js/const.js}"></script>
+<script charset="utf-8" th:src="@{/js/jquery.validationEngine.js}" type="text/javascript"></script>
+<script th:src="@{/js/GKA0110.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<!-- end js -->
+
+</body>
+
+</html>

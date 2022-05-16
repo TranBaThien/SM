@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>MDA0110</title>
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{./lib/jquery-ui/jquery-ui.css}">
+<link rel="stylesheet" th:href="@{./css/jquery.datetimepicker.css}">
+<script th:src="@{./js/movescreen.js}"></script>
+<script th:src="@{./js/jquery-3.0.0.js}"></script>
+<script th:src="@{./lib/jquery-ui/external/jquery/jquery.js}"></script>
+<script th:src="@{./js/jquery-ui.js}"></script>
+<script th:src="@{./js/jquery.datetimepicker.full.min.js}"></script>
+
+</head>
+
+<body>
+	<!--Js-->
+	<script>
+		$(window).on("scroll", function () {
+			if ($(window).scrollTop() >= 300) {
+				$("#asddsa").css("display", "none");
+				$("#asddsa2").css("display", "block");
+				$("#asddsa2").attr("class", "scroll-btn");
+				$("#sizediv").css("margin-top", "220px");
+			} else {
+				$("#asddsa2").css("display", "none");
+				$("#asddsa").css("display", "block");
+				$("#asddsa2").removeAttr("class", "scroll-btn");
+				$("#sizediv").css("margin-top", "10px")
+			}
+		});
+	</script>
+	<!--end Js-->
+
+	<!-- header -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header -->
+
+	<!-- main -->
+	<main> <!-- title of main -->
+	<div class="main-header">
+		<div class="title-1">届出事項登録</div>
+	</div>
+	<!-- end title -->
+
+	<form th:action="@{/MDA0110}"
+		th:object="${baseMansionInfo}, ${notificationInfo}"
+		th:name="mansionForm, notificationForm" id="form"
+		class="advice-register" method="post" enctype="multipart/form-data">
+		<!-- content in main -->
+		<div id="contents">
+
+			<div id="asddsa2" class="scrolling-before">
+
+				<div class="turn-back">
+					<span class="column-1"><a href="MBA0110.html">メニューへ戻る</a></span>
+					<button class="btn-custom-border"
+						onclick='window.location = "GJA0120.html";'>戻る</button>
+				</div>
+				<div class="export-file-tbn">
+					<button class="btn-custom-border btn-export">一時保存</button>
+					<button class="btn-custom-border btn-export">復元</button>
+					<button class="btn-custom-border btn-export">エクスポート</button>
+				</div>
+				<div class="text-percent">入力状況 50/100（50％）</div>
+			</div>
+			<div id="asddsa">
+				<div class="turn-back">
+					<span class="column-1"><a href="MBA0110.html">メニューへ戻る</a></span>
+					<button class="btn-custom-border"
+						onclick='window.location = "GJA0120.html";'>戻る</button>
+				</div>
+				<div class="export-file-tbn">
+					<button class="btn-custom-border btn-export">一時保存</button>
+					<button class="btn-custom-border btn-export">復元</button>
+					<button class="btn-custom-border btn-export">エクスポート</button>
+				</div>
+
+				<div class="text-are-title">
+					<span>届出事項を入力し、「登録」ボタンをクリックしてください。</span>
+				</div>
+
+				<div class="text-percent">入力状況 50/100（50％）</div>
+			</div>
+			<div class="alert-error error-margin" id="sizediv">
+				<span>XXXX-W：別のマンションとして登録されているマンションと同じマンション名です。入力内容を見直してください。</span><br />
+				<span>XXXX-E：別のユーザが変更届出したため、登録できません。届出の状態を確認してください。</span><br />
+			</div>
+
+			<!-- table import -->
+			<div class="table">
+
+				<table class="table-import">
+					<thead>
+						<tr>
+							<th colspan="2" class="table-3-th1">インポートファイル指定</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>インポートファイル</th>
+							<td>
+								<div class="btn-import">
+									<input type="text" id="text-upload" class="input-import">
+									<input type="file" id="real-file" hidden="hidden">
+									<button class="btn-custom-border"
+										onclick="uploadFile('text-upload','real-file')">参照</button>
+									<button class="btn-custom-border btn-margin-5"
+										onclick="clearText('text-upload','real-file')">インポート</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- End table import -->
+
+			<div class="list-menu">
+				<span class="collapse "><a id="b2" href="#">届出基本情報</a></span> <span
+					class="collapse "><a id="b3" href="#">届出情報</a></span> <span
+					class="collapse "><a id="b4" href="#">マンションの概要</a></span> <span
+					class="collapse "><a id="b5" href="#">管理不全を予防するための必須事項</a></span> <span
+					class="collapse "><a id="b6" href="#">適正な維持管理に関する事項</a></span><br>
+				<span class="collapse "><a id="b7" href="#">マンションの社会的機能の向上に資する取組に関する事項</a></span>
+				<span class="collapse "><a id="b8" href="#">連絡先</a></span> <span
+					class="collapse "><a id="b9" href="#">任意項目情報</a></span><br> <span
+					class="collapse "><a onclick="showAll()" href="#a1">全て開く</a></span>
+				<span class="collapse "><a onclick="closeAll()" href="#">全て閉じる</a></span>
+			</div>
+
+
+			<div class="main-contents-btn">
+
+				<!-- table base information -->
+				<th:block th:insert="~{fragments/mansion-template :: mansion-info}"></th:block>
+				<!-- end table base information -->
+
+				<!-- table report base information -->
+				<th:block
+					th:insert="~{fragments/mansion-template :: notification-info}"></th:block>
+				<!-- end table report base information -->
+
+				<!-- table notification info-->
+				<div class="table" id="a3">
+					<table class="table-notification-info">
+						<thead>
+							<th class="table-common-title" colspan="3">
+								<div class="checkbox-div">
+									届出情報
+									<button class="btn-custom-border" id="btn-table-3">非表示</button>
+								</div>
+							</th>
+						</thead>
+						<tbody id="tbody-3">
+							<tr>
+								<th class="table-common-col-2" colspan="2">受付番号</th>
+								<td><lable>1234567890</lable></td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2 madatory" colspan="2">届出年月日<span
+									class="form-note">必須</span>
+								</th>
+								<td class="text-date"><span>(西暦)</span> <input type="text"
+									maxlength="10" class="text-input-date date-picker"
+									id="datepicker-1" value="2019/01/01"> <img
+									class="ui-datepicker-trigger correspondDate"
+									src="images/icon-calendar.svg" alt="Choose" title="Choose"
+									id="button-datepicker-1"></td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1" rowspan="2">届出者</th>
+								<th class="table-common-th-1">管理組合名</th>
+								<td>
+									<div class="checkbox-div">
+										<input type="text" maxlength="2" class="fullchar"
+											value="〇〇マンション"> <span class="text-span">管理組合</span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">届出者氏名</th>
+								<td><input type="text" maxlength="2" class="fullchar"
+									value="赤坂　太郎"></td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">届出種別</th>
+								<td>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio" class="radio-items"
+											id="radio-1"> <label for="radio-1">新規</label>
+									</div>
+									<div class="radio-and-label r-width-3">
+										<input type="radio" id="radio-2" name="radio"
+											class="radio-items "> <label for="radio-2">更新</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">変更理由</th>
+								<td>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-reason" class="radio-items "
+											id="radio-3"> <label for="radio-3">変更</label>
+									</div>
+									<div class="radio-and-label r-width-3">
+										<input type="radio" id="radio-4" name="radio-reason"
+											class="radio-items "> <label for="radio-4">建物の滅失その他の事由</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">建物の滅失その他の事由</th>
+								<td>建物の滅失その他の事由の場合に選択してください。
+									<div class="radio-and-label  radio-reason">
+										<input type="radio" id="r-2" name="radio-reason-1"
+											class="radio-items r-dis"> <label for="r-2">建物を除却したため</label>
+									</div>
+									<div class="div-radio-tblcell radio-and-label radio-reason">
+										<input type="radio" id="r-3" name="radio-reason-1"
+											class="radio-items r-dis"> <label for="r-3">区分所有建物ではなくなったため</label>
+									</div>
+									<div class="flex-row">
+										<div class="radio-and-label radio-reason-1">
+											<input type="radio" id="r-4" name="radio-reason-1"
+												class="radio-items"> <label for="r-4">その他</label>
+										</div>
+										<input type="text" maxlength="2" name="" id="" value=""
+											class="in-reason">
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- end table notification info -->
+
+				<!-- table overview mansion -->
+				<div class="table" id="a4">
+					<table class="table-overview-mansion">
+						<thead>
+							<th class="table-common-title" colspan="3">
+								<div class="checkbox-div">
+									マンションの概要
+									<button class="btn-custom-border" id="btn-table-4">非表示</button>
+								</div>
+							</th>
+						</thead>
+						<tbody id="tbody-4">
+							<tr>
+								<th class="table-common-th-1" rowspan="3">管理組合の形態</th>
+								<th class="table-common-th-1">団地管理組合か否か</th>
+								<td>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-union" class="radio-items "
+											id="r-5"> <label for="r-5"> 回答しない</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-6" name="radio-union"
+											class="radio-items "> <label for="r-6">団地管理組合である</label>
+									</div>
+									<div class="radio-and-label r-width-3">
+										<input type="radio" id="r-7" name="radio-union"
+											class="radio-items "> <label for="r-7">団地管理組合ではない</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">棟数</th>
+								<td>団地管理組合である場合に入力してください。 <br /> 全 <input type="text"
+									class="halfchar" value="111"> 棟
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">管理の形態</th>
+								<td>団地管理組合である場合に選択してください。
+									<div class="radio-and-label  radio-reason">
+										<input type="radio" name="radio-reason-1" class="radio-items"
+											id="r-8"> <label for="r-8">回答しない</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-9" name="radio-reason-1"
+											class="radio-items "> <label for="r-9">棟別管理組合が中心となり、管理を行っている</label>
+									</div>
+									<div class="radio-and-label">
+										<input type="radio" id="r-10" name="radio-reason-1"
+											class="radio-items"> <label for="r-10">団地管理組合が中心となり、管理を行っている</label>
+									</div>
+									<div class="flex-row">
+										<div class="radio-and-label radio-reason-1">
+											<input type="radio" id="r-11" name="radio-reason-1"
+												class="radio-items "> <label for="r-11">その他</label>
+										</div>
+										<input type="text" class="in-reason">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">戸数</th>
+								<td>団地管理組合の場合は、各棟の戸数を記載してください。 <br /> 全 <input type="text"
+									maxlength="2" class="halfchar" value="1,000"> 戸
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">階数</th>
+								<td><input type="text" maxlength="3" class="postal-code-1">
+									<span class="span-blank">階</span></td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">新築年月日</th>
+								<td class="text-date"><span>(西暦)</span> <input type="text"
+									maxlength="10" class="text-input-date" id="datepicker-2"
+									value="2019/09/11"> <img
+									class="ui-datepicker-trigger correspondDate"
+									src="images/icon-calendar.svg" alt="Choose" title="Choose"
+									id="button-datepicker-2"></td>
+							</tr>
+
+							<tr>
+								<th class="table-common-col-2" colspan="2">土地の権利</th>
+								<td>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-land-right"
+											class="radio-items " id="r-12"> <label for="r-12">回答しない</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-land-right"
+											class="radio-items " id="r-13"> <label for="r-13">所有権</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-14" name="radio-land-right"
+											class="radio-items "> <label for="r-14">借地権</label>
+									</div>
+									<div class="radio-and-label r-width-3">
+										<input type="radio" id="r-15" name="radio-land-right"
+											class="radio-items "> <label for="r-15">定期借地権</label>
+									</div>
+									<div class="flex-row">
+										<div class="radio-and-label radio-reason-1">
+											<input type="radio" id="r-16" name="radio-land-right"
+												class="radio-items "> <label for="r-16">その他</label>
+										</div>
+										<input type="text" class="in-reason">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">併設用途</th>
+								<td>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-application"
+											class="radio-items " id="r-17"> <label for="r-17">回答しない</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-application"
+											class="radio-items " id="r-18"> <label for="r-18">なし</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-19" name="radio-application"
+											class="radio-items "> <label for="r-19">店舗</label>
+									</div>
+									<div class="radio-and-label r-width-3">
+										<input type="radio" id="r-20" name="radio-application"
+											class="radio-items "> <label for="r-20">事務所</label>
+									</div>
+									<div class="flex-row">
+										<div class="radio-and-label radio-reason-1">
+											<input type="radio" id="r-21" name="radio-application"
+												class="radio-items"> <label for="r-21">その他</label>
+										</div>
+										<input type="text" class="in-reason">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1" rowspan="6">管理形態</th>
+								<th class="table-common-th-1">管理形態</th>
+								<td>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-manage-form"
+											class="radio-items " id="r-22"> <label for="r-22">回答しない</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-manage-form"
+											class="radio-items " id="r-23"> <label for="r-23">全部委託</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-24" name="radio-manage-form"
+											class="radio-items "> <label for="r-24">一部委託</label>
+									</div>
+									<div class="radio-and-label r-width-3">
+										<input type="radio" id="r-25" name="radio-manage-form"
+											class="radio-items "> <label for="r-25">自主管理</label>
+									</div>
+									<div class="flex-row">
+										<div class="radio-and-label radio-reason-1">
+											<input type="radio" id="r-26" name="radio-manage-form"
+												class="radio-items "> <label for="r-26">その他</label>
+										</div>
+										<input type="text" class="in-reason">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">管理業者名</th>
+								<td>全部委託または一部委託の場合は記載してください。 <input type="text"
+									maxlength="2" class="fullchar">
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">管理業者名フリガナ</th>
+								<td><input type="text" maxlength="2" class="fullchar">
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">郵便番号</th>
+								<td><input type="text" maxlength="3" class="postal-code-1"><span
+									class="span-blank">-</span> <input type="text" maxlength="4"
+									class="postal-code-2">
+									<button class="btn-custom-border button-custom-with82">自動入力</button>
+								</td>
+							</tr>
+
+							<tr>
+								<th class="table-common-th-1">住所</th>
+								<td><input type="text" class="fullchar"></td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">電話番号</th>
+								<td><input type="text" maxlength="5"
+									class="number-phone-1"><span class="span-blank">-</span>
+									<input type="text" maxlength="4" class="number-phone-2"><span
+									class="span-blank">-</span> <input type="text" maxlength="4"
+									class="number-phone-2"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- end table overview mansion -->
+
+				<!-- table  essebtials to prevent management failure -->
+				<div class="table" id="a5">
+					<table class="table-notification-info">
+						<thead>
+							<th class="table-common-title" colspan="3">
+								<div class="checkbox-div">
+									管理不全を予防するための必須事項
+									<button class="btn-custom-border" id="btn-table-5">非表示</button>
+								</div>
+							</th>
+						</thead>
+						<tbody id="tbody-5">
+							<tr>
+								<th class="table-common-col-2 madatory" colspan="2">管理組合 <span
+									class="form-note">必須</span>
+								</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-1">
+											<input type="radio" name="radio-association"
+												class="radio-items " id="r-27"> <label for="r-27">ある</label>
+										</div>
+										<div class="radio-and-label r-width-2">
+											<input type="radio" name="radio-association"
+												class="radio-items" id="r-28"> <label for="r-28">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2 madatory" colspan="2">管理者等 <span
+									class="form-note">必須</span>
+								</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-1">
+											<input type="radio" name="radio-admin" class="radio-items "
+												id="r-29"> <label for="r-29">いる</label>
+										</div>
+										<div class="radio-and-label r-width-2">
+											<input type="radio" name="radio-admin" class="radio-items "
+												id="r-30"> <label for="r-30">いない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2 madatory" colspan="2">管理規約 <span
+									class="form-note">必須</span>
+								</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-1">
+											<input type="radio" name="radio-agree" class="radio-items"
+												id="r-31"> <label for="r-31">ある</label>
+										</div>
+										<div class="radio-and-label r-width-2">
+											<input type="radio" name="radio-agree" class="radio-items"
+												id="r-32"> <label for="r-32">ない</label>
+										</div>
+									</div>
+									<div class="flex-row">
+										最終改正年（西暦） <input type="text" maxlength="3" class="halfchar">
+										年
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1 madatory" rowspan="2">総会開催 <span
+									class="form-note">必須</span>
+								</th>
+								<th class="table-common-th-1">年1回以上の開催</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-1">
+											<input type="radio" name="radio-general-1"
+												class="radio-items " id="r-33"> <label for="r-33">ある</label>
+										</div>
+										<div class="radio-and-label r-width-2">
+											<input type="radio" name="radio-general-1"
+												class="radio-items " id="r-34"> <label for="r-34">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">議事録</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-1">
+											<input type="radio" name="radio-general-2"
+												class="radio-items " id="r-35"> <label for="r-35">ある</label>
+										</div>
+										<div class="radio-and-label r-width-2">
+											<input type="radio" name="radio-general-2"
+												class="radio-items " id="r-36"> <label for="r-36">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2 madatory" colspan="2">管理費 <span
+									class="form-note">必須</span>
+								</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-1">
+											<input type="radio" name="radio-expense" class="radio-items "
+												id="r-37"> <label for="r-37">ある</label>
+										</div>
+										<div class="radio-and-label r-width-2">
+											<input type="radio" name="radio-expense" class="radio-items "
+												id="r-38"> <label for="r-38">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2 madatory" colspan="2">修繕積立金 <span
+									class="form-note">必須</span>
+								</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-1">
+											<input type="radio" name="radio-repair" class="radio-items "
+												id="r-39"> <label for="r-39">ある</label>
+										</div>
+										<div class="radio-and-label r-width-2">
+											<input type="radio" name="radio-repair" class="radio-items "
+												id="r-40"> <label for="r-40">ない</label>
+										</div>
+									</div>
+									<div class="flex-row">
+										㎡当たり月額&nbsp; <input type="text" value="2,000,000"
+											class="halfchar13"> 円/㎡（月当たり）
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th class="table-common-col-2 madatory" colspan="2">
+									修繕の計画的な実施<br /> （大規模な修繕工事） <span class="form-note">必須</span>
+								</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-1">
+											<input type="radio" name="radio-sys-repair"
+												class="radio-items " id="r-41"> <label for="r-41">ある</label>
+										</div>
+										<div class="radio-and-label r-width-2">
+											<input type="radio" name="radio-sys-repair"
+												class="radio-items " id="r-42"> <label for="r-42">ない</label>
+										</div>
+									</div>
+									<div class="flex-row">
+										直近実施年 （西暦) <input type="text" class="halfchar"> 年
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- end table  essebtials to prevent management failure -->
+
+				<!-- table oppropriate maintenance -->
+				<div class="table" id="a6">
+					<table class="table-oppropriate-maintenance">
+						<thead>
+							<th class="table-common-title" colspan="3">
+								<div class="checkbox-div">
+									適正な維持管理に関する事項
+									<button class="btn-custom-border" id="btn-table-6">非表示</button>
+								</div>
+							</th>
+						</thead>
+						<tbody id="tbody-6">
+							<tr>
+								<th class="table-common-col-2" colspan="2">長期修繕計画</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-plan-repair"
+												class="radio-items " id="r-43"> <label for="r-43">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-plan-repair"
+												class="radio-items " id="r-44"> <label for="r-44">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-plan-repair"
+												class="radio-items " id="r-45"> <label for="r-45">ない</label>
+										</div>
+									</div>
+									<div class="input-repair">
+										最新作成年（西暦) <input type="text" class="halfchar"> 年
+									</div>
+									<div class="input-repair">
+										計画期間 <input type="text" class="halfchar"> 年間
+									</div>
+									<div class="input-repair">
+										(西暦) <input type="text" class="halfchar"> 年度 <span
+											class="span-blank-1">～</span> <input type="text"
+											class="halfchar"> 年度
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">滞納対応に関するルール</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-non-payment"
+												class="radio-items " id="r-46"> <label for="r-46">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-non-payment"
+												class="radio-items " id="r-47"> <label for="r-47">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-non-payment"
+												class="radio-items " id="r-48"> <label for="r-48">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">区分所有者等 名簿等</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-category"
+												class="radio-items " id="r-49"> <label for="r-49">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-category"
+												class="radio-items " id="r-50"> <label for="r-50">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-category"
+												class="radio-items " id="r-51"> <label for="r-51">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">空き住戸</th>
+								<td>【割合】
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-empty-dwelling"
+											class="radio-items " id="r-52"> <label for="r-52">回答しない</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-empty-dwelling"
+											class="radio-items " id="r-53"> <label for="r-53">0％</label>
+									</div>
+									<div class="radio-and-label radio-reason radio-reason">
+										<input type="radio" id="r-54" name="radio-empty-dwelling"
+											class="radio-items "> <label for="r-54">～5％</label>
+									</div>
+									<div class="radio-and-label">
+										<input type="radio" id="r-55" name="radio-empty-dwelling"
+											class="radio-items "> <label for="r-55">～10％</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-55-1" name="radio-empty-dwelling"
+											class="radio-items "> <label for="r-55-1">～15％</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-56" name="radio-empty-dwelling"
+											class="radio-items "> <label for="r-56">～20％</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-57" name="radio-empty-dwelling"
+											class="radio-items "> <label for="r-57">～20％超</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-58" name="radio-empty-dwelling"
+											class="radio-items"> <label for="r-58">不明</label>
+									</div> 【戸数】<br /> <input type="text" class="halfchar"> 戸
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">賃貸化住戸</th>
+								<td>【割合】
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-rental" class="radio-items "
+											id="r-59"> <label for="r-59">回答しない</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-rental" class="radio-items "
+											id="r-60"> <label for="r-60">0％</label>
+									</div>
+									<div class="radio-and-label radio-reason radio-reason">
+										<input type="radio" id="r-61" name="radio-rental"
+											class="radio-items "> <label for="r-61">～5％</label>
+									</div>
+									<div class="radio-and-label">
+										<input type="radio" id="r-62" name="radio-rental"
+											class="radio-items "> <label for="r-62">～10％</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-63" name="radio-rental"
+											class="radio-items "> <label for="r-63">～20％</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-64" name="radio-rental"
+											class="radio-items "> <label for="r-64">～20％超</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" id="r-65" name="radio-rental"
+											class="radio-items"> <label for="r-65">不明</label>
+									</div> 【戸数】<br /> <input type="text" class="halfchar"> 戸
+								</td>
+							</tr>
+
+							<tr>
+								<th class="table-common-th-1" rowspan="5">耐震化の状況</th>
+							<tr>
+								<th class="table-common-th-1"></th>
+								<td>1981年5月31日以前に建築確認を受けたマンションである場合のみ回答してください。</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">耐震診断</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-diagnosis"
+												class="radio-items " id="r-66"> <label for="r-66">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-diagnosis"
+												class="radio-items " id="r-67"> <label for="r-67">実施済</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-diagnosis"
+												class="radio-items " id="r-68"> <label for="r-68">未実施</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">耐震性</th>
+								<td>耐震診断を実施済みの場合に回答してください。
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-earthquake-proof"
+												class="radio-items" id="r-69"> <label for="r-69">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-earthquake-proof"
+												class="radio-items" id="r-70"> <label for="r-70">耐震性あり</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-earthquake-proof"
+												class="radio-items" id="r-71"> <label for="r-71">耐震性なし</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">耐震改修</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-seis-retrofit"
+												class="radio-items r-width-col-3" id="r-72"> <label
+												for="r-72">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-seis-retrofit"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-73">
+											<label for="r-73">実施済</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-seis-retrofit"
+												class="radio-items" id="r-74"> <label for="r-74">未実施</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							</tr>
+
+							<tr>
+								<th class="table-common-col-2" colspan="2">設計図書</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-desgin-book"
+												class="radio-items r-width-col-3" id="r-75"> <label
+												for="r-75">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-desgin-book"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-76">
+											<label for="r-76">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-desgin-book"
+												class="radio-items" id="r-77"> <label for="r-77">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2" colspan="2">修繕履歴</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-repair-history"
+												class="radio-items r-width-col-3" id="r-78"> <label
+												for="r-78">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-repair-history"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-79">
+											<label for="r-79">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-repair-history"
+												class="radio-items" id="r-80"> <label for="r-80">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- end table  oppropriate maintenance -->
+
+				<!-- table  issue improvement for social functions of mansion -->
+				<div class="table" id="a7">
+					<table class="table-improvenment-mansion">
+						<thead>
+							<th class="table-common-title" colspan="2">
+								<div class="checkbox-div">
+									マンションの社会的機能の向上に資する取組に関する事項
+									<button class="btn-custom-border" id="btn-table-7">非表示</button>
+								</div>
+							</th>
+						</thead>
+						<tbody id="tbody-7">
+							<tr>
+								<th class="table-title-th" colspan="2">防災への取組</th>
+							<tr>
+								<th class="table-common-col-2">自主防災組織</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-1"
+												class="radio-items r-width-col-3" id="r-81"> <label
+												for="r-81">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-1"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-82">
+											<label for="r-82">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-1" class="radio-items"
+												id="r-83"> <label for="r-83">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">防災マニュアル</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-2"
+												class="radio-items r-width-col-3" id="r-84"> <label
+												for="r-84">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-2"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-85">
+											<label for="r-85">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-2" class="radio-items"
+												id="r-86"> <label for="r-86">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">防災用品の備蓄</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-4"
+												class="radio-items r-width-col-3" id="r-87"> <label
+												for="r-87">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-4"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-88">
+											<label for="r-88">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-4" class="radio-items"
+												id="r-89"> <label for="r-89">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">避難行動要支援者名簿</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-5"
+												class="radio-items r-width-col-3" id="r-90"> <label
+												for="r-90">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-5"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-91">
+											<label for="r-91">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-5" class="radio-items"
+												id="r-92"> <label for="r-92">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">防災訓練の定期的な実施</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-6"
+												class="radio-items r-width-col-3" id="r-93"> <label
+												for="r-93">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-6"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-94">
+											<label for="r-94">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-6" class="radio-items"
+												id="r-95"> <label for="r-95">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							</tr>
+
+							<tr>
+								<th class="table-title-th" colspan="2">バリアフリー化・環境への取組又は実施</th>
+							<tr>
+								<th class="table-common-col-2">エントランスのバリアフリー化（スロープの設置など）</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-7"
+												class="radio-items r-width-col-3" id="r-96"> <label
+												for="r-96">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-7"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-97">
+											<label for="r-97">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-7" class="radio-items"
+												id="r-98"> <label for="r-98">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">共用廊下等への手すりの設置</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-8"
+												class="radio-items r-width-col-3" id="r-99"> <label
+												for="r-99">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-8"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-100">
+											<label for="r-100">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-8" class="radio-items"
+												id="r-101"> <label for="r-101">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">エレベーターの設置</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-9"
+												class="radio-items r-width-col-3" id="r-102"> <label
+												for="r-102">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-9"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-103">
+											<label for="r-103">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-9" class="radio-items"
+												id="r-104"> <label for="r-104">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">共用部分のLED化</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-10"
+												class="radio-items r-width-col-3" id="r-105"> <label
+												for="r-105">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-10"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-106">
+											<label for="r-106">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-10"
+												class="radio-items" id="r-107"> <label for="r-107">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">開口部の遮熱性能の向上（二重窓・外断熱等）</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-11"
+												class="radio-items r-width-col-3" id="r-108"> <label
+												for="r-108">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-11"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-109">
+											<label for="r-109">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-11"
+												class="radio-items" id="r-110"> <label for="r-110">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-col-2">電気自動車等用充電設備の設置等</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-13"
+												class="radio-items r-width-col-3" id="r-111"> <label
+												for="r-111">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-13"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-112">
+											<label for="r-112">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-13"
+												class="radio-items" id="r-113"> <label for="r-113">ない</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							</tr>
+
+							<tr>
+								<th class="table-title-th" colspan="2">地域コミュニティの形成等の取組</th>
+							<tr>
+								<th class="table-common-col-2">地域コミュニティの形成等の取組</th>
+								<td>
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-14"
+												class="radio-items r-width-col-3" id="r-114"> <label
+												for="r-114">回答しない</label>
+										</div>
+										<div class="radio-and-label r-midle-col-3 r-width-col-3">
+											<input type="radio" name="radio-effort-14"
+												class="radio-items r-midle-col-3 r-width-col-3" id="r-115">
+											<label for="r-115">ある</label>
+										</div>
+										<div class="radio-and-label r-width-col-3">
+											<input type="radio" name="radio-effort-14"
+												class="radio-items" id="r-116"> <label for="r-116">ない</label>
+										</div>
+									</div> 例：町会・自治会との共催事業・協力連携イベント（祭り・運動会・防災訓練・清掃活動等）
+								</td>
+							</tr>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- end table  issue improvement for social functions of mansion -->
+
+				<!-- Table  contact imformation -->
+				<div class="table" id="a8">
+					<table class="table-contact-infor">
+						<thead>
+							<th class="table-common-title" colspan="3">
+								<div class="checkbox-div">
+									連絡先
+									<button class="btn-custom-border" id="btn-table-8">非表示</button>
+								</div>
+							</th>
+						</thead>
+						<tbody id="tbody-8">
+							<tr>
+								<th class="table-common-th-1 madatory" rowspan="8">連絡窓口 <span
+									class="form-note">必須</span>
+								</th>
+								<th class="table-common-th-1">属性</th>
+								<td>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-contact-person"
+											class="radio-items " id="r-117"> <label for="r-117">管理組合理事長</label>
+									</div>
+									<div class="radio-and-label radio-reason">
+										<input type="radio" name="radio-contact-person"
+											class="radio-items " id="r-118"> <label for="r-118">区分所有者等</label>
+									</div>
+									<div class="radio-and-label r-width-3">
+										<input type="radio" id="r-119" name="radio-contact-person"
+											class="radio-items "> <label for="r-119">マンション管理業者</label>
+									</div>
+									<div class="flex-row">
+										<div class="radio-and-label radio-reason-1">
+											<input type="radio" id="r-120" name="radio-contact-person"
+												class="radio-items "> <label for="r-120">その他</label>
+										</div>
+										<input type="text" class="in-reason">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">郵便番号</th>
+								<td><input type="text" maxlength="3" class="postal-code-1"><span
+									class="span-blank">-</span> <input type="text" maxlength="4"
+									class="postal-code-2">
+									<button class="btn-custom-border button-custom-with82">自動入力</button>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">住所</th>
+								<td><input type="text" class="fullchar"></td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">電話番号</th>
+								<td><input type="text" maxlength="5" class="number-phone-1"><span
+									class="span-blank">-</span> <input type="text" maxlength="4"
+									class="number-phone-2"><span class="span-blank">-</span>
+									<input type="text" maxlength="4" class="number-phone-2">
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">氏名</th>
+								<td><input type="text" class="fullchar"></td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">氏名フリガナ</th>
+								<td><input type="text" class="fullchar"></td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">メールアドレス</th>
+								<td>オンラインによる届出の場合は必ず入力してください。 <input type="email"
+									class="fullchar">
+								</td>
+							</tr>
+							<tr>
+								<th class="table-common-th-1">em （確認）</th>
+								<td><input type="email" class="fullchar"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- end table  contact imformation -->
+
+				<!-- Table  optional information -->
+				<div class="table" id="a9">
+					<table class="table-optional-infor">
+						<thead>
+							<th class="table-common-title" colspan="2">任意項目情報</th>
+						</thead>
+						<tbody id="tbody-10">
+							<th class="table-common-col-2">自由記述欄</th>
+							<td><textarea rows="4"></textarea></td>
+						</tbody>
+					</table>
+				</div>
+				<!-- end table  optional information -->
+
+			</div>
+
+			<div class="text-main-export">
+				<span>【留意事項】</span><br />
+				<p>1 東京におけるマンションの適正な管理の促進に関する条例（平成31年東京都条例第30号）第3条第2項では、
+					条例の施行及びマンションの適正な管理の促進を図るための施策の実施に当たって、
+					特別区及び市町村（以下「区市町村」という。）が行う施策に対し、都は必要な支援を行うものとしています。
+					区市町村と緊密に連携し、情報の共有を図るとともに必要な支援を行うため、本届出内容は、同条第3項に定めるデータベースに記録するとともに、
+					都と区市町村とで共有させていただきます。</p>
+				<p>2 御回答いただいた内容は、条例の施行のほか、
+					マンションの建替えや耐震化の促進に関する施策の実施に当たっての基礎資料及び連絡先として利用する場合がありますが、
+					行政目的以外に利用することはありません。</p>
+			</div>
+
+			<div class="text-box">
+				<input type="checkbox" class="checkbox-item" name="csample"
+					id="cd-4"> <label for="cd-4">入力内容を確認しました</label>
+			</div>
+
+			<div class="btn-bottom">
+				<button type="submit" class="btn btn-black" onclick="Register()">登録</button>
+			</div>
+
+			<div class="turn-back-bottom">
+				<button class="btn-custom-border"
+					onclick='window.location = "GJA0120.html";'>戻る</button>
+			</div>
+
+		</div>
+		<!--			<input type="hidden" th:field="${baseMansionInfo.apartmentId}"/>-->
+		<!--			<input type="hidden" th:field="${notificationInfo.notificationNo}"/>-->
+		<!-- end contents -->
+
+	</form>
+	</main>
+	<!-- End main -->
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+	<!-- js -->
+	<script th:src="@{/js/jquery-ui/jquery-ui.js}"></script>
+	<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+	<script th:src="@{/js/const.js}"></script>
+	<script th:src="@{/js/jquery.validationEngine.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{./js/main.js}"></script>
+	<script th:src="@{/js/movescreen.js}"></script>
+	<script>
+		function registrationMDA0110() {
+			var a = "[[${object]]}";
+			var form = document.getElementsByName('mansionForm');
+			form[0].submit()
+			window.location.href = "MBA0110.html";
+		}
+	</script>
+	<!-- end js -->
+</body>
+</html>

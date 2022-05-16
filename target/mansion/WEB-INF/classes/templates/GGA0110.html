@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>GGA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script>
+    $(document).ready(function(){
+        $('#ReStore').click(function() {
+            var form = document.getElementsByName('GGA0110form');
+            $(form).attr('action', '/GGA0110/ReStore');
+            form[0].submit();
+         });
+        function registrationGGA0110() {
+            var form = document.getElementsByName('GGA0110form');
+            form[0].submit();
+        }
+        /* Jquery validation engine */
+        $(".survay-register").validationEngine({
+            promptPosition : "bottomLeft",
+            showArrowOnRadioAndCheckbox : true,
+            focusFirstField : true,
+            scroll : false,
+            'custom_error_messages': {
+                "#txtAppendixNo": {
+                    'required': {
+                        'message': getMessage(REQUIRED, '様式名')
+                    },
+                    'custom[specialCharacters]' : {
+                        'message': getMessage(SPECIAL_CHARACTERS, ['様式名'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, ['様式名', '20'])
+                    }
+                },
+                "#txtDocumentNo": {
+                    'required': {
+                        'message': getMessage(REQUIRED, '文書番号')
+                    },
+                    'custom[specialCharacters]' : {
+                        'message': getMessage(SPECIAL_CHARACTERS, ['文書番号'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, ['文書番号', '20'])
+                    }
+                },
+                "#txtRecipientNameApartment": {
+                    'required': {
+                        'message': getMessage(REQUIRED, ' 宛先(マンション名)')
+                    },
+                    'custom[specialCharacters]' : {
+                        'message': getMessage(SPECIAL_CHARACTERS, ['宛先(マンション名)'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, [' 宛先(マンション名)', '50'])
+                    }
+                },
+                "#txtRecipientNameUser": {
+                    'required': {
+                        'message': getMessage(REQUIRED, '宛先(氏名等)')
+                    },
+                    'custom[specialCharacters]' : {
+                        'message': getMessage(SPECIAL_CHARACTERS, ['宛先(氏名等)'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, ['宛先(氏名等)', '26'])
+                    }
+                },
+                "#txtSender": {
+                    'required': {
+                        'message': getMessage(REQUIRED, '発信者名')
+                    },
+                    'custom[specialCharacters]' : {
+                        'message': getMessage(SPECIAL_CHARACTERS, ['発信者名'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, ['発信者名', '20'])
+                    }
+                },
+                "#txtTextAdress": {
+                    'required': {
+                        'message': getMessage(REQUIRED, '本文中宛名')
+                    },
+                    'custom[specialCharacters]' : {
+                        'message': getMessage(SPECIAL_CHARACTERS, ['本文中宛名'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, ['本文中宛名', '31'])
+                    }
+                },
+                "#txtInvestImplNumberPeople": {
+                    'required': {
+                        'message': getMessage(REQUIRED, '調査を行う者')
+                    },
+                    'halfwidthNumbers' : {
+                        'message': getMessage(MAXIMUM, ['調査を行う者'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, ['調査を行う者', '1'])
+                    }
+                },
+                "#txtNecessaryDocument": {
+                    'required': {
+                        'message': getMessage(REQUIRED, '必要となる書類')
+                    },
+                    'custom[specialCharacters]' : {
+                        'message': getMessage(SPECIAL_CHARACTERS, ['必要となる書類'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, ['必要となる書類', '100'])
+                    }
+                },
+                "#txaContact": {
+                    'required': {
+                        'message': getMessage(REQUIRED, '担当・連絡先')
+                    },
+                    'custom[specialCharacters]' : {
+                        'message': getMessage(SPECIAL_CHARACTERS, ['担当・連絡先'])
+                    },
+                    'maxSize' : {
+                        'message': getMessage(MAXIMUM, ['担当・連絡先', '300'])
+                    }
+                }
+            },
+            onValidationComplete: function(form, status){
+                var action = $(form).attr('action');
+                if(status == true) {
+                    if (submitType =='registerSurvey') {
+                        $(form).attr('action', '/GGA0110/save');
+                        $("#div3").dialog({
+                            modal:true, //モーダル表示
+                            title:"確認ダイアログ", //タイトル
+                            width: 305,
+                            buttons: {
+                            "OK": function() {
+                                registrationGGA0110();
+                                },
+                            "キャンセル": function() {
+                                $(this).dialog("close"); 
+                                }
+                            }
+                        });
+                    } else if (submitType =='temporarySave') {
+                        $(form).attr('action', '/GGA0110/TemporarySave');
+                        $("#div3").dialog({
+                            modal:true, //モーダル表示
+                            title:"確認ダイアログ", //タイトル
+                            width: 305,
+                            buttons: {
+                            "OK": function() {
+                                registrationGGA0110();
+                                },
+                            "キャンセル": function() {
+                                $(this).dialog("close"); 
+                                }
+                            }
+                        });
+                    }
+                    
+                }
+            }
+        });
+
+        redirecToGJA0120 = "[[${redirecToGJA0120}]]";
+        message = "[[${messageeErrors}]]";
+        apartmentId = "[[${GGA0110Vo.apartmentId}]]";
+        newestNotificationNo = "[[${GGA0110Vo.newestNotificationNo}]]";
+        mailAddress = "[[${GGA0110Vo.mailAddress}]]";
+        notificationPersonName = "[[${GGA0110Vo.notificationPersonName}]]";
+        inveseNo = "[[${GGA0110Vo.inveseNo}]]";
+        rdoNoticeDestination = "[[${GGA0110Vo.rdoNoticeDestination}]]";
+        callReport = "[[${callReport}]]";
+        var temporaryMessage = "[[${temporaryMessage}]]";
+
+        /* NO6  完了メッセージ */
+        if(temporaryMessage != ''){
+            alert("現地調査通知内容と通知情報 を 一時保存しました。");
+        }
+        if (redirecToGJA0120 == 'true') {
+            alert("現地調査通知、を登録しました。");
+            if(callReport == 'true'){
+               window.open('/GGA0110/Report?inveseNo='+ inveseNo +'&check=' + isMaster);
+            }
+            //Move to screen GJA0120
+            window.location.href = '/GJA0120/'+ apartmentId;
+
+        }
+    });
+    </script>
+<style>
+#gga84 {
+	margin-right: 0px !important;
+}
+
+.text-style-45 {
+	width: 40%;
+}
+</style>
+</head>
+
+<body>
+	<!-- header -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header -->
+	<div id="div3" style="display: none;">
+		入力した内容で現地調査通知を登録します。<br /> よろしいでしょうか。
+	</div>
+	<div id="div4" style="display: none;">
+		入力した内容で現地調査通知内容を一時保存します。<br /> よろしいでしょうか。
+	</div>
+	<!-- main -->
+	<main> <!-- 1 -->
+	<div class="main-header">
+		<div class="title-1">現地調査通知登録</div>
+	</div>
+	<form th:action="@{/GGA0110}" th:object="${GGA0110Vo}"
+		th:name="GGA0110form" id="GGA0110form" class="survay-register"
+		method="post" enctype="multipart/form-data">
+		<div id="contents">
+			<div class="form-group" style="justify-content: space-between;">
+				<!-- content button turn back and message error when search -->
+				<div class="turn-back">
+					<span class="column-1"><a th:href="@{/GBA0110}">メニューへ戻る</a></span>
+					<button class="btn-custom-border" id="temporarySave">一時保存</button>
+					<button class="btn-custom-border" id="ReStore"
+						th:data="*{apartmentId}">復元</button>
+					<!--  <button class="btn-custom-border" id = "ReStore" th:data="*{apartmentId}" th:onclick="window.location.href = '/GGA0110?apartmentId='+ this.getAttribute('data') + '&restore=true'">復元</button> -->
+					<button class="btn-custom-border" th:data="*{apartmentId}"
+						th:onclick="window.location.href = '/GEB0110/'+ this.getAttribute('data')">戻る</button>
+				</div>
+			</div>
+
+			<!-- 2 -->
+			<div class="text-are-title">
+				<span> 現地調査通知内容を入力し、「登録」ボタンをクリックしてください。<br />
+					通知方法にメールを選択した場合、マンションの連絡先のメールアドレスに現地調査通知書を送信します。
+				</span>
+			</div>
+
+			<!-- 3 -->
+			<div class="alert-error" id="messageErrorDiv">
+				<span> <th:block th:each="item : ${messageeErrors}">
+						<p th:text="${item}">
+					</th:block>
+				</span>
+			</div>
+
+			<!-- 4 -->
+
+			<div class="table">
+				<table class="table-1">
+					<thead>
+						<tr>
+							<th colspan="2">マンション基本情報</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>マンション名</th>
+							<td><span th:text="${GGA0110Vo.apartmentName}"></span></td>
+						</tr>
+						<tr>
+							<th>マンション名フリガナ</th>
+							<td><span th:text="${GGA0110Vo.apartmentNamePhonetic}"></span>
+							</td>
+						</tr>
+						<tr>
+							<th>住所</th>
+							<td><span th:text="${GGA0110Vo.address}"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- 5 -->
+			<div class="table">
+				<table class="table-1">
+					<thead>
+						<tr>
+							<th colspan="2">現地調査通知内容</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th class="table-common-col-2 madatory">様式名<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text" th:field="*{txtAppendixNo}"
+								maxlength="20" class="text-style-45"
+								data-validation-engine="validate[required, <!-- custom[specialCharacters], --> maxSize[20]]">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">文書番号<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text" th:field="*{txtDocumentNo}"
+								maxlength="20" class="fullchar"
+								data-validation-engine="validate[required, <!-- custom[specialCharacters], --> maxSize[20]]">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">通知年月日<span
+								class="form-note">必須</span>
+							</th>
+							<td class="text-date">通知書には和暦で表示されます。<br> <input
+								type="text" maxlength="10" th:field="*{calNoticeDate}"
+								data-validation-engine="validate[required]"
+								data-errormessage-value-missing=" 通知年月日 が存在しません。"
+								class="text-input-date date-picker" id="datepicker-gga1"
+								value="2019/09/11"> <img
+								class="ui-datepicker-trigger correspondDate1"
+								th:src="@{/images/icon-calendar.svg}" alt="Choose"
+								title="Choose" id="button-datepicker-gga1">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">通知書宛先<span
+								class="form-note">必須</span>
+							</th>
+							<td>
+								<div class="checkbox-div">
+									<div th:each="item, iterStat : *{rdoNoticeDestinationList}"
+										class="radio-and-label r-width-1">
+										<input th:field="*{rdoNoticeDestination}"
+											data-validation-engine="validate[required]"
+											data-errormessage-value-missing="通知書宛先 は必須項目です。選択してください。"
+											class="radio-items r-width-6"
+											th:id="'gga8' + ${iterStat.index + 1}" type="radio"
+											th:value="${item.value}"> <label
+											th:for="'gga8' + ${iterStat.index + 1}"
+											th:text="${item.label}"></label> <input type="hidden"
+											th:field="*{rdoNoticeDestinationList[__${iterStat.index}__].value}" />
+										<input type="hidden"
+											th:field="*{rdoNoticeDestinationList[__${iterStat.index}__].label}" />
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">宛先(マンション名)<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text"
+								th:field="*{txtRecipientNameApartment}" maxlength="50"
+								class="fullchar"
+								data-validation-engine="validate[required, <!-- custom[specialCharacters], --> maxSize[50]]">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">宛先(氏名等)<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text" th:field="*{txtRecipientNameUser}"
+								maxlength="26" class="fullchar"
+								data-validation-engine="validate[required, <!-- custom[specialCharacters], --> maxSize[26]]">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">発信者名<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text" th:field="*{txtSender}"
+								maxlength="20" class="fullchar"
+								data-validation-engine="validate[required, <!-- custom[specialCharacters], --> maxSize[20]]">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">本文中宛名<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text" th:field="*{txtTextAdress}"
+								maxlength="31" class="fullchar"
+								data-validation-engine="validate[required, <!-- custom[specialCharacters], --> maxSize[31]]">
+							</td>
+						</tr>
+						<tr>
+							<th>所在地</th>
+							<td class="text-date"><span
+								th:text="${GGA0110Vo.lblAddress}"></span></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">調査の実施予定日時 <span
+								class="form-note">必須</span>
+							</th>
+							<td class="text-date">通知書には和暦で表示されます。<br> <input
+								type="text" th:field="*{calInvestImplPlanTime}"
+								data-validation-engine="validate[required]" maxlength="16"
+								data-errormessage-value-missing="調査の実施予定日時 が存在しません。"
+								class="text-input-date date-picker" id="datepicker-gga2"
+								value="2019/09/11 15:00"> <img
+								class="ui-datepicker-trigger correspondDate2"
+								th:src="@{/images/icon-calendar.svg}" alt="Choose"
+								title="Choose" id="button-datepicker-gga2">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">調査を行う者<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text" size="1"
+								th:field="*{txtInvestImplNumberPeople}" maxlength="1" value=""
+								data-validation-engine="validate[required, onlyNumber, maxSize[1]]"
+								class="halfchar">&nbsp;&nbsp; 名</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">必要となる書類<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text" th:field="*{txtNecessaryDocument}"
+								maxlength="100" class="fullchar"
+								data-validation-engine="validate[required, <!-- custom[halfwidthNumbers], --> maxSize[100]]">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">担当・連絡先<span
+								class="form-note">必須 </span>
+							</th>
+							<td><textarea th:field="*{txaContact}" rows="5"
+									data-limit-rows="true" maxlength="300"
+									data-validation-engine="validate[required, <!-- custom[specialCharacters], --> maxSize[300]]"
+									data-errormessage-value-missing="担当・連絡先 は必須項目です。選択してください。 "></textarea>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- 6 -->
+			<div class="table">
+				<table class="table-1">
+					<thead>
+						<tr>
+							<th colspan="2">通知情報</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th class="table-common-col-2 madatory">通知方法<span
+								class="form-note">必須 </span>
+							</th>
+							<td>
+								<div th:each="item, iterStat : *{rdoNotificationMethodList}">
+									<div class="checkbox-div">
+										<div class="radio-and-label r-width-3">
+											<input th:field="*{rdoNotificationMethod}"
+												data-validation-engine="validate[required]"
+												data-errormessage-value-missing=" 通知方法 は必須項目です。選択してください。 "
+												class="radio-items r-width-6"
+												th:id="'r-9' + ${iterStat.index + 1}" type="radio"
+												th:value="${item.value}"> <label
+												th:for="'r-9' + ${iterStat.index + 1}"
+												th:text="${item.label}"></label> <input type="hidden"
+												th:field="*{rdoNotificationMethodList[__${iterStat.index}__].value}" />
+											<input type="hidden"
+												th:field="*{rdoNotificationMethodList[__${iterStat.index}__].label}" />
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- 7 -->
+			<div class="text-box">
+				<input type="checkbox" class="checkbox-item" name="checkConfirm"
+					id="confirm"> <label for="confirm">入力内容を確認しました</label>
+			</div>
+
+			<!-- 8 -->
+			<div class="structure-center btn-middle">
+				<button class="btn btn-black" id="registerSurvey">登録</button>
+			</div>
+
+			<!-- 9 -->
+			<div class="turn-back-bottom ">
+				<button class="btn-custom-border" th:data="*{apartmentId}"
+					th:onclick="window.location.href = '/GEB0110/'+ this.getAttribute('data')">戻る</button>
+			</div>
+		</div>
+		<!-- start hidden -->
+		<input type="hidden" th:field="*{apartmentId}" /> <input type="hidden"
+			th:field="*{newestNotificationNo}" /> <input type="hidden"
+			th:field="*{apartmentName}" /> <input type="hidden"
+			th:field="*{apartmentNamePhonetic}" /> <input type="hidden"
+			th:field="*{address}" /> <input type="hidden"
+			th:field="*{notificationPersonName}" /> <input type="hidden"
+			th:field="*{mailAddress}" /> <input type="hidden"
+			th:field="*{cityCode}" /> <input type="hidden"
+			th:field="*{progressRecordNo}" /> <input type="hidden"
+			th:field="*{inveseNo}" /> <input type="hidden" th:field="*{tempNo}" />
+		<!-- end hidden -->
+	</form>
+	</main>
+	<!-- end main -->
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+	<!-- js -->
+	<script th:src="@{/js/jquery-ui.min.js}"></script>
+	<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+	<script th:src="@{/js/const.js}"></script>
+	<script th:src="@{/js/jquery.validationEngine.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/GGA0110.js}"></script>
+	<script th:src="@{/js/main.js}"></script>
+	<script th:src="@{/js/movescreen.js}"></script>
+	<!-- end js -->
+</body>
+</html>

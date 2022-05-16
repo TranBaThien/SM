@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>GFA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/js/jquery-ui/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script>
+	    $(document).ready(function(){
+	    	var complete = "[[${complete}]]";
+			var messageSuccess = "[[${messageSuccess}]]";
+			var callreport = "[[${callreport}]]";
+			var adviceNo =  "[[${mansionInfo.keyAdviceNo}]]";
+	    	var apartmentId = "[[${mansionInfo.apartmentId}]]";
+	    	var message = "[[${message}]]";
+	    	var changeNotification = "[[${changeNotification}]]";
+			if (complete == 'true') {
+				//Show alert confirm success
+				alert(messageSuccess);
+				if(callreport == 'true'){
+					/* call report RP030 */
+					window.open('/GFA0110/RP030/'.concat(adviceNo));
+					window.location = '/GJA0120/'.concat(apartmentId);
+				}
+			}
+			if (changeNotification == 'true') {
+				alert(message);
+				window.location = '/GJA0120/'.concat(apartmentId);
+			}
+	    });
+    </script>
+</head>
+
+<body>
+
+	<!-- header -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header -->
+
+	<!-- main -->
+	<main> <!-- title -->
+	<div class="main-header">
+		<div class="title-1">助言通知登録</div>
+	</div>
+	<!-- end title -->
+	<form th:action="@{/GFA0110/save}" th:object="${mansionInfo}"
+		th:name="formAdviceNotification" id="form"
+		class="advice-notification-register" method="post">
+		<!-- contents -->
+		<div id="contents">
+
+			<!-- turn back -->
+			<div class="form-group" style="justify-content: space-between;">
+				<!-- content button turn back and message error when search -->
+				<div class="turn-back">
+					<span class="column-1"><a href="GBA0110.html">メニューへ戻る</a></span>
+					<button class="btn-custom-border btn-export" id="btnTmpsave">一時保存</button>
+					<button class="btn-custom-border btn-export" id="btnRestore">復元</button>
+					<button class="btn-custom-border btn-export"
+						onclick='window.location = "GJA0120.html";'>戻る</button>
+				</div>
+			</div>
+			<!-- end turn back -->
+
+			<!-- text are title -->
+			<div class="text-are-title">
+				<span> 助言通知内容を入力し、「登録」ボタンをクリックしてください。<br />
+					通知方法にメールを選択した場合、マンションの連絡先のメールアドレスに助言内容通知書を送信します。
+				</span>
+			</div>
+			<!-- end text are title -->
+
+			<!--  			<div class="alert-error" th:if="${#fields.hasErrors('*')}"> -->
+			<!--  				<div th:each="err : ${#fields.errors('*')}"> -->
+			<!--  					<span th:text="${err}"></span> -->
+			<!-- 					<br/> -->
+			<!--  				</div> -->
+			<!--  			</div> -->
+			<div class="alert-error" th:if="${messageError}">
+				<span th:text="${messageError}"></span>
+			</div>
+
+			<!--  			<div class="alert-error" id="messageErrorDiv"> -->
+			<!--                 <span> -->
+			<!--                     <th:block th:each="item : ${messageeErrors}"> -->
+			<!--                     <p th:text="${item}"> -->
+			<!--                     </th:block> -->
+			<!--                 </span> -->
+			<!--             </div> -->
+			<!-- end alert error -->
+
+			<!-- table 1 -->
+			<th:block th:insert="~{fragments/mansion-template :: mansion-info}"></th:block>
+			<!-- end table 1 -->
+
+			<!-- table 2 -->
+			<div class="table">
+				<table class="table-base-information">
+					<thead>
+						<tr>
+							<th class="table-common-title" colspan="2">助言内容</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th class="table-common-col-2 madatory">様式名<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text" maxlength="20"
+								data-validation-engine="validate[required,custom2[prohibitionCharacter],maxSize[20]]"
+								data-errormessage-value-missing="様式名は必須項目です。入力してください。"
+								data-errormessage-custom-error-2="様式名の入力値に使用禁止文字が含まれています。"
+								data-errormessage-range-overflow="様式名は20文字以下で入力してください。"
+								class="text-style-name" th:field="*{txtAppendixNo}"></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">文書番号<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text"
+								data-validation-engine="validate[required,custom2[prohibitionCharacter],maxSize[20]]"
+								data-errormessage-value-missing="文書番号は必須項目です。入力してください。"
+								data-errormessage-custom-error-2="文書番号の入力値に使用禁止文字が含まれています。"
+								data-errormessage-range-overflow="文書番号は20文字以下で入力してください。"
+								maxlength="20" class="fullchar" th:field="*{txtDocumentNo}">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">通知年月日<span
+								class="form-note">必須</span>
+							</th>
+							<td class="text-date">通知書には和暦で表示されます。<br> <input
+								type="text" maxlength="10" class="text-input-date"
+								data-validation-engine="validate[required,custom[date]]"
+								data-errormessage-value-missing="通知年月日は必須項目です。入力してください。"
+								data-errormessage-custom-error="通知年月日は日付形式で入力してください。"
+								id="datepicker" placeholder="yyyy/MM/dd"
+								th:field="*{calNoticeDate}"> <img
+								class="ui-datepicker-trigger correspondDate"
+								th:src="@{/images/icon-calendar.svg}" alt="Choose"
+								title="Choose">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2">宛先(マンション名)</th>
+							<td th:text="*{lblRecipientNameApartment}"></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2">宛先(氏名等)</th>
+							<td th:text="*{lblRecipientNameUser}"></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">発信者名<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text"
+								data-validation-engine="validate[required,custom2[prohibitionCharacter],maxSize[20]]"
+								data-errormessage-value-missing="差出人は必須項目です。入力してください。"
+								data-errormessage-custom-error-2="差出人の入力値に使用禁止文字が含まれています。"
+								data-errormessage-range-overflow="差出人は20文字以下で入力してください。"
+								maxlength="20" class="fullchar" th:field="*{txtSender}">
+							</td>
+
+						</tr>
+						<tr>
+							<th class="table-common-col-2">届出年月日</th>
+							<td>通知書には和暦で表示されます。<br> <span
+								th:text="*{lblNotificationDate}"></span>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">根拠条文<span
+								class="form-note">必須</span>
+							</th>
+							<td style="position: relative;">第 <span
+								th:text="*{lblEvidenceBar}"></span> 条 第
+								<div class="select-container select-rationale">
+									<select data-validation-engine="validate[required]"
+										data-errormessage-value-missing="根拠条文の項は必須項目です。選択してください。"
+										class="select-search" th:field="*{evidenceNo}">
+										<!-- 										<option value=""></option> -->
+										<option th:each="item,iterStat : *{lstEvidenceNo}"
+											th:text="${item}" th:value="${item}"></option>
+									</select>
+									<div th:each="item,iterStat : *{lstEvidenceNo}"
+										style="display: none;">
+										<input type="hidden"
+											th:field="*{lstEvidenceNo[__${iterStat.index}__]}" />
+									</div>
+								</div> 項
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">所在地</th>
+							<td class="text-date" th:text="*{lblAddress}"></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">マンション名</th>
+							<td th:text="*{lblApartmentName}"></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">助言テンプレート</th>
+							<td class="tbl-space-between-1">
+								<div class="flex-row">
+									<div class="select-container-800">
+										<select class="select-search" id="country"
+											th:field="*{advice}">
+											<option th:each="item,iterStat : *{lstAdvice}"
+												th:text="${item.adviceTemplateOverview}"
+												th:value="${item.adviceTemplateDetail}"></option>
+										</select>
+										<div th:each="item,iterStat : *{lstAdvice}"
+											style="display: none;">
+											<input type="hidden"
+												th:field="*{lstAdvice[__${iterStat.index}__].adviceTemplateOverview}" />
+											<input type="hidden"
+												th:field="*{lstAdvice[__${iterStat.index}__].adviceTemplateDetail}" />
+										</div>
+									</div>
+									<button type="button" class="button-ex-2 btn-margin-5"
+										onclick="GetSelectedValue()">追加</button>
+
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">助言内容<span
+								class="form-note">必須 </span>
+							</th>
+							<td><textarea th:field="*{txtAdviceDetails}"
+									data-validation-engine="validate[required,custom2[prohibitionCharacter]]"
+									data-errormessage-value-missing="助言内容は必須項目です。入力してください。"
+									data-errormessage-custom-error-2="助言内容の入力値に使用禁止文字が含まれています。"
+									rows="4" id="result" data-limit-rows=true></textarea></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="hidden" th:value="*{lblRecipientNameApartment}"
+					name="lblRecipientNameApartment" /> <input type="hidden"
+					th:value="*{lblRecipientNameUser}" name="lblRecipientNameUser" />
+				<input type="hidden" th:value="*{lblNotificationDate}"
+					name="lblNotificationDate" /> <input type="hidden"
+					th:value="*{lblEvidenceBar}" name="lblEvidenceBar" /> <input
+					type="hidden" th:value="*{lblAddress}" name="lblAddress" /> <input
+					type="hidden" th:value="*{lblApartmentName}"
+					name="lblApartmentName" /> <input type="hidden"
+					th:value="*{txtAdviceDetails}" name="txtAdviceDetails" /> <input
+					type="hidden" th:value="*{numRowAdvice}" name="numRowAdvice" /> <input
+					type="hidden" th:value="*{notificationNo}" name="notificationNo" />
+				<input type="hidden" th:value="*{newestNotificationNo}"
+					name="newestNotificationNo" />
+
+			</div>
+			<!-- end table 2 -->
+
+			<!-- table 3 -->
+			<div class="table">
+				<table class="table-base-information">
+					<thead>
+						<tr>
+							<th class="table-common-title" colspan="2">通知情報</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th class="table-common-col-2 madatory">通知方法<span
+								class="form-note">必須 </span>
+							</th>
+							<td>
+								<div class="checkbox-div"
+									th:each="item, iterStat : *{lstRdoNotificationMethod}">
+									<div class="radio-and-label width-100">
+										<input th:field="*{rdoNotificationMethod}"
+											data-validation-engine="validate[required]"
+											class="radio-items" th:id="'radio-' + ${iterStat.index + 1}"
+											type="radio" th:value="${item.value}"> <label
+											th:for="'radio-' + ${iterStat.index + 1}"
+											th:text="${item.label}"></label> <input type="hidden"
+											th:field="*{lstRdoNotificationMethod[__${iterStat.index}__].value}" />
+										<input type="hidden"
+											th:field="*{lstRdoNotificationMethod[__${iterStat.index}__].label}" />
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- end table 3 -->
+
+			<!-- check box -->
+			<div class="text-box">
+				<input type="checkbox" class="checkbox-item" onclick="checkbox()"
+					id="cb1" th:name="chkConfirm"> <label for="cb1">入力内容を確認しました</label>
+			</div>
+			<!-- end check box -->
+
+			<!-- btn middle -->
+			<div class="structure-center btn-middle">
+				<button type="submit" class="btn btn-black" id="btn-register">登録</button>
+			</div>
+			<!-- end btn middle -->
+
+			<!-- turn back bottom -->
+			<div class="turn-back-bottom " style="margin-top: 10px;">
+				<button class="btn-logout"
+					onclick='window.location = "GJA0120.html";'>戻る</button>
+			</div>
+			<!-- end turn back bottom -->
+		</div>
+		<!-- end contents -->
+	</form>
+	</main>
+	<!-- end main -->
+
+	<div id="div3" style="display: none;">
+		<p>
+			入力した内容で助言通知登録します。<br /> よろしいでしょうか。
+		</p>
+	</div>
+
+	<div id="div4" style="display: none;">
+		<p>
+			入力した内容で助言内容と通知情報を一時保存します。<br /> よろしいでしょうか。
+		</p>
+	</div>
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+	<!-- js -->
+	<script th:src="@{/js/jquery-ui/jquery-ui.js}"></script>
+	<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+	<script th:src="@{/js/const.js}"></script>
+	<script th:src="@{/js/jquery.validationEngine.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/jquery.validationEngine-ja.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/GFA0110.js}"></script>
+	<script th:src="@{/js/main.js}"></script>
+	<script th:src="@{/js/movescreen.js}"></script>
+	<!-- end js -->
+
+</body>
+
+</html>

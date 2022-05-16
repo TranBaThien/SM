@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>GEC0110</title>
+<link th:href="@{/css/jquery.datetimepicker.css}">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet" />
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">	<link th:href="@{/css/jquery-ui.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet"/>
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/const.js}"></script>
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/shortcut-key.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    const baseUrl = [[${#request.getContextPath()}]];
+</script>
+</head>
+
+ <script>
+	
+ $(document).ready(function(){
+ 	//Get message success
+ 	var message = "[[${messageSuccess}]]";
+ 	
+ 	if (message != '') {
+ 		//Show alert confirm success
+ 		$('#message').html(message);
+ 		//
+ 		$("#div3").dialog({
+ 			modal:true, //モーダル表示
+ 			title:dialog.title, //タイトル
+ 			buttons: {
+ 			"OK": function() {
+ 					$(this).dialog("close"); 
+ 					//Move to screen GBA0110
+ 					window.location.href = baseUrl + '/GBA0110';
+ 				}
+ 			}
+ 		});
+ 	}
+ });
+</script>
+
+<body>
+
+    <!-- header-->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header-->
+	
+	<!-- main -->
+	<main>
+		<div class="main-header">
+			<div class="title-1">
+				経過記録一括登録
+			</div>
+		</div>
+      
+		<div id="contents">
+			<div class="form-group" style="justify-content: space-between;">
+				
+				<!-- content button turn back and message error when search -->
+				<div class="turn-back">
+					<span class="column-1"><a th:href="@{/GBA0110}">メニューへ戻る</a></span>
+					<button class="btn-custom-border" th:onclick="turnBack()">戻る</button>
+				</div>
+			</div>
+
+			<div class="text-are-title">
+				<span>
+					「参照」ボタンをクリックしてアップロードするファイルを指定し、「アップロード」ボタンをク リックしてください。
+				</span>
+			</div>
+			<!-- alert error in case import CSV -->
+           		<div class="alert-error error-margin"  id="sizediv" style="display:none;">
+            	</div>
+      	  	<!-- end alert error in case import CSV -->
+      	  	
+			<!-- alert error -->
+			<div class="alert-error" th:if="${message}">
+				<span id="lblErrorMsg" th:utext="${message}"></span>
+			</div>
+			<!-- end alert error -->
+			
+			<form id="uploadProgress" class="uploadProgress" name="uploadProgress"
+			th:action="@{/GEC0110/uploadProgress}" th:method="post"
+			enctype="multipart/form-data">
+
+			<div class="table">
+					<table class="table-import">
+						<thead>
+							<tr>
+								<td class="text-td-ex-2" colspan="2">アップロードファイル指定</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+							<th class="table-common-col-2 madatory">
+								アップロードファイル
+								<span class="form-note">必須</span>
+							</th>
+							<td>
+								<div class="btn-import">
+									<input class="textbox-81" type="text" id="text-upload" name="text-upload" data-validation-engine="validate[required]" >
+									<input type="file" name="file" id="real-file" hidden="hidden">
+									<div class="btn-custom-border" onclick="uploadFileImg('text-upload','real-file')">参照</div>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+			</div>
+
+			<div class="btn-middle">
+				<input type="button" class="btn btn-black btn-register" id="file" value="アップロード"></input>
+			</div>
+			
+			</form>
+
+			<div class="turn-back-bottom ">
+				<button class="btn-custom-border" th:onclick="turnBack()">戻る</button>
+			</div>
+			
+			<input type="hidden" id="fileMaxSize" name="fileMaxSize" th:value="${fileMaxSize}"/>
+		</div>
+
+	</main>
+	<!-- end main -->
+	<div id="div3" style="display: none;">
+		<p id="message"></p>
+	</div>
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+	<!-- js -->
+	<script th:src="@{/js/GEC0110.js}"></script>
+ 	<script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"></script>
+
+	<!-- end js -->
+</body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>GEB0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+<link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+<style>
+.disabledUpload {
+	pointer-events: none;
+	opacity: 0.4;
+}
+</style>
+
+
+<script>
+	    $(document).ready(function(){
+	    	//Get message success
+	    	var message = "[[${messageSuccess}]]";
+	    	var apartmentId = "[[${mansionInfo.apartmentId}]]";
+	    	
+	    	if (message != '') {
+	    		//Show alert confirm success
+	    		alert(message);
+	    		//Move to screen GEA0110
+	    		window.location = '/GEA0110/'.concat(apartmentId);
+	    	}
+	    	//Check disable button when not yet checked chkConfirm
+	    	if (!$('.chkConfirm').checked) {
+	    		$('.btn-register').prop('disabled', true);
+    	 	}
+	    	//Check disable/enable submit button when not yet selected confirm
+	    	$('.chkConfirm').change(function(){
+	    		$('.btn-register').prop('disabled', !this.checked);
+	    	});
+	    	
+	    	//Check event onclick calendar icon
+	    	$('.correspondDate').on('click', function(){
+	    		$('#datepicker-1').focus();
+	    	});
+	    	
+	    	$(".advice-register").validationEngine('attach',{
+				// 以下のパラメータは任意
+				promptPosition: "bottomLeft",//エラー文の表示位置
+				showArrowOnRadioAndCheckbox: true,//エラー箇所の図示
+				focusFirstField: true,//エラー時に一番文頭の入力フィールドにフォーカスさせるかどうか
+				scroll: false,
+				onValidationComplete: function(form, status){
+					if(status) {
+						form[0].submit();
+					}
+				}
+			});
+	    });
+    </script>
+
+</head>
+
+<body>
+	<!-- header -->
+	<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header -->
+
+	<main> <!-- title -->
+	<div class="main-header">
+		<div class="title-1">経過記録登録</div>
+	</div>
+	<!-- end title -->
+	<form th:action="@{/GEB0110/save}" th:object="${mansionInfo}"
+		th:name="formMansion" id="form" class="advice-register" method="post"
+		enctype="multipart/form-data">
+		<!-- contents -->
+		<div id="contents">
+
+			<!-- turn back -->
+			<div class="turn-back">
+				<span class="column-1"><a th:href="@{/GBA0110}">メニューへ戻る</a></span>
+				<button class="btn-custom-border" th:data="*{apartmentId}"
+					th:onclick="window.location.href = '/GEA0110/'+ this.getAttribute('data')">戻る</button>
+			</div>
+			<!-- end turn back -->
+
+			<!-- text are title -->
+			<div class="text-are-title">
+				<span>マンションの経過記録を登録します。<br>
+					経過記録情報を入力し、「登録」ボタンをクリックしてください。
+				</span>
+			</div>
+			<!-- end text are title -->
+
+			<!-- alert error -->
+			<div class="alert-error" th:if="${not #lists.isEmpty(errorMessage)}">
+				<div th:each="err : ${errorMessage}">
+					<span th:text="${err}"></span> <br />
+				</div>
+			</div>
+			<!-- end alert error -->
+
+			<!-- table 1 -->
+			<th:block th:insert="~{fragments/mansion-template :: mansion-info}"></th:block>
+			<!-- end table 1 -->
+
+			<!-- table 2 -->
+			<div class="table">
+				<table class="table-base-information">
+					<thead>
+						<tr>
+							<th class="table-common-title" colspan="2">経過記録情報</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th class="table-common-col-2 madatory">対応日時<span
+								class="form-note">必須</span>
+							</th>
+							<td class="text-date"><input type="text"
+								th:field="*{calCorrespondDate}" maxlength="16"
+								class="text-input-date" id="datepicker-1"
+								data-validation-engine="validate[required,custom[datetime]]">
+								<img class="ui-datepicker-trigger correspondDate"
+								th:src="@{/images/icon-calendar.svg}" alt="Choose"
+								title="Choose"></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">対応種別<span
+								class="form-note">必須</span>
+							</th>
+							<td>
+								<div class="checkbox-div">
+									<div th:each="item, iterStat : *{lstResponseTypeCode}"
+										class="radio-and-label r-width-6">
+										<input th:field="*{rdoCorrespondTypeCode}"
+											data-validation-engine="validate[required]"
+											class="radio-items r-width-6"
+											th:id="'radio-' + ${iterStat.index + 1}" type="radio"
+											th:value="${item.value}"> <label
+											th:for="'radio-' + ${iterStat.index + 1}"
+											th:text="${item.label}"></label> <input type="hidden"
+											th:field="*{lstResponseTypeCode[__${iterStat.index}__].value}" />
+										<input type="hidden"
+											th:field="*{lstResponseTypeCode[__${iterStat.index}__].label}" />
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2">
+								<div class="form-lable">通知書種別</div>
+							</th>
+							<td>
+								<div class="select-container">
+									<select class="select-search" th:field="*{lstNoticeTypeCode}">
+										<option th:each="item, iterStat : *{listNoticeTypeCodes}"
+											th:value="${item.value}" th:text="${item.label}"></option>
+									</select>
+									<div style="display: none;"
+										th:each="item, iterStat : *{listNoticeTypeCodes}">
+										<input type="hidden"
+											th:field="*{listNoticeTypeCodes[__${iterStat.index}__].value}" />
+										<input type="hidden"
+											th:field="*{listNoticeTypeCodes[__${iterStat.index}__].label}" />
+									</div>
+
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2 madatory">経過記録概要<span
+								class="form-note">必須</span>
+							</th>
+							<td><input type="text"
+								th:field="*{txtProgressRecordOverview}" class="text-input-1"
+								data-validation-engine="validate[required,custom2[prohibitionCharacter], maxSize[30]]"
+								data-errormessage-value-missing="経過記録概要 は必須項目です。入力してください。">
+							</td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2">
+								<div class="form-lable">経過記録詳細</div>
+							</th>
+							<td class="text-are"><textarea
+									th:field="*{txaProgressRecordDetail}" id="lbl_staff_report"
+									maxlength="300" rows="5" cols="100">
+								</textarea></td>
+						</tr>
+						<tr>
+							<th class="table-common-col-2">
+								<div class="form-lable">都支援対象</div>
+							</th>
+							<td>
+								<!-- Display list support code -->
+								<div class="checkbox-div">
+									<div th:each="item, iterStat : *{lstSupportCode}"
+										th:if="${iterStat.index < 2}"
+										th:class="'radio-and-label r-width-' + ${iterStat.index + 1}">
+										<input th:field="*{rdoSupportCode}"
+											th:class="'radio-items r-width-' + ${iterStat.index + 1}"
+											th:id="'radio-' + ${iterStat.index + 7}" type="radio"
+											th:value="${item.value}"> <label
+											th:for="'radio-' + ${iterStat.index + 7}"
+											th:text="${item.label}"></label>
+										<!-- Backup value when error -->
+										<input type="hidden"
+											th:field="*{lstSupportCode[__${iterStat.index}__].value}" />
+										<input type="hidden"
+											th:field="*{lstSupportCode[__${iterStat.index}__].label}" />
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr
+							th:if="*{progressRecordNo != '' and not #lists.isEmpty(fileInfos)}">
+							<th rowspan="25" class="table-common-col-2">
+								<div class="form-lable">添付ファイル</div>
+							</th>
+						</tr>
+						<tr
+							th:if="*{progressRecordNo != '' and not #lists.isEmpty(fileInfos)}">
+							<td class="border-bottom-hidden">
+								添付ファイルを削除する場合は、選択して登録ボタンをクリックしてください。</td>
+						</tr>
+						<tr
+							th:if="*{progressRecordNo != '' and not #lists.isEmpty(fileInfos)}"
+							th:each="item, iterStat : *{fileInfos}">
+							<td class="border-top-hidden"><input
+								class="checkbox-item checkbox-2"
+								th:id="'cb' + ${iterStat.index}" type="checkbox"
+								th:name="selectedFiles"
+								th:value="${item.progressRecordAttachNo}"> <label
+								th:for="'cb' + ${iterStat.index}"> <a
+									th:href="'/GEB0110/downloadFile/' + ${item.progressRecordAttachNo}"><u
+										th:text="${item.fileName}"></u></a>
+							</label></td>
+							<!-- save list when reload page -->
+							<input type="hidden"
+								th:field="*{fileInfos[__${iterStat.index}__].progressRecordAttachNo}" />
+							<input type="hidden"
+								th:field="*{fileInfos[__${iterStat.index}__].fileName}" />
+							<input type="hidden"
+								th:field="*{fileInfos[__${iterStat.index}__].file}" />
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+			<!-- end table 2 -->
+
+			<!-- table 3 -->
+			<div class="table">
+				<table class="table-1">
+					<thead>
+						<tr>
+							<th colspan="2">ファイルアップロード</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th rowspan="2">アップロードファイル</th>
+							<!-- case not empty update-->
+							<td th:if="*{not #lists.isEmpty(fileInfos)}"><span
+								class="span-lineheight17"> 画像ファイル（.png .jpg .gif
+									.bmp）とテキストファイル（.txt .csv）をアップロードできます。<br>
+									ファイルサイズは10Mbyte以下です。<br>
+									最大20ファイルアップロードできます。1度にアップロードできるファイルは3ファイルです。
+							</span>
+								<div
+									th:class="(*{#lists.size(fileInfos)} >= *{fileMaxCount})? 'flex-row disabledUpload': 'flex-row'">
+									<input class="textbox-50" type="text"
+										th:field="*{filFileFromName1}" id="text-upload-1"
+										placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.png">
+									<input type="file" id="real-file-1"
+										onchange="changeFile('real-file-1')"
+										th:field="*{filFileFrom1}" hidden="hidden">
+									<div class="btn-custom-border btn-td-right"
+										onclick="uploadFileImg('text-upload-1','real-file-1')">参照</div>
+									<div class="btn-custom-border btn-td-right"
+										onclick="clearText('text-upload-1','real-file-1')">クリア</div>
+								</div>
+
+								<div
+									th:class="(*{#lists.size(fileInfos)} >= *{fileMaxCount - 1}) ? 'flex-row disabledUpload' : 'flex-row'">
+									<input class="textbox-50" type="text" id="text-upload-2"
+										th:field="*{filFileFromName2}"
+										placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.png">
+									<input type="file" id="real-file-2"
+										onchange="changeFile('real-file-2')" hidden="hidden"
+										th:field="*{filFileFrom2}">
+									<div class="btn-custom-border btn-td-right"
+										onclick="uploadFileImg('text-upload-2','real-file-2')">参照</div>
+									<div class="btn-custom-border btn-td-right"
+										onclick="clearText('text-upload-2','real-file-2')">クリア</div>
+								</div>
+								<div
+									th:class="(*{#lists.size(fileInfos)} >= *{fileMaxCount - 2}) ? 'flex-row disabledUpload' : 'flex-row'">
+									<input class="textbox-50" type="text" id="text-upload-3"
+										th:field="*{filFileFromName3}"
+										placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.png">
+									<input type="file" id="real-file-3"
+										onchange="changeFile('real-file-3')" hidden="hidden"
+										th:field="*{filFileFrom3}">
+									<div class="btn-custom-border btn-td-right"
+										onclick="uploadFileImg('text-upload-3','real-file-3')">参照</div>
+									<div class="btn-custom-border btn-td-right"
+										onclick="clearText('text-upload-3','real-file-3')">クリア</div>
+								</div></td>
+							<!-- case empty add new-->
+							<td th:if="*{#lists.isEmpty(fileInfos)}"><span
+								class="span-lineheight17"> 画像ファイル（.png .jpg .gif
+									.bmp）とテキストファイル（.txt .csv）をアップロードできます。<br>
+									ファイルサイズは10Mbyte以下です。<br>
+									最大20ファイルアップロードできます。1度にアップロードできるファイルは3ファイルです。
+							</span>
+								<div class="flex-row">
+									<input class="textbox-50" type="text"
+										th:field="*{filFileFromName1}" id="text-upload-1"
+										placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.png">
+									<input type="file" id="real-file-1"
+										onchange="changeFile('real-file-1')"
+										th:field="*{filFileFrom1}" hidden="hidden">
+									<div class="btn-custom-border btn-td-right"
+										onclick="uploadFileImg('text-upload-1','real-file-1')">参照</div>
+									<div class="btn-custom-border btn-td-right"
+										onclick="clearText('text-upload-1','real-file-1')">クリア</div>
+								</div>
+
+								<div class="flex-row">
+									<input class="textbox-50" type="text" id="text-upload-2"
+										th:field="*{filFileFromName2}"
+										placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.png">
+									<input type="file" id="real-file-2"
+										onchange="changeFile('real-file-2')" hidden="hidden"
+										th:field="*{filFileFrom2}">
+									<div class="btn-custom-border btn-td-right"
+										onclick="uploadFileImg('text-upload-2','real-file-2')">参照</div>
+									<div class="btn-custom-border btn-td-right"
+										onclick="clearText('text-upload-2','real-file-2')">クリア</div>
+								</div>
+								<div class="flex-row">
+									<input class="textbox-50" type="text"
+										onchange="changeFile('real-file-3')" id="text-upload-3"
+										th:field="*{filFileFromName3}"
+										placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.png">
+									<input type="file" id="real-file-3" hidden="hidden"
+										th:field="*{filFileFrom3}">
+									<div class="btn-custom-border btn-td-right"
+										onclick="uploadFileImg('text-upload-3','real-file-3')">参照</div>
+									<div class="btn-custom-border btn-td-right"
+										onclick="clearText('text-upload-3','real-file-3')">クリア</div>
+								</div></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+			<!-- end table 3 -->
+
+			<!-- check box -->
+			<div class="text-box">
+				<input type="checkbox" class="checkbox-item chkConfirm"
+					th:name="chkConfirm" id="cd1" th:value="1"> <label
+					for="cd1">入力内容を確認しました</label>
+			</div>
+			<!-- end check box -->
+
+			<!-- btn middle -->
+			<div class="btn-middle">
+				<button class="btn btn-black btn-register">登録</button>
+			</div>
+			<!-- end btn middle -->
+
+			<!-- turn back bottom -->
+			<div class="turn-back-bottom">
+				<button class="btn-custom-border" th:data="*{apartmentId}"
+					th:onclick="window.location.href = '/GEA0110/'+ this.getAttribute('data')">閉じる</button>
+			</div>
+			<!-- end turn back bottom -->
+		</div>
+		<input type="hidden" th:field="*{progressRecordNo}" /> <input
+			type="hidden" th:field="*{updateDatetime}" /> <input type="hidden"
+			th:field="*{fileMaxSize}" /> <input type="hidden"
+			th:field="*{fileMaxCount}" />
+		<!-- end contents -->
+	</form>
+	</main>
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+	<!-- js -->
+	<script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+	<script th:src="@{/js/const.js}"></script>
+	<script th:src="@{/js/jquery.validationEngine.js}"
+		type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/GEB0110.js}"></script>
+	<script th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8" />
+<title>Mansion Template</title>
+</head>
+<body>
+
+	<div class="table" th:fragment="mansion-info"
+		th:object="${mansionInfo}">
+		<table class="table-base-information">
+			<thead>
+				<tr>
+					<th class="table-common-title" colspan="2">マンション基本情報</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th class="table-common-col-2">マンション名</th>
+					<td th:text="*{apartmentName}"></td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2">マンション名フリガナ</th>
+					<td th:text="*{apartmentNamePhonetic}"></td>
+				</tr>
+				<tr>
+					<th class="table-common-col-2">住所</th>
+					<td th:text="*{address}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<input type="hidden" th:value="*{apartmentId}" name="apartmentId" />
+		<input type="hidden" th:value="*{apartmentName}" name="apartmentName" />
+		<input type="hidden" th:value="*{apartmentNamePhonetic}"
+			name="apartmentNamePhonetic" /> <input type="hidden"
+			th:value="*{address}" name="address" />
+	</div>
+
+
+	<header id="mansion-header" th:fragment="mansion-header">
+		<div class="header">
+			<div class="logo-text">
+				<img class="logo-img" alt="logo" th:src="@{/images/logo.png}" />
+				<div class="title-header">
+					<span class="text-center">東京都マンション管理状況届出システム</span>
+				</div>
+			</div>
+
+			<div class="text-right">
+				<a
+					href="http://www.metro.tokyo.jp/tosei/tosei/soshikijoho/soshiki/index.html">都庁総合ホームページ</a>
+			</div>
+			<div class="text-right">
+				<button class="btn-logout" style="margin-right: 10px;"
+					onclick="location.href='./AAA.html'">ヘルプ</button>
+				<button class="btn-logout" onclick="location.href='./AAA.html'">ログアウト</button>
+			</div>
+			<div class="text-right">最終ログイン日時：2019/10/01 15：00 &nbsp;&nbsp;</div>
+			<div class="text-left">ユーザ名：○○マンション</div>
+		</div>
+	</header>
+
+</body>
+</html>
