@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <title>GGA0110</title>
+    <link th:href="@{/lib/normalize.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet">
+    <link th:href="@{/css/validationEngine.jquery.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+    const baseUrl = [[${#request.getContextPath()}]];
+    const GG0110_GLOBAL_VAR = {
+            redirecToGJA0120: [[${redirecToGJA0120}]],
+            apartmentId: [[${GGA0110Vo.apartmentId}]],
+            mailAddress: [[${GGA0110Vo.mailAddress}]],
+            notificationPersonName: [[${GGA0110Vo.notificationPersonName}]],
+            inveseNo: [[${GGA0110Vo.inveseNo}]],
+            rdoNoticeDestination: [[${GGA0110Vo.rdoNoticeDestination}]],
+            txtRecipientNameApartment: [[${GGA0110Vo.txtRecipientNameApartmentTemp}]],
+            callReport: [[${callReport}]],
+            isDataStore: [[${GGA0110Vo.hasDataStore}]],
+            temporaryMessage: [[${temporaryMessage}]],
+            contactMax: [[${GGA0110Vo.contactMax}]],
+            contactBRMax :  [[${GGA0110Vo.contactBRMax}]],
+            linkAddress :  [[${GGA0110Vo.linkAddress}]],
+            checkBoxConfirm :  [[${GGA0110Vo.checkBoxConfirm}]]
+    }
+    </script>
+<style>
+.text-style-45 {
+    width: 55%;
+}
+.underline {
+    text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+   <!-- header -->
+    <th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+    <!-- end header -->
+    <!-- main -->
+    <main>
+        <!-- 1 -->
+        <div class="main-header">
+            <div class="title-1">
+                現地調査通知登録
+            </div>
+        </div>
+        <form th:action="@{/GGA0110}" th:object="${GGA0110Vo}" th:name="GGA0110form" id="GGA0110form" class="survay-register" method="post" enctype="multipart/form-data">
+        <div id="contents">
+            <div class="form-group" style="justify-content: space-between;">
+                <!-- content button turn back and message error when search -->
+                <div class="turn-back">
+                    <span class="column-1"><a th:href="@{/GBA0110}" th:tabindex="-1">メニューへ戻る</a></span>
+                    <div class="export-file-tbn">
+                        <input type="button" class="btn-custom-border btn-export" id = "temporarySave" th:tabindex="-1" value="一時保存"></input>
+                        <input type="button" class="btn-custom-border btn-export" th:data="*{apartmentId}" id = "ReStore" th:tabindex="-1" value="復元"></input>
+                        <input type="button" class="btn-custom-border btn-export" th:data="*{apartmentId}" th:onclick="turnBack(this.getAttribute('data'))" value="戻る" th:tabindex="-1"></input>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="text-are-title">
+                <span>
+                                現地調査通知内容を入力し、「登録」ボタンをクリックしてください。<br />
+                                通知方法にメールを選択した場合、マンションの連絡先のメールアドレスに現地調査通知書を送信し ます。<br />
+                                通知書の出力イメージは <a id="helpPathID" href="javascript: void(0)"><u>こちら</u></a>から確認してください。
+                </span>
+            </div>
+
+            <!-- 3 -->
+        <!-- Error area -->
+        <div class="alert-error" id="errorMessageDiv" th:if="${messageeErrors}">
+            <span>
+                <th:block th:each="item : ${messageeErrors}">
+                <p th:utext="${item}">
+                </th:block>
+            </span>
+        </div>
+        <!-- End Error area -->
+
+            <!-- 4 -->
+
+            <div class="table">
+                <table class="table-1">
+                    <thead>
+                        <tr>
+                            <th colspan="2">マンション基本情報</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>マンション名</th>
+                            <td>
+                                <span th:text="${GGA0110Vo.apartmentName}"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>マンション名フリガナ</th>
+                            <td>
+                                <span th:text="${GGA0110Vo.apartmentNamePhonetic}"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>住所</th>
+                            <td>
+                                <span th:text="${GGA0110Vo.lblApartmentAddress}"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 5 -->
+            <div class="table">
+                    <table class="table-1">
+                        <thead>
+                            <tr>
+                                <th colspan="2">現地調査通知内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    様式名<span class="form-note">必須</span>
+                                </th>
+                                <td>
+                                    <input type="text" th:field="*{txtAppendixNo}" tabindex="1" class="text-style-45">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    文書番号<span class="form-note">必須</span>
+                                </th>
+                                <td>
+                                      <input type="text" th:field="*{txtDocumentNo}" tabindex="2" class="fullchar">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    通知年月日<span class="form-note">必須</span>
+                                </th>
+                                <td class="text-date">通知書には和暦で表示されます。<br>
+                                    <div>
+	                                    <input type="text" th:field="*{calNoticeDate}" tabindex="3" class="text-input-date date-picker">
+	                                    <img class="ui-datepicker-trigger correspondDate1" th:src="@{/images/icon-calendar.svg}"
+	                                     alt="Choose" title="Choose" id="button-datepicker-calNoticeDate">
+                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    通知書宛先<span class="form-note">必須</span>
+                                </th>
+                                <td>
+                                        <div  class="checkbox-div" >
+                                         <div th:each="item, iterStat : *{rdoNoticeDestinationList}" class="radio-and-label r-width-1" th:tabindex="${4+ iterStat.index}">
+                                             <input th:field="*{rdoNoticeDestination}" class="radio-items" name="rdoNoticeDestination"
+                                              th:id="'rdoNoticeDestination-' + ${iterStat.index + 1}" type="radio" th:value="${item.value}">
+                                             <label th:for="'rdoNoticeDestination-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+                                             <input type="hidden" th:field="*{rdoNoticeDestinationList[__${iterStat.index}__].value}" />
+                                             <input type="hidden" th:field="*{rdoNoticeDestinationList[__${iterStat.index}__].label}" />
+                                         </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    宛先(マンション名)<span class="form-note">必須</span>
+                                </th>
+                                <td>
+                                    <input type="text" th:field="*{txtRecipientNameApartment}" tabindex="10" class="fullchar">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    宛先(氏名等)<span class="form-note">必須</span>
+                                </th>
+                                <td>                                     
+                                    <input type="text" th:field="*{txtRecipientNameUser}" tabindex="11" class="fullchar">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    発信者名<span class="form-note">必須</span>
+                                </th>
+                                <td>
+                                    <input type="text" th:field="*{txtSender}" tabindex="12" class="fullchar">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                   本文中宛先<span class="form-note">必須</span>
+                                </th>
+                                <td>
+                                    <input type="text" th:field="*{txtTextAdress}" tabindex="13" class="fullchar">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>所在地</th>
+                                <td class="text-date">
+                                    <span th:text="${GGA0110Vo.lblAddress}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    調査の実施予定日時
+                                    <span class="form-note">必須</span>
+                                </th>
+                                <td class="text-date">通知書には和暦で表示されます。<br>
+                                    <div>
+	                                    <input type="text" th:field="*{calInvestImplPlanTime}" tabindex="14" class="text-input-date date-picker">
+	                                    <img class="ui-datepicker-trigger correspondDate2" th:src="@{/images/icon-calendar.svg}"
+	                                     alt="Choose" title="Choose" id="button-datepicker-calInvestImplPlanTime">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    調査を行う者<span class="form-note">必須</span>
+                                </th>
+                                <td>
+                                     <input type="text" size="1" th:field="*{txtInvestImplNumberPeople}" tabindex="15" class="halfchar">&nbsp;&nbsp; 名
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    必要となる書類<span class="form-note">必須</span>
+                                </th>
+                                <td>
+                                     <input type="text" th:field="*{txtNecessaryDocument}" tabindex="16" class="fullchar">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-common-col-2 madatory">
+                                    担当・連絡先<span class="form-note">必須 </span>
+                                </th>
+                                <td>
+                                    <textarea th:field="*{txaContact}" tabindex="17" rows="5" data-limit-rows="true"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+
+            <!-- 6 -->
+            <div class="table">
+              <table class="table-1">
+                  <thead>
+                      <tr>
+                          <th colspan="2">通知情報</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <th class="table-common-col-2 madatory">
+                              通知方法<span class="form-note">必須 </span>
+                          </th>
+                          <td>
+                            <div  class="checkbox-div r-width-full" >
+	                             <div th:each="item, iterStat : *{rdoNotificationMethodList}" class="radio-and-label" th:tabindex="${20+ iterStat.index}">
+	                                  <input th:field="*{rdoNotificationMethod}" class="radio-items" name = "rdoNotificationMethod"
+	                                  th:id="'rdoNotificationMethod-' + ${iterStat.index + 1}" type="radio" th:value="${item.value}">
+	                                  <label th:for="'rdoNotificationMethod-' + ${iterStat.index + 1}" th:text="${item.label}"></label>
+	                                  <input type="hidden" th:field="*{rdoNotificationMethodList[__${iterStat.index}__].value}" />
+	                                  <input type="hidden" th:field="*{rdoNotificationMethodList[__${iterStat.index}__].label}" />
+	                             </div>
+                              </div>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+
+            <!-- 7 -->
+            <div class="text-box" tabindex="25" >
+                <input type="checkbox" class="checkbox-item" th:name="checkBoxConfirm" id="confirm" th:value="2">
+                <label for="confirm">入力内容を確認しました</label>
+            </div>
+
+            <!-- 8 -->
+            <div class="structure-center btn-middle">
+                <input type="button" class="btn btn-black btn-register" id="registerSurvey" tabindex="26" value="登録"></input>
+            </div>
+
+            <!-- 9 -->
+            <div class="turn-back-bottom ">
+                <input type="button" class="btn-custom-border" th:data="*{apartmentId}" th:onclick="turnBack(this.getAttribute('data'))" tabindex="27" value="戻る"></input>
+            </div>
+        </div>
+        <!-- start hidden -->
+        <input type="hidden" th:field="*{apartmentId}"/> 
+        <input type="hidden" th:field="*{newestNotificationNo}"/> 
+        <input type="hidden" th:field="*{apartmentName}"/> 
+        <input type="hidden" th:field="*{apartmentNamePhonetic}"/>
+        <input type="hidden" th:field="*{lblApartmentAddress}"/>
+        <input type="hidden" th:field="*{notificationPersonName}"/>
+        <input type="hidden" th:field="*{mailAddress}"/>
+        <input type="hidden" th:field="*{cityCode}"/>
+        <input type="hidden" th:field="*{progressRecordNo}"/>
+        <input type="hidden" th:field="*{inveseNo}"/>
+        <input type="hidden" th:field="*{tempNo}"/>
+        <input type="hidden" th:field="*{lblAddress}"/>
+        <input type="hidden" th:field="*{contactMax}"/>
+        <input type="hidden" th:field="*{contactBRMax}"/>
+        <input type="hidden" th:field="*{txtRecipientNameApartmentTemp}"/>
+        <!-- end hidden -->
+        </form>
+    </main>
+    <!-- end main -->
+    <form th:action="@{/GJA0120}" id="submitFormbutton" method="POST">
+        <input type="hidden" name="apartmentId"/>
+        <input type="hidden" name="applicationNo"/>
+    </form>
+    <form th:action="@{/GGA0110/report}" id="submitFormReport" method="POST" target="report">
+        <input type="hidden" name="inveseNo"/>
+    </form>
+    <div id="dialog-register" style="display: none;">
+    </div>
+    <div id="dialog-success" style="display: none;">
+    </div>
+    <!-- footer -->
+    <th:block th:include="/fragments/main-footer" />
+    <!-- end footer -->
+    <!-- js -->
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+    <script th:src="@{/js/const.js}"></script>
+    <script th:src="@{/js/jquery.validationEngine.js}" type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/js/GGA0110.js}"></script>
+     <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/movescreen.js}"></script>
+    <!-- end js -->
+</body>
+</html>

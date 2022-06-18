@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- 明治の定義 -->
+	<era>
+		<!-- 開始年月日 -->
+		<startdate>18680928</startdate>
+		<!-- 終了年月日 -->
+		<enddate>19120729</enddate>
+		<!-- 元号コード -->
+		<code>1</code>
+		<!-- 元号（正式名称） -->
+		<name>明治</name>
+		<!-- 元号（略称） -->
+		<shortname>明</shortname>
+		<!-- 元号（英字） -->
+		<alphabeticname>M</alphabeticname>
+	</era>
+	<!-- 大正の定義 -->
+	<era>
+		<!-- 開始年月日 -->
+		<startdate>19120730</startdate>
+		<!-- 終了年月日 -->
+		<enddate>19261224</enddate>
+		<!-- 元号コード -->
+		<code>2</code>
+		<!-- 元号（正式名称） -->
+		<name>大正</name>
+		<!-- 元号（略称） -->
+		<shortname>大</shortname>
+		<!-- 元号（英字） -->
+		<alphabeticname>T</alphabeticname>
+	</era>
+	<!-- 昭和の定義 -->
+	<era>
+		<!-- 開始年月日 -->
+		<startdate>19261225</startdate>
+		<!-- 終了年月日 -->
+		<enddate>19890107</enddate>
+		<!-- 元号コード -->
+		<code>3</code>
+		<!-- 元号（正式名称） -->
+		<name>昭和</name>
+		<!-- 元号（略称） -->
+		<shortname>昭</shortname>
+		<!-- 元号（英字） -->
+		<alphabeticname>S</alphabeticname>
+	</era>
+	<!-- 平成の定義 -->
+	<era>
+		<!-- 開始年月日 -->
+		<startdate>19890108</startdate>
+		<!-- 終了年月日 -->
+		<enddate>20190430</enddate>
+		<!-- 元号コード -->
+		<code>4</code>
+		<!-- 元号（正式名称） -->
+		<name>平成</name>
+		<!-- 元号（略称） -->
+		<shortname>平</shortname>
+		<!-- 元号（英字） -->
+		<alphabeticname>H</alphabeticname>
+	</era>
+	<era>
+		<!-- 開始年月日 -->
+		<startdate>20190501</startdate>
+		<!-- 終了年月日 -->
+		<enddate>99991231</enddate>
+		<!-- 元号コード -->
+		<code>5</code>
+		<!-- 元号（正式名称） -->
+		<name>令和</name>
+		<!-- 元号（略称） -->
+		<shortname>令</shortname>
+		<!-- 元号（英字） -->
+		<alphabeticname>R</alphabeticname>
+	</era>
+</root>

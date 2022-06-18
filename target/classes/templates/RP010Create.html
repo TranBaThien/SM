@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+	<link th:href="@{/css/print.css}" rel="stylesheet">
+	<link th:href="@{/css/style.css}" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+</head>
+<body>
+	<div class="book">
+		<section class="sheet">
+			<div class="page">
+		        <div class="subpage">
+					<div class="subpage-title-create" style="margin-bottom: 5px;">
+						<span class="information-span2" style="font-family: ＭＳ 明朝, Tomorrow, serif;">別　記</span><br/>
+						<span class="information-span2" style="font-family: ＭＳ 明朝, Tomorrow, serif; font-size: 10.5pt" th:text="${rp010Vo.notificationFormatName}"></span><br/>
+						<span class="information-span2" style="font-family: ＭＳ 明朝, Tomorrow, serif;padding-left:1em">（表面）</span>
+					</div>
+					<div class="subpage-border-update">
+			        	<div class="title">
+							<div class="title-name">
+			  					<h1 class="title-name-h1" style="font-family: ＭＳ ゴシック, Gothic, sans-serif; font-size: 14pt" th:text="${rp010Vo.reportTitle}"></h1>
+			  				</div>
+			  				<div class="table-receipt-number">
+				  				<table class="table-receipt-number-border">
+				  					<tr>
+				  						<td style="text-align : center"><span style="font-size : 0.85em;font-family: ＭＳ ゴシック, Gothic, sans-serif;"><b>受　付　番　号</b></span></td>
+				  					</tr>
+				  					<tr style="height : 2em;text-align: center;">
+				  						<td id="receiptNumber" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;font-size: 10.5pt" th:text="${rp010Vo.receiptNumber}"> </td>
+				  					</tr>
+				  				</table>
+			  				</div>
+			  			</div>
+			  			<div class="checkBoxDocumentType font-MSP-size-12"  th:if="${rp010Vo.notificationTypeLabelNew} == '新規'">
+			  				<input type="checkbox" class="checkbox-item checkbox-1" id="cb1" th:checked="${rp010Vo.notificationTypeChkNew} == '1'" disabled="disabled">
+							<label for="cb1" style="font-size: 12pt;" th:text="${rp010Vo.notificationTypeLabelNew}"></label>
+							<input type="checkbox" class="checkbox-item checkbox-1" id="cb2" th:checked="${rp010Vo.notificationTypeChkNew} == '2'" disabled="disabled">
+							<label for="cb2" style="font-size: 12pt;" th:text="${rp010Vo.notificationTypeLabelUpd}"></label>
+			  			</div>
+			  			<div class="information margin-top10">
+			  				<span class="information-span1 "style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">　東京におけるマンションの適正な管理の促進に関する条例
+			  				<span class="font-MSP-size-12" th:text="${rp010Vo.evidence}"></span>の規定により、下記のとおり届け出ます。</span>
+			  			</div>
+			  			<div class="document-time margin-top10">
+			  				<span class="text-input-date-top" th:text="${rp010Vo.notificationDate}" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif; font-size: 12pt;"></span>
+			  			</div>
+			  			<div class="city-document">
+			  				<span class="city-document-span" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-weight: bold;">東　京　都　知　事　殿</span>
+			  			</div>
+			  			<div class="notification-people">
+			  				<span class="notification-people-span" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">届出者</span>
+			  			</div>
+			  			<div class="mainsion-management">
+			  				<span class="mainsion-management-span font-MSP-size-12" th:text="${rp010Vo.sender}"></span>
+			  			</div>
+			  			<div class="sign-name">
+			  		
+			  				<img style="position:absolute;height:3.2em;width:12em" th:src="@{/images/iconParentheses.png}" alt="Name">
+			  				<div class="sign-name-text font-MSP-size-12" style="width: 165px;">
+			  					<span class="input-name" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size:0.85em;float:left">氏名</span><br/>
+			  					<span style="display: flex;justify-content: center;" th:text="${rp010Vo.notificationPersonName}"></span>
+			  				</div>
+			  			</div>
+			  			
+			  			<div class="table-name">
+			  				<span class="table-name-span" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><b>マンションの概要</b></span>
+			  			</div>
+			  			<div class="table-mainsion-information">
+				  			<table class="table font-MSP-size-12">
+				  				<tr class="tr-mainsion-information">
+				  					<th class="mainsion-information-td-title-custom2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><b>所在地<br/>（住居表示）</b></th>
+				  					<td class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div" >	
+				  							<label style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;margin-right: 3pt">〒</label>
+				  							<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size:12pt;" id="mainsion_zipcode1" th:text="${rp010Vo.apartmentZipCode}"></span><br/>
+				  						</div>
+				  						<div class="mainsion-information-td-div" style="height:1.5em">
+				  							<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;word-wrap:break-word;font-size: 12pt;margin-left: 15pt;" th:text="${rp010Vo.apartmentAddress}" id="mainsion_address"></span>
+				  						</div>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th class="mainsion-information-td-title-custom2" rowspan="2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><b>マンション名</b></th>
+				  					<td colspan="3">
+				  						<span class="span-kana" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;margin-right: 3pt">フリガナ</span>
+				  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;float:left;font-size: 12pt;" th:text="${rp010Vo.apartmentNameKana}" id="mansion_kana"></span>
+				  					</td>
+				  					
+				  				</tr>
+				  				<tr class="tr-mainsion-information" style="height:1.5em; padding-top: 0.2em;" >
+				  					<td colspan="3" style="width : 2.5em; text-align: left; padding-left: 3.3em;">
+				  						<span class="apart-name" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;height:1.5em;word-wrap:break-word;font-size: 12pt;" th:text="${rp010Vo.apartmentName}" id="mainsion_name"></span>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th class="mainsion-information-td-title-custom2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;width:20%">管理組合の形態</th>
+				  					<td class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div">
+				  							<input type="checkbox" class="checkbox-item checkbox-2" id="cb3" th:checked="${rp010Vo.groupYesChk} == '1'" disabled="disabled">
+											<label for="cb3">団地管理組合である</label>
+				  							<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;padding-right:2em; font-weight: bold;">　　　　⇒※団地管理組合である場合：</span>
+				  							<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"><u>全　<label style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.apartmentNumber}" id="number1"></label>　棟</u></span>
+				  							
+				  						</div>
+				  						<div class="mainsion-information-td-div" style="padding-left:2em" >
+				  							<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"><b>（管理の形態）</b></span>
+				  						</div>
+				  						<div class="mainsion-information-td-div-padding" >
+				  							<input type="checkbox" class="checkbox-item checkbox-2" id="cb4" th:checked="${rp010Vo.groupFormChk1} == '1'" disabled="disabled">
+											<label for="cb4">棟別管理組合が中心となり、管理を行っている</label>
+				  						</div>
+				  						<div class="mainsion-information-td-div-padding" >
+				  							<input type="checkbox" class="checkbox-item checkbox-2" id="cb5" th:checked="${rp010Vo.groupFormChk2} == '2'" disabled="disabled">
+											<label for="cb5">団地管理組合が中心となり、管理を行っている</label>
+				  						</div>
+				  						<div class="mainsion-information-td-div-padding" >
+				  							<input type="checkbox" class="checkbox-item checkbox-2" id="cb6" th:checked="${rp010Vo.groupFormChk3} == '8'" disabled="disabled">
+											<label for="cb6">その他（<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt" th:text="${rp010Vo.groupFormLabel3}" ></span>）</label>
+				  						</div>
+				  						<div class="mainsion-information-td-div" >
+				  							<input type="checkbox" class="checkbox-item checkbox-2" id="cb7" th:checked="${rp010Vo.groupNoChk} == '2'" disabled="disabled">
+											<label for="cb7">団地管理組合でない</label>
+				  						</div>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th class="mainsion-information-td-title-custom2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><u>戸　　数</u></th>
+				  					<td class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div" >
+					  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;margin-right: 3pt;">全</span>
+					  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.numberOfDoor}"></span>
+					  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;margin-left: 3pt;">戸　※団地管理組合の場合は、<u>各棟の戸数</u>を記載してください。</span>
+					  					</div>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th class="mainsion-information-td-title-custom2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><u>階　　数</u></th>
+				  					<td class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div" >
+					  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif; margin-left: 16pt;font-size: 12pt;" th:text="${rp010Vo.numberOfFloor}"></span>
+					  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;margin-left: 3pt;">階</span>
+					  					</div>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th class="mainsion-information-td-title-custom2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><u>新築年月日</u></th>
+				  					<td class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div" >
+					  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;padding-right : 3pt;"><b>（西暦）</b></span>
+					  						<span class="input-date-span" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.constructionDate}"></span>
+					  					</div>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th class="mainsion-information-td-title-custom2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">土地の権利</th>
+				  					<td class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div col-flex" >
+				  							<div class="td-checkBoxName1">
+				  								<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.OwnerShipChk} == '1'" id="cb8" disabled="disabled">
+												<label for="cb8">所有権</label>
+				  							</div>
+				  							
+				  							<div class="td-checkBoxName2">
+				  								<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.LeaseholdRightsChk} == '2'" id="cb9" disabled="disabled">
+												<label for="cb9">借地権</label>
+				  							</div>
+				  							<div class="td-checkBoxName3">
+				  								<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.FixedTermLeaseholdRightsChk} == '3'" id="cb10" disabled="disabled">
+												<label for="cb10">定期借地権</label>
+				  							</div>
+					  						<div class="td-checkBoxName4">
+					  							<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.landRightsElseChk} == '8'" id="cb11" disabled="disabled">
+												<label for="cb11">その他(<span style="font-size: 12pt;" th:text="${rp010Vo.landRightsElse}"></span>)</label>
+				  							</div>
+					  					</div>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th class="mainsion-information-td-title-custom2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">併設用途</th>
+				  					<td class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div col-flex" >
+					  						<div class="td-checkBoxName1">
+					  							<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.useforNotChk} == '1'" id="cb12" disabled="disabled">
+												<label for="cb12">なし</label>		  							
+					  						</div>
+					  							
+					  						<div class="td-checkBoxName2">
+					  							<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.useforStoreChk} == '2'" id="cb13" disabled="disabled">
+												<label for="cb13">店舗</label>	
+					  						</div>
+					  						<div class="td-checkBoxName3">
+					  							<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.useforOfficeChk} == '3'" id="cb14" disabled="disabled">
+												<label for="cb14">事務所</label>	
+					  						</div>
+						  					<div class="td-checkBoxName4">
+						  						<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.useforElseChk} == '8'" id="cb15" disabled="disabled">
+												<label for="cb15">その他(<span style="font-size: 12pt;" th:text="${rp010Vo.useforElse}"></span>)</label>
+					  						</div>
+					  					</div>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th rowspan="5" class="mainsion-information-td-title-custom2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">管理形態</th>
+				  					<td  class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div col-flex" >
+				  							<div class="td-checkBoxName1"> 
+				  								<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.AllDelegatesChk} == '1'" id="cb16" disabled="disabled">
+												<label for="cb16">全部委託</label>					
+					  						</div>
+					  							
+					  						<div class="td-checkBoxName2">
+					  							<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.ParkDelegatesChk} == '2'" id="cb17" disabled="disabled">
+												<label for="cb17">一部委託</label>
+					  						</div>
+					  						<div class="td-checkBoxName3">
+					  							<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.SelfManagementChk} == '3'" id="cb18" disabled="disabled">
+												<label for="cb18">自主管理</label>
+					  						</div>
+						  					<div class="td-checkBoxName4">
+						  						<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.managementFormTypeElseChk} == '8'" id="cb19" disabled="disabled">
+												<label for="cb19">その他(<span style="font-size: 12pt;" th:text="${rp010Vo.managementFormTypeElse}"></span>)</label>
+					  						</div>		
+					  					</div>
+				  					</td>
+				  					
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<td class="mainsion-information-td-data" colspan="3">
+				  						<div class="mainsion-information-td-div" ><span style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">　※</span><span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">「全部委託」又は「一部委託」の場合は記載してください。</span></div>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<th  style="border: 1px solid black;width: 7.5em" colspan="2" rowspan="2">
+				  						<div style=" font-family: ＭＳ ゴシック, Gothic, sans-serif;text-align : center;">管理業者名<br/>（支店名まで記入）</div>
+				  					</th>
+				  					<td class="mainsion-information-td-data" >
+				  						<span class="span-kana" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;margin-right: 3pt;">フリガナ</span>
+				  						<span style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;float:left;font-size: 12pt;" th:text="${rp010Vo.managerNameKana}"></span>
+				  					</td>
+				  					
+				  				</tr>
+				  				<tr class="tr-mainsion-information">
+				  					<td class="mainsion-information-td-data" style="height:1.5em; text-align: left; padding-left: 0.5em;" >
+				  						<span style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;word-wrap:break-word;text-align:left;font-size: 12pt;" th:text="${rp010Vo.managerName}"></span>
+				  					</td>
+				  				</tr>	
+				  				<tr class="tr-mainsion-information">
+				  					<th style="border: 2px solid black;" class="mainsion-information-td-data" colspan="2">
+				  						<div style="text-align:center;font-family: ＭＳ ゴシック, Gothic, sans-serif;">住　所</div>
+				  					</th>
+				  					<td style="border: 1px solid black;" class="mainsion-information-td-data">
+				  						<div class="mainsion-information-td-div" >
+					  						<label style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">〒</label>
+				  							<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif; font-size: 12pt;" th:text="${rp010Vo.managerZipCode}"></span>
+				  							<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;padding-left:2em">電話　　
+				  								<label style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.managerTelno1}" ></label>
+				  								（
+				  								<label style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.managerTelno2}">
+												</label>
+				  								）
+				  								<label style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.managerTelno2}"></label>
+				  							</span>
+					  					</div>
+					  					<div class="mainsion-information-td-div" style="height:1.5em;padding-left:1.8em; padding-top: 0.2em;">
+				  							<span style="font-size: 12pt;" th:text="${rp010Vo.managerAddress}"></span>
+				  						</div>
+				  					</td>
+				  				</tr>	
+				  			</table>
+			  			</div>
+			  			
+			  			<div class="table-name">
+			  				<span class="table-name-span" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;font-size : 0.85em"><b>管理不全を予防するための必須事項</b></span>
+			  			</div>
+			  			<div class="table-mainsion-information">
+				  			<table class="table">
+				  				<tr class="tr-mainsion-information" colspan="4">
+				  					<th class="mainsion-information-td-title"  style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">管理組合</th>
+				  					<td colspan="3" class="td-mainsion-data">
+				  						<div class="mainsion-information-td-div font-MSP-size-12">
+				  							<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.groupHaveChk} == '1'" id="cb20" disabled="disabled">
+											<label for="cb20">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.groupNotChk} == '2'" id="cb21" disabled="disabled">
+											<label for="cb21">ない</label>		  							
+					  					</div>
+				  					</td>
+				  					
+				  				</tr>
+				  				<tr class="tr-mainsion-information" colspan="4">
+				  					<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">管理者等</th>
+				  					<td colspan="3" class="td-mainsion-data">
+				  						<div class="mainsion-information-td-div font-MSP-size-12">
+				  							<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.managerHaveChk} == '1'" id="cb22" disabled="disabled">
+											<label for="cb22">いる</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.managerNotChk} == '2'" id="cb23" disabled="disabled">
+											<label for="cb23">いない</label>	
+					  					</div>
+				  					</td>
+				  					
+				  				</tr>
+				  				<tr class="tr-mainsion-information" colspan="4">
+				  					<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">管理規約</th>
+				  					<td >
+				  						<div class="mainsion-information-td-div font-MSP-size-12">
+				  							<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.managementRuleHaveChk} == '1'" id="cb24" disabled="disabled">
+											<label for="cb24">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.managementRuleNotChk} == '2'" id="cb25" disabled="disabled">
+											<label for="cb25">ない</label>		  							
+					  					</div>
+				  					</td>
+				  					<th >
+				  						<span style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><b>最終改正年（西暦）</b></span>
+				  					</th>
+				  					<td class="font-MSP-size-12">
+				  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text=${rp010Vo.ruleChangeYear}></span>
+				  						<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">　年</span>
+				  					</td>
+				  				</tr>
+				  				<tr class="tr-mainsion-information" colspan="4">
+				  					<th class="mainsion-information-td-title" rowspan="2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">総会開催</th>
+				  					<td colspan="3">
+				  						<span style="font-family: ＭＳ ゴシック, Gothic, sans-serif;;float:left">　<b>年１回以上の開催</b></span>
+				  						<div class="div-checkbox font-MSP-size-12">
+				  							<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.openOneyearOverHaveChk} == '1'" id="cb26" disabled="disabled">
+											<label for="cb26">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.openOneyearOverNotChk} == '2'" id="cb27" disabled="disabled">
+											<label for="cb28">ない</label>	
+					  					</div>
+				  					</td> 					
+				  				</tr>
+				  				<tr class="tr-mainsion-information" colspan="4">
+				  					<td colspan="3">
+				  						<span style="float:left;font-family: ＭＳ ゴシック, Gothic, sans-serif;">　<b>議事録</b></span>
+				  						<div class="div-checkbox font-MSP-size-12">
+				  							<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.minutesHaveChk} == '1'" id="cb29" disabled="disabled">
+											<label for="cb29">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.minutesNotChk} == '2'" id="cb30" disabled="disabled">
+											<label for="cb30">ない</label>
+					  					</div>
+				  					</td> 						
+				  				</tr>
+				  				<tr class="tr-mainsion-information" colspan="4">
+				  					<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><u>管理費</u></th>
+				  					<td colspan="3">
+				  						<div class="mainsion-information-td-div font-MSP-size-12">
+				  							<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.managementCostHaveChk} == '1'" id="cb31" disabled="disabled">
+											<label for="cb31">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.managementCostNotChk} == '2'" id="cb32" disabled="disabled">
+											<label for="cb32">ない</label>
+					  					</div>
+				  					</td>
+				  					
+				  				</tr>
+				  				<tr class="tr-mainsion-information" colspan="4">
+				  					<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><u>修繕積立金</u></th>
+				  					<td >
+				  						<div class="mainsion-information-td-div font-MSP-size-12">
+					  						<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.repairCostHaveChk} == '1'" id="cb33" disabled="disabled">
+											<label for="cb33">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.repairCostNotChk} == '2'" id="cb34" disabled="disabled">
+											<label for="cb34">ない</label>
+					  					</div>
+				  					</td>
+				  					
+				  					<td style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">
+				  						<b>㎡当たり月額</b>
+				  					</td>
+				  					<td class="font-MSP-size-12">
+										<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">
+				  							<label th:text="${rp010Vo.repairMonthlyCost}"></label>　円/㎡（月当たり）
+				  						</span>
+				  					</td>
+				  					
+				  				</tr>
+				  				<tr class="tr-mainsion-information" colspan="4">
+				  					<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;"><u>修繕の計画的な実施<br/>（大規模な修繕工事）</u></th>
+		
+				  					<td >
+				  						<div class="mainsion-information-td-div font-MSP-size-12">
+					  						<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.repairPlanImpHaveChk} == '1'" id="cb35" disabled="disabled">
+											<label for="cb35">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.repairPlanImpNotChk} == '2'" id="cb36" disabled="disabled">
+											<label for="cb36">ない</label>
+				  							
+					  					</div>
+				  					</td>
+				  					
+				  					<td style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">	
+				  						<b>直近実施年（西暦）</b>
+				  					</td>
+				  					<td class="font-MSP-size-12">
+				  						<span th:text="${rp010Vo.repairNearestYear}"></span>
+				  						<span>　年</span>
+				  					</td>
+				  					
+				  				</tr>
+				  			</table>
+				  		</div>
+				  		
+				  		<div class="footer">
+			  			<span class="text-footer-title" style="font-family: ＭＳ 明朝, Tomorrow, serif;font-size : 0.7em"><b>【記入上の注意点】</b></span><br/>
+			  			<span class="text-footer" style="font-family: ＭＳ 明朝, Tomorrow, serif;font-size : 0.7em">１&nbsp;団地管理組合が届出を行う場合は、「記入の手引」を参照してください。<br/></span>
+			  			<span class="text-footer" style="padding-left : 3em;font-family: ＭＳ 明朝, Tomorrow, serif;font-size : 0.7em">&nbsp;各棟の記載事項について、下線を付けた項目以外の内容が同一である場合は、各棟別に下線を付けた項目を御回答いただき、<br/></span>
+			  			<span class="text-footer" style="font-family: ＭＳ 明朝, Tomorrow, serif;font-size : 0.7em">それ以外の項目は基となる１枚にのみ記載していただくことで、届出を受理します。 <br/></span>
+			  			<span class="text-footer" style="padding-top : 0.5em;font-family: ＭＳ 明朝, Tomorrow, serif;font-size : 0.7em">２&nbsp;太枠内は、必須で回答が必要な項目です。 </span>
+			  		</div>
+			  		</div>
+				</div>		
+	    	</div>
+	    </section>
+		<section class="sheet">
+			<div class="page">
+				<div class="subpage">
+					<div>
+						<div style="padding-top:2em; margin-bottom:4px;">
+							<span class="information-span2" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size : 0.75em;padding-left:1em">（裏面）</span>
+						</div>
+					</div>
+					<div class="subpage-border-create">
+						<div class="table-name">
+							<span class="table-name-span" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;font-size : 0.85em"><b>適正な維持管理に関する事項</b></span>
+						</div>
+						<div class="table-mainsion-information">
+							<table class="table">
+								<tr class="tr-mainsion-information" colspan="6">
+									<th class="mainsion-information-td-title" rowspan="2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;min-width: 11em;">長期修繕計画</th>
+
+									<td colspan="3">
+										<div class="mainsion-information-td-div" >
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.longtermRepairPlanHaveChk} == '1'" id="cb37" disabled="disabled">
+											<label for="cb37">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.longtermRepairPlanNotChk} == '2'" id="cb38" disabled="disabled">
+											<label for="cb38">ない</label>
+											
+										</div>
+									</td>
+									
+									<th class="mainsion-information-td-title-custom" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;min-width: 11em;">	
+										最新作成年
+									</th>
+									<td colspan="1">
+										<div  style="text-align:center" >
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"><b>（西暦）　</b></span>
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif; font-size: 12pt;" th:text="${rp010Vo.longtermRepairLatestYear}"></span>
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">　年</span>
+											
+										</div>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" colspan="6">
+									<th class="mainsion-information-td-title-custom" colspan="1" style="font-family: ＭＳ Ｐゴシック, Gothic, sans-serif;">計画期間</th>
+									<td colspan="4">
+										<div style="text-align:center" >
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.longtermRepairPlanPeriod}"></span>
+											<span style="padding-left:4em;font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;padding : 0;">　年間</span>
+											<span style="font-family: ＭＳ ゴシック, Gothic, sans-serif;padding-left:2em;"><b>【（西暦）</b></span>
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.longtermRepairPlanYearFrom}"></span>
+											<span style="font-family: ＭＳ ゴシック, Gothic, sans-serif;padding : 0;">　年度　～　</span>
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.longtermRepairPlanYearTo}"></span>
+											<span style="font-family: ＭＳ ゴシック, Gothic, sans-serif;padding : 0;">　年度<b>】</b></span>
+										</div>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" colspan="6">
+									<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;min-width: 11em;">滞納対応に<br/>関するルール</th>
+
+									<td colspan="3">
+										<div class="mainsion-information-td-div" >
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.arrearageRuleHaveChk} == '1'"  id="cb39" disabled="disabled">
+											<label for="cb39">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.arrearageRuleNotChk} == '2'" id="cb40" disabled="disabled">
+											<label for="cb40">ない</label>
+											
+										</div>
+									</td>
+									
+									<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">	
+										区分所有者等<br/>名簿等
+									</th>
+									<td colspan="1">
+										<div class="mainsion-information-td-div" >
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.segmentHaveChk} == '1'" id="cb50" disabled="disabled">
+											<label for="cb50">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.segmentNotChk} == '2'" id="cb51" disabled="disabled">
+											<label for="cb51">ない</label>
+											
+										</div>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" colspan="6">
+									<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;min-width: 11em;"><u>空き住戸</u></th>
+
+									<td colspan="5">
+										<div class="mainsion-information-td-div col-flex" >
+											<div style="width:32em;">
+												<span style="font-family: ＭＳ Ｐゴシック, Gothic, sans-serif;"><b>【割合】</b></span>
+												<input type="checkbox" class="checkbox-item checkbox-9" th:checked="${rp010Vo.emptyDwellingUnitZeroPercentChk} == '1'" id="cb52" disabled="disabled">
+												<label for="cb52">0%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.emptyDwellingUnitFivePercentChk} == '2'" id="cb53" disabled="disabled">
+												<label for="cb53">～5%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.emptyDwellingUnitTenPercentChk} == '3'" id="cb54" disabled="disabled">
+												<label for="cb54">～10%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.emptyDwellingUnitFifteenPercentChk} == '4'" id="cb55" disabled="disabled">
+												<label for="cb55">～15%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.emptyDwellingUnitTwentyPercentChk} == '5'" id="cb56" disabled="disabled">
+												<label for="cb56">～20%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.emptyDwellingUnitTwentyPercentOverChk} == '6'" id="cb57" disabled="disabled">
+												<label for="cb57">20%超</label>
+												<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.emptyDwellingUnitUnknowChk} == '8'" id="cb58" disabled="disabled">
+												<label for="cb58">不明</label>
+											</div>
+											<div style="padding-right: 1em;">
+												<span style="font-family: ＭＳ Ｐゴシック, Gothic, sans-serif;"><b>【戸数】　</b></span>
+												<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 11pt;" th:text="${rp010Vo.emptyDwellingUnitNumber}"></span>
+												<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">　戸</span>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr class="tr-mainsion-information" colspan="6">
+									<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;min-width: 11em;"><u>賃貸化住戸</u></th>
+
+									<td colspan="5">
+										<div class="mainsion-information-td-div col-flex" >
+											<div style="width:32em;">
+												<span style="font-family: ＭＳ Ｐゴシック, Gothic, sans-serif;"><b>【割合】</b></span>
+												<input type="checkbox" class="checkbox-item checkbox-9" th:checked="${rp010Vo.rentalDwellingUnitZeroPercentChk} == '1'" id="cb59" disabled="disabled">
+												<label for="cb59">0%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.rentalDwellingUnitFivePercentChk} == '2'" id="cb60" disabled="disabled">
+												<label for="cb60">～5%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.rentalDwellingUnitTenPercentChk} == '3'" id="cb61" disabled="disabled">
+												<label for="cb61">～10%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.rentalDwellingUnitTwentyPercentChk} == '4'" id="cb62" disabled="disabled">
+												<label for="cb62">～20%</label>
+												<input type="checkbox" class="checkbox-item checkbox-8" th:checked="${rp010Vo.rentalDwellingUnitTwentyPercentOverChk} == '5'" id="cb63" disabled="disabled">
+												<label for="cb63">20%超</label>
+												<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.rentalDwellingUnitPercent} == '8'" id="cb64" disabled="disabled">
+												<label for="cb64">不明</label>
+											</div>
+											<div style="padding-right: 1em;">
+												<span style="font-family: ＭＳ Ｐゴシック, Gothic, sans-serif;"><b>【戸数】　</b></span>
+												<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 11pt;" th:text="${rp010Vo.rentalDwellingUnitNumber}"></span>
+												<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">　戸</span>
+											</div>						
+										</div>
+									</td>
+								</tr>
+								<tr class="tr-mainsion-information" colspan="6" >
+									<th class="mainsion-information-td-title" rowspan="3"	style="font-family: ＭＳ ゴシック, Gothic, sans-serif;min-width: 11em;"><u>耐震化の状況</u></th>
+									<td class="mainsion-information-td-title-custom" colspan="5" style="text-align:left;font-family: ＭＳ ゴシック, Gothic, sans-serif;"><b>※1981年5月31日以前に建築確認を受けたマンションである場合のみ回答してください。</b></td>
+								</tr>
+								<tr class="tr-mainsion-information" colspan="6" >
+									<th class="mainsion-information-td-title-custom" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">耐震診断</th>
+									<td class="mainsion-information-td-title-custom" colspan="5">
+										<div style="text-align:left;padding-left: 0.5em;" >
+											<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.seismicDiagnosisDoneChk} == '1'" id="cb65" disabled="disabled">
+											<label for="cb65">実施済　<b>⇒※実施済の場合：</b>　</label>
+											<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.earthquakeResistanceHaveChk} == '1'" id="cb66" disabled="disabled">
+											<label for="cb66">耐震性あり　</label>
+											<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.earthquakeResistanceNotChk} == '2'" id="cb67" disabled="disabled">
+											<label for="cb67">耐震性なし</label>
+											<br/>
+											<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.seismicDiagnosisDoneChk} == '2'" id="cb68" disabled="disabled">
+											<label for="cb68">未実施</label>
+										</div>
+									</td>
+								</tr>
+								<tr class="tr-mainsion-information" colspan="6" >
+									<th class="mainsion-information-td-title-custom" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">耐震改修</th>
+									<td  colspan="5"	>
+										<div class="mainsion-information-td-div" >
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.seismicRetrofitHaveChk} == '1'" id="cb69" disabled="disabled">
+											<label for="cb69">実施済</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.seismicRetrofitNotChk} == '2'" id="cb70" disabled="disabled">
+											<label for="cb70">未実施</label>	
+										</div>
+									</td>
+								</tr>
+								<tr class="tr-mainsion-information" colspan="6">
+									<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;min-width: 11em;">設計図書</th>
+
+									<td colspan="3" style="width : 25%">
+										<div class="mainsion-information-td-div" >
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.designDocumentHaveChk} == '1'" id="cb71" disabled="disabled">
+											<label for="cb71">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.designDocumentNotChk} == '2'" id="cb72" disabled="disabled">
+											<label for="cb72">ない</label>
+											
+										</div>
+									</td>
+									
+									<th class="mainsion-information-td-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">	
+										修繕履歴
+									</th>
+									<td colspan="1">
+										<div class="mainsion-information-td-div" >
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.repairHistoryHaveChk} == '1'" id="cb73" disabled="disabled">
+											<label for="cb73">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.repairHistoryNotChk} == '2'" id="cb74" disabled="disabled">
+											<label for="cb74">ない</label>
+											
+										</div>
+									</td>
+									
+								</tr>
+							</table>
+						</div>	
+						
+						<div class="table-name">
+							<span class="table-name-span" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;font-sise : 0.85em"><b>マンションの社会的機能の向上に資する取組に関する事項</b></span>
+						</div>
+						<div class="table-mainsion-information font-MSP-size-12">
+							<table class="table">
+								<tr class="tr-mainsion-information" >
+									<th class="mainsion-information-td-title" rowspan="5" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">防災への取組</th>
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox"><span  style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">自主防災組織</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.voluntaryOrganizationHaveChk} == '1'" id="cb75" disabled="disabled">
+											<label for="cb75">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.voluntaryOrganizationNotChk} == '2'" id="cb76" disabled="disabled">
+											<label for="cb76">ない</label>
+										</div>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >		
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox"><span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">防災マニュアル</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.disasterPreventionManualHaveChk} == '1'" id="cb77" disabled="disabled">
+											<label for="cb77">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.disasterPreventionManualNotChk} == '2'" id="cb78" disabled="disabled">
+											<label for="cb78">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >		
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"><span >防災用品の備蓄</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.disasterPreventionStockpileHaveChk} == '1'" id="cb79" disabled="disabled">
+											<label for="cb79">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.disasterPreventionStockpileNotChk} == '2'" id="cb80" disabled="disabled">
+											<label for="cb80">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >		
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"><span >避難行動要支援者名簿</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.needSupportListHaveChk} == '1'" id="cb81" disabled="disabled">
+											<label for="cb81">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.needSupportListNotChk} == '2'" id="cb82" disabled="disabled">
+											<label for="cb82">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >		
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox"><span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">防災訓練の定期的な実施</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.disasterPreventionRegularHaveChk} == '1'" id="cb83" disabled="disabled">
+											<label for="cb83">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.disasterPreventionRegularNotChk} == '2'" id="cb84" disabled="disabled">
+											<label for="cb84">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								
+								
+								<tr class="tr-mainsion-information" >
+									<th class="mainsion-information-td-title" rowspan="6" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;" >バリアフリー化・<br/>環境への取組<br/>又は実施</th>
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox"><span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">エントランスのバリアフリー化（スロープの設置など）</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.slopeHaveChk} == '1'" id="cb85" disabled="disabled">
+											<label for="cb85">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.slopeNotChk} == '2'" id="cb86" disabled="disabled">
+											<label for="cb86">ない</label>
+										</div>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox"><span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">共用廊下等への手すりの設置</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.railingHaveChk} == '1'" id="cb87" disabled="disabled">
+											<label for="cb87">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.railingNotChk} == '2'" id="cb88" disabled="disabled">
+											<label for="cb88">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox"><span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">エレベーターの設置</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.elevatorHaveChk} == '1'" id="cb89" disabled="disabled">
+											<label for="cb89">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.elevatorNotChk} == '2'" id="cb90" disabled="disabled">
+											<label for="cb90">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox"><span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">共用部分のＬＥＤ化</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.ledHaveChk} == '1'" id="cb91" disabled="disabled">
+											<label for="cb91">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.ledNotChk} == '2'" id="cb92" disabled="disabled">
+											<label for="cb92">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox"><span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">開口部の遮熱性能の向上（二重窓・外断熱等）</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.heatShieldingHaveChk} == '1'" id="cb93" disabled="disabled">
+											<label for="cb93">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.heatShieldingNotChk} == '2'" id="cb94" disabled="disabled">
+											<label for="cb94">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >		
+									<td class="table3-td-text">
+										<div style="display:flex">	
+											<div class="span-for-checkbox" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;"><span >電気自動車等用充電設備の設置等</span></div>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.equipmentChargeHaveChk} == '1'" id="cb95" disabled="disabled">
+											<label for="cb95">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.equipmentChargeNotChk} == '2'" id="cb96" disabled="disabled">
+											<label for="cb96">ない</label>
+										</div>
+										
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >
+									<th class="mainsion-information-td-title" rowspan="2" style="width: 20%;font-family: ＭＳ ゴシック, Gothic, sans-serif;">地域コミュニティ<br/> の形成等の取組</th>
+									<td class="table3-td-text">
+										<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.communityHaveChk} == '1'" id="cb97" disabled="disabled">
+											<label for="cb97">ある</label>
+											<input type="checkbox" class="checkbox-item checkbox-3" th:checked="${rp010Vo.communityNotChk} == '2'" id="cb98" disabled="disabled">
+											<label for="cb98">ない</label>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information" >
+									<th class="mainsion-information-td-title-custom" style="text-align: left;font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size : 0.85em">　例：町会・自治会との共催事業・協力連携イベント（祭り・運動会・防災訓練・清掃活動等）</th>
+								</tr>
+							</table>
+						</div>
+						<div class="table-name">
+							<span class="table-name-span" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;font-size : 0.85em"><b>連絡先</b></span>
+						</div>
+						<div class="table-mainsion-information">
+							<table class="table">
+								<tr class="tr-mainsion-information" >
+									<th class="mainsion-information-td-title" rowspan="6" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">連絡窓口</th>
+									<th class="mainsion-information-td-title-custom"  style="font-family: ＭＳ ゴシック, Gothic, sans-serif;" colspan="2">属性</th>
+									<td>
+										<div class="mainsion-information-td-div-custom font-MS-size-12">
+											<input type="checkbox" class="checkbox-item checkbox-7" th:checked="${rp010Vo.contactPropertyChairmanChk} == '1'" id="cb99" disabled="disabled">
+											<label for="cb99">管理組合理事長</label>
+											<input type="checkbox" class="checkbox-item checkbox-7" th:checked="${rp010Vo.contactPropertyDistinguishingChk} == '2'" id="cb100" disabled="disabled">
+											<label for="cb100">区分所有者等</label>
+											<input type="checkbox" class="checkbox-item checkbox-7" th:checked="${rp010Vo.contactPropertyApartmentChk} == '3'" id="cb101" disabled="disabled">
+											<label for="cb101">マンション管理業者</label>
+											<br/>
+											<input type="checkbox" class="checkbox-item checkbox-2" th:checked="${rp010Vo.contactPropertyElseChk} == '9'" id="cb102" disabled="disabled">
+											<label for="cb102">その他（<span style="font-size: 12pt;" th:text="${rp010Vo.contactPropertyElse}"></span>）</label>
+
+										</div>
+									</td>
+								</tr>
+								<tr class="tr-mainsion-information" >
+									<th class="mainsion-information-td-title-custom" colspan="2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">住所</th>
+									<td>
+										<div class="mainsion-information-td-div font-MSP-size-12">
+											<label style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;margin-right: 3pt;">〒<span style="font-family: ＭＳ 明朝, PTomorrow, sans-serif; font-size: 12pt;" th:text="${rp010Vo.contractZipCode}"></span></label>
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">　　　　</span>
+											
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;padding-left:2em;">電話　　
+												<label style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.contractTelno1}"></label>
+												（
+												<label style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.contractTelno2}"></label>
+												 ）
+												 <label style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.contractTelno3}"></label>
+											</span>
+										</div>
+										<div class="mainsion-information-td-div" style="height:1.5em;padding-left:1.5em; padding-top: 0.2em;">
+											<label style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;font-size: 12pt;" th:text="${rp010Vo.contractAddress}" ></label>
+										</div>
+										
+									</td>
+								</tr>
+								<tr class="tr-mainsion-information">
+									<th class="mainsion-information-td-title-custom" colspan="2" rowspan="2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;">氏名</th>
+									<td >
+										<div class="mainsion-information-td-div" >
+											<span class="span-kana" style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;margin-right:3pt;">フリガナ</span>
+											<span style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;float:left;font-size: 12pt;" th:text="${rp010Vo.contractNamePhonetic}"></span>
+										</div>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information">
+									
+									<td style="text-align: left;height:2.5em">
+										<div class="mainsion-information-td-div">
+											<span style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;word-wrap:break-word;
+													font-size: 12pt;" th:text="${rp010Vo.contractName}"></span>
+										</div>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information">
+									<th class="mainsion-information-td-title-custom" colspan="2" rowspan="2" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;width:10%">メール<br><br/>アドレス</th>
+									<td >
+										<div class="mainsion-information-td-div" >
+											<span class="span-kana" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;font-size:0.8em">※行政からのオンラインによるお知らせ等を希望する場合は、メールアドレスを記入してください。</span>						
+										</div>
+									</td>
+									
+								</tr>
+								<tr class="tr-mainsion-information">
+									
+									<td style="height:2.5em;">
+										<div class="mainsion-information-td-div" >
+											<span style="font-family: ＭＳ 明朝, PTomorrow, sans-serif;word-wrap:break-word;float:left;text-align:left;
+											 			font-size: 12pt;" th:text="${rp010Vo.contractMailAddress}"></span>
+										</div>
+									</td>
+									
+								</tr>
+							</table>
+							<div class="footer2">
+								<span class="text-footer2-title" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;font-size : 0.75em"><b>【留意事項】</b></span><br/>
+								<span class="text-footer2" style="margin-bottom : 2em;font-family: ＭＳ 明朝, Tomorrow, serif;font-size : 0.75em">１&nbsp;東京におけるマンションの適正な管理の促進に関する条例（平成31年東京都条例第30号）第３条第２項では、条例の施行及びマンションの適正な管理の促進を図るための施策の実施に当たって、特別区及び市町村（以下「区市町村」という。）が行う施策に対し、都は必要な支援を行うものとしています。<br/>
+								区市町村と緊密に連携し、情報の共有を図るとともに必要な支援を行うため、本届出内容は、同条第３項に定めるデータベースに記録するとともに、都と区市町村とで共有させていただきます。<br/></span>
+								<span class="text-footer2" style="font-family: ＭＳ 明朝, Tomorrow, serif;font-size : 0.75em">２&nbsp;御回答いただいた内容は、条例の施行のほか、マンションの建替えや耐震化の促進に関する施策の実施に当たっての基礎資料及び連絡先として利用する場合がありますが、行政目的以外に利用することはありません。<br/></span>
+								
+							</div>
+							
+							<div class="table-name" style="padding-left : 0em">
+								<span class="table-name-span" style="font-family: ＭＳ ゴシック, Gothic, sans-serif;font-size : 0.75em"><b>【受付欄】</b></span>
+							</div>
+							<div>
+								<table class="table" style="margin-bottom : 1em">
+									<tr class="tr-mainsion-information" >
+										<td  colspan="4" style="width : 12%" ><span style="font-family: ＭＳ 明朝, Tomorrow, serif;">受付</span></td>
+										<td style="width : 22%">
+											<div style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;">
+												<span style="font-size: 10.5pt" th:text="${rp010Vo.receiptDate}"></span>
+											</div>
+										</td>
+										<td style="width : 8%;font-family: ＭＳ 明朝, Tomorrow, serif; " rowspan="2"> <span>備考</span></td>
+										<td rowspan="2">
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;word-wrap:break-word;width:15em;text-align:left; font-size: 10.5pt;"
+											th:text="${rp010Vo.receiptNote}" ></span>
+										</td>
+									</tr>
+									<tr class="tr-mainsion-information" >
+										<td rowspan="2" colspan="4" style="font-family: ＭＳ 明朝, Tomorrow, serif;">担当者</td>
+										<td  style="height:2.5em">
+											<span style="font-family: ＭＳ Ｐ明朝, PTomorrow, sans-serif;font-size: 10.5pt;" id="mansion_kana" th:text="${rp010Vo.receiptPersonInCharge}"></span>
+										</td>
+										
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+</body>
+<script>
+	$(document).ready(function(){
+		
+	});
+</script>
+</html>

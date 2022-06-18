@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<title>MBA0110</title>
+<link th:href="@{/lib/normalize.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script th:inline="javascript">
+	const MBA_GLOBAL_VAR = {
+		apartmentId : [[${apartmentId}]]
+	}
+	const BASE_URL = [[${#request.getContextPath()}]];
+</script>
+
+
+</head>
+
+<body>
+	<!-- header-->
+		<th:block th:insert="~{fragments/mansion-template :: mansion-header}"></th:block>
+	<!-- end header-->	
+	<main>
+		<!-- title of main -->
+		<div class="main-header">
+			<div class="title-1">
+				メニュー（管理組合用)
+			</div>
+		</div>
+
+		<!-- notification -->
+		<div id="contents">
+
+			<b>届出状況</b>
+			<div class="text-bgblue" th:if="${notification.notificationStatus != null}">
+				<span id="status" th:text="${notification.notificationStatus}"></span>
+			</div>
+			<div class="text-bgblue" th:unless="${notification.notificationStatus != null}">
+				<span>特にありません</span>
+			</div>
+			<b>お知らせ</b>
+			<div class="text-bgblue" th:unless="${#lists.isEmpty(notification.noticeVos)}" >
+				<div th:each="notification : ${notification.noticeVos}">
+				<span>●</span><span>（</span><span th:text="${notification.corresponDate}"></span><span>）</span><span th:text="${notification.notice}"></span><br>
+				</div>
+			</div>
+			<div class="text-bgblue" th:if="${#lists.isEmpty(notification.noticeVos)}">
+				<span>特にありません</span>
+			</div>
+			<div class="table">
+				<div class="text-bgbrow" th:if="${notification.notificationStatus == T(jp.lg.tokyo.metro.mansion.todokede.common.enumerated.AcceptStatus).UNACCEPTED.getAcceptStatus()}">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveForm('/MDA0110/show', '1')">届出</button>
+					</div>
+					<span class="container-65">初回の届出、または届出の更新を行います。</span>
+				</div>
+				<div class="text-bgbrow" th:unless="${notification.notificationStatus == T(jp.lg.tokyo.metro.mansion.todokede.common.enumerated.AcceptStatus).UNACCEPTED.getAcceptStatus()}">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" disabled onclick="submitMoveForm('/MDA0110/show', '0')">届出</button>
+					</div>
+					<span class="container-65">初回の届出、または届出の更新を行います。</span>
+				</div>
+				<div class="text-bgbrow" th:if = "${#strings.contains(notification.notificationStatus,T(jp.lg.tokyo.metro.mansion.todokede.common.enumerated.AcceptStatus).ACCEPTED.getAcceptStatus())}" >
+					<div class="container-30">
+						<button type="button" class="btn btn-100"  onclick="submitMoveForm('/MDA0110/show', '2')">変更届出</button>
+					</div>
+					<span class="container-65">受理済みの届出のマンション情報や届出情報の変更を行います。</span>
+				</div> 
+				<div class="text-bgbrow" th:unless = "${#strings.contains(notification.notificationStatus,T(jp.lg.tokyo.metro.mansion.todokede.common.enumerated.AcceptStatus).ACCEPTED.getAcceptStatus())}" >
+					<div class="container-30">
+						<button type="button" class="btn btn-100" disabled onclick="submitMoveForm('/MDA0110/show', '0')">変更届出</button>
+					</div>
+					<span class="container-65">受理済みの届出のマンション情報や届出情報の変更を行います。</span>
+				</div>
+				<div class="text-bgbrow">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveForm('/MEA0110/show')">経過記録</button>
+					</div>
+					<span class="container-65">届出情報に対するステータスを確認できます。また、各届出・通知について印刷することができます。</span>
+				</div>
+				<div class="text-bgbrow" style="margin-bottom:100px;">
+					<div class="container-30">
+						<button type="button" class="btn btn-100" onclick="submitMoveFormSBA0110()">パスワード変更</button>
+					</div>
+					<div class="container-65">パスワードの変更を行います。</div>
+				</div>
+			</div>
+		</div>
+		<form th:action="@{/GEB0110/show}" id="submitRedirect" method="POST">
+			<input type="hidden" name="apartmentId"/> 
+			<input type="hidden" name="activeBtn"/>
+		</form>
+		
+		<form th:action="@{/SBA0110}" id="submitRedirect_3" method="POST">
+		</form>
+	</main>
+
+	<!-- footer -->
+	<th:block th:include="/fragments/main-footer" />
+	<!-- end footer -->
+
+	<!-- js -->
+    <script th:src="@{/js/MBA0110.js}"></script>
+    <script th:src="@{/js/deleteSession.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+	<!-- end js -->
+</body>
+
+</html>

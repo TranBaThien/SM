@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+    <div class="list-menu" th:fragment="pagination(pages, start, last)" th:with="start = ${start}, last = ${last}">
+        <span class="collapse">
+            <a href="javascript:void(0)" id="firstPage" th:onclick="onPaging([[${pages.first} ? '#' : '1']])">最初</a>
+        </span>|
+        <span class="collapse">
+            <a href="javascript:void(0)" id="previousPage" th:onclick="onPaging([[${pages.first} ? '#' :  ${pages.getNumber()}]])">前へ</a>
+        </span>|
+        <th:block th:each="page : ${#numbers.sequence(start, last)}">
+            <span class="collapse" th:if="${(page - 1) != pages.getPageable().getPageNumber()}">
+                <a class="pageNumber" href="javascript:void(0)" th:onclick="onPaging([[${page}]])" th:text="${page}"></a>
+            </span>
+            <span class="collapse" th:if="${(page - 1) == pages.getPageable().getPageNumber()}">
+                <a class="pageNumber" th:text="${page}"></a>
+            </span>|
+        </th:block>
+        <span class="collapse">
+            <a href="javascript:void(0)" id="nextPage" th:onclick="onPaging([[${pages.last} ? '#' : ${pages.getNumber() + 2}]])">次へ</a>
+        </span>|
+        <span class="collapse">
+            <a href="javascript:void(0)" id="lastPage" th:onclick="onPaging([[${pages.last} ? '#' : ${pages.totalPages}]])">最後</a>
+        </span>
+    </div>
+</html>
